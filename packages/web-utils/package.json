@@ -1,0 +1,38 @@
+{
+  "name": "@mrtujiawei/web-utils",
+  "version": "1.1.2",
+  "description": "web相关工具函数，只能在网页上使用的工具函数",
+  "main": "dist/webUtils.js",
+  "scripts": {
+    "build": "webpack",
+    "clean": "rm dist -rf",
+    "pub": "npm run clean && npm run build && npm publish --access public && npm run push",
+    "push": "git add . && git commit -m 'feat(all):auto commit' && git push"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mr-Promise/web-utils.git"
+  },
+  "keywords": [
+    "web",
+    "utils",
+    "tools"
+  ],
+  "author": "屠佳伟",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mr-Promise/web-utils/issues"
+  },
+  "homepage": "https://github.com/Mr-Promise/web-utils#readme",
+  "devDependencies": {
+    "@babel/core": "^7.14.0",
+    "@babel/plugin-transform-runtime": "^7.16.0",
+    "@babel/preset-env": "^7.14.1",
+    "babel-loader": "^8.2.2",
+    "webpack": "^5.36.2",
+    "webpack-cli": "^4.7.0"
+  },
+  "dependencies": {
+    "@mrtujiawei/utils": "^1.1.3"
+  }
+}

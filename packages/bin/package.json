@@ -1,0 +1,45 @@
+{
+  "name": "@mrtujiawei/bin",
+  "version": "1.1.4",
+  "description": "我的命令行工具",
+  "main": "",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "tsc -w",
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "pub": "npm run clean && npm run build && npm publish --access public && npm run push",
+    "push": "git add . && git commit -m 'feat(all):自动提交' && git push"
+  },
+  "bin": {
+    "server": "./dist/server.js",
+    "push-all": "./dist/push-all.js",
+    "download-m3u8": "./dist/m3u8-dowmload.js",
+    "combine-m3u8": "./src/shell/combine.sh",
+    "split-m3u8": "./src/shell/split.sh",
+    "toggle-npm-mirror": "./src/shell/toggle-npm-mirror.sh"
+  },
+  "dependencies": {
+    "@mrtujiawei/node-utils": "^0.1.5",
+    "@mrtujiawei/utils": "^1.7.2",
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0"
+  },
+  "keywords": [
+    "HTTP Server",
+    "bin"
+  ],
+  "author": "屠佳伟",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/koa-bodyparser": "^4.3.5",
+    "@types/koa-router": "^7.4.4",
+    "@types/koa-static": "^4.0.2",
+    "@types/node": "^17.0.9",
+    "typescript": "^4.5.4"
+  }
+}
