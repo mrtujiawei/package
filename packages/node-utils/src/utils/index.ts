@@ -44,3 +44,30 @@ export const exec = async (
     });
   });
 };
+
+export interface ResultType {
+  [key: string]: boolean | string | string[];
+  _: string[];
+};
+
+export const getFormattedArgs = (args: string[]) => {
+  const result: ResultType = {
+    _: [],
+  };
+
+  for (let i = 0; i < args.length; i++) {
+    const argv = args[i];
+    if (/^-/.test(argv)) {
+      const key = argv.slice(1);
+      if (i + 1 >= args.length || /^-/.test(args[i + 1])) {
+        result[key] = true;
+      } else {
+        result[key] = args[++i];
+      }
+    } else {
+      (result._ as string[]).push(argv);
+    }
+  }
+
+  return result;
+};

@@ -1,0 +1,24 @@
+{
+  "name": "@mrtujiawei/styles",
+  "version": "0.0.1",
+  "description": "样式",
+  "main": "index.js",
+  "keywords": ["style", "css", "less"],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrtujiawei/package.git"
+  },
+  "author": {
+    "name": "屠佳伟",
+    "email": "tujiawei0512@sina.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mrtujiawei/package/issues",
+    "email": "tujiawei0512@sina.com"
+  }
+}

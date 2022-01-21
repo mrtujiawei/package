@@ -1,0 +1,59 @@
+@import '../animation.less';
+
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: content-box;
+
+  width: fit-content;
+  min-width: 88px;
+  max-width: 70%;
+  padding: 8px 12px;
+  color: #fff;
+  font-size: 14px;
+  line-height: 20px;
+  white-space: pre-wrap;
+  text-align: center;
+  word-break: break-all;
+  background-color: rgba(0, 0, 0, .7);
+  border-radius: 4px;
+  transform: translate3d(-50%, -50%, 0);
+
+  &--unclickable {
+    /* 滚动锁定 */
+    overflow: hidden;
+    /* 事件穿透 */
+    * {
+      pointer-events: none;
+    }
+  }
+
+  &--text {
+    width: fit-content;
+    min-width: 96px;
+    min-height: 0;
+    padding: 8px 12px;
+
+    .van-toast__text {
+      margin-top: 0;
+    }
+  }
+
+  &--top {
+    top: 20%;
+  }
+
+  &--bottom {
+    top: auto;
+    bottom: 20%;
+  }
+
+  &__text {
+    margin-top: 8px;
+  }
+}

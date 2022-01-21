@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>xlsx demo</title>
+  </head>
+  <body>
+    <button id="btn">导出</button>
+    <script src="https://cdn.bootcdn.net/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mrtujiawei/utils@2.3.162/dist/umd/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios"></script>
+    <script src="/dist/umd/index.js"></script>
+    <script>
+      const { excelExport, generateXLSXFile } = TWebUtils;
+      // 直接导出
+      const columns = [
+        { title: '姓名', dataIndex: 'name' },
+        {
+          title: '年龄',
+          dataIndex: 'age',
+          normalize(age) {
+            return age + 1;
+          },
+        },
+      ];
+      const data = [
+        { name: '屠佳伟', age: 20 },
+        { name: '陈绾', age: 19 },
+      ];
+
+      /**
+       * 一般浏览器上直接下载就行
+       */
+      function downloadDirect() {
+        excelExport(columns, data, 'data');
+      }
+
+      /**
+       * 有些浏览器上不能下载js处理过的内容
+       * 通过生成xlsx文件，上传到cdn后下载
+       */
+      async function uploadCdn() {
+        const file = generateXLSXFile(columns, data, 'a.xlsx');
+        const token = '4gtlFltHNWD8tJYOZEDJ2AVdB6KyJdwUMmaI:HFCzlur1Tk7gs8Zs_MqPEgSxfhY=:eyJzY29wZSI6ImJvY2FpIiwiZGVhZGxpbmUiOjE2NjA3MDQyMDN9';
+        const formData = new FormData();
+        formData.append('key', 'download/invite/' + Math.random() + '123.xlsx');
+        formData.append('token', token);
+        formData.append('file', file);
+        const response = await axios.post('https://up-z0.qiniup.com/', formData, {
+          onUploadProgress(event) {
+            console.log(event);
+          },
+        });
+        const url = 'https://s.huahua777.com/' + response.data.key;
+        window.open(url, '_self');
+      }
+
+      alert('render');
+      document.querySelector('#btn').addEventListener('click', async () => {
+        downloadDirect();
+        // uploadCdn();
+      });
+    </script>
+  </body>
+</html>

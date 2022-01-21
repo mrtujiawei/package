@@ -1,9 +1,9 @@
-import { sleep, } from './utils';
+import { sleep } from './utils';
 
 /**
  * 消息内容: 倒计时时间 或 结束内容
  */
-type Message = string|number;
+type Message = string | number;
 
 interface Content {
   /**
@@ -15,7 +15,7 @@ interface Content {
    * 是否完成
    */
   done: boolean;
-};
+}
 
 /**
  * 启动配置
@@ -35,7 +35,7 @@ interface StartConfig {
    * 间隔时间(s),默认1
    */
   timeout: number;
-};
+}
 
 /**
  * 回调函数类型
@@ -80,11 +80,11 @@ class CountDown {
    *
    * @param message - 倒计时时间 或 构造函数传入的内容
    */
-  private publish(message: string|number, done: boolean): void {
-    this.callbacks.forEach(fn => {
+  private publish(message: string | number, done: boolean): void {
+    this.callbacks.forEach((fn) => {
       fn({
         message,
-        done
+        done,
       });
     });
   }
@@ -107,8 +107,8 @@ class CountDown {
    * @returns - 是否移除, false 说明回调函数不存在
    */
   unsubscribe(callback: Callback): boolean {
-    let index = this.callbacks.findIndex(cb => cb == callback);
-    if(-1 != index) {
+    let index = this.callbacks.findIndex((cb) => cb == callback);
+    if (-1 != index) {
       this.callbacks.splice(index, 1);
       return true;
     }

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Service Worker Test</title>
+    <link
+      rel="shortcut icon"
+      href="https://avatars.githubusercontent.com/u/46219528"
+    />
+    <link rel="manifest" href="./manifest.json" />
+    <script src="https://cdn.jsdelivr.net/npm/@mrtujiawei/utils" async></script>
+    <script src="https://unpkg.com/@mrtujiawei/utils" async></script>
+  </head>
+  <body>
+    <h1>测试Service worker</h1>
+    <script>
+      navigator.serviceWorker
+        .register('./sw.js')
+        .then(() => {
+          console.log('Register success');
+          navigator.serviceWorker.controller.postMessage({
+            message: 'Hello World',
+          });
+        })
+        .catch((e) => {
+          console.log('Register fail:', e);
+        });
+
+      navigator.serviceWorker.addEventListener('message', (message) => {
+        console.log('Page receive message:', message);
+      });
+    </script>
+  </body>
+</html>

@@ -1,51 +1,11 @@
 {
   "name": "@mrtujiawei/utils",
-  "version": "1.8.4",
-  "description": "把自己写的工具函数打包发布到npm上",
-  "types": "types/index.d.ts",
-  "main": "dist/utils.js",
-  "files": [
-    "dist",
-    "types"
-  ],
-  "scripts": {
-    "build": "tsc && webpack",
-    "push": "git add . && git commit && git push",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
-    "doc": "doctoc README.md",
-    "pub": "npm run doc && npm run build && npm publish --access public && echo \"publish success\" && rm dist types ts-build -rf && npm run push"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mrtujiawei/utils.git"
-  },
+  "version": "2.5.27",
+  "description": "工具：常用数据类型、算法",
+  "#source": "src/index.ts",
   "keywords": [
     "util",
     "tool"
   ],
-  "author": "屠佳伟",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mrtujiawei/utils/issues"
-  },
-  "homepage": "https://github.com/mrtujiawei/utils#readme",
-  "devDependencies": {
-    "@babel/core": "^7.14.0",
-    "@babel/plugin-transform-runtime": "^7.16.0",
-    "@babel/preset-env": "^7.14.1",
-    "@babel/preset-typescript": "^7.16.0",
-    "@types/jest": "^26.0.23",
-    "babel-loader": "^8.2.2",
-    "core-js": "^3.19.1",
-    "doctoc": "^2.1.0",
-    "jest": "^26.6.3",
-    "ts-jest": "^26.5.6",
-    "typescript": "^4.2.4",
-    "webpack": "^5.36.2",
-    "webpack-cli": "^4.7.0"
-  },
-  "jest": {
-    "testEnvironment": "node"
-  }
+  "sideEffects": false
 }

@@ -1,0 +1,46 @@
+{
+  "name": "@mrtujiawei/vue-components",
+  "version": "0.0.1",
+  "description": "Vue components",
+  "main": "dist/umd/index.min.js",
+  "module": "dist/es/index.js",
+  "unpkg": "dist/umd/index.js",
+  "browser": "dist/umd/index.js",
+  "jsdelivr": "dist/umd/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "build": "webpack",
+    "doc": "doctoc README.md",
+    "prepublish": "npm run build"
+  },
+  "keywords": [],
+  "author": {
+    "name": "mrtujiawei",
+    "email": "tujiawei0512@sina.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrtujiawei/package.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mrtujiawei/package/issues",
+    "email": "tujiawei0512@sina.com"
+  },
+  "homepage": "https://github.com/mrtujiawei/package#readme",
+  "browserslist": [
+    "> 0.01%"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@mrtujiawei/utils": "2.3.130",
+    "vue": "3.2.37"
+  }
+}

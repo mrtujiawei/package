@@ -1,8 +1,6 @@
-import countingSort from './countingSort';
-import heapSort from './heapSort';
-import insertSort from './insertSort';
-import mergeSort from './mergeSort';
-import quickSort from './quickSort';
-import shellSort from './shellSort';
-
-export { countingSort, heapSort, insertSort, mergeSort, quickSort, shellSort };
+export { default as countingSort } from './countingSort';
+export { default as insertSort } from './insertSort';
+export { default as mergeSort } from './mergeSort';
+export { default as quickSort } from './quickSort';
+export { default as radixSort } from './radixSort';
+export { default as shellSort } from './shellSort';

@@ -4,39 +4,38 @@
 [![install size](https://packagephobia.com/badge?p=@mrtujiawei/utils)](https://packagephobia.com/result?p=@mrtujiawei/utils)
 [![npm downloads](https://img.shields.io/npm/dm/@mrtujiawei/utils.svg?style=flat-square)](https://npm-stat.com/charts.html?package=@mrtujiawei/utils)
 [![js delivr downloads](https://data.jsdelivr.com/v1/package/npm/@mrtujiawei/utils/badge)](https://www.jsdelivr.com/package/npm/@mrtujiawei/utils)
-[![issues](https://img.shields.io/github/issues/mrtujiawei/utils)](https://github.com/mrtujiawei/utils/issues)
-[![forks](https://img.shields.io/github/forks/mrtujiawei/utils)](https://github.com/mrtujiawei/utils)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/mrtujiawei/utils/pulls)
-[![stars](https://img.shields.io/github/stars/mrtujiawei/utils)](https://github.com/mrtujiawei/utils)
-[![license](https://img.shields.io/github/license/mrtujiawei/utils)](https://github.com/mrtujiawei/utils/blob/main/LICENSE)
+[![license](https://img.shields.io/github/license/mrtujiawei/package)](https://github.com/mrtujiawei/package/blob/main/LICENSE)
 
 <!-- 以下是自动生成的内容 -->
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Installing](#installing)
-- [Usage](#usage)
-  - [note: Brower usage](#note-brower-usage)
-  - [note: CommonJS usage](#note-commonjs-usage)
-  - [note: ESModule usage](#note-esmodule-usage)
-- [Example](#example)
-  - [Stack](#stack)
-  - [Queue](#queue)
-  - [LinkList](#linklist)
-  - [Heap](#heap)
-  - [BinarySearchTree](#binarysearchtree)
-  - [Lock](#lock)
-  - [TaskQueue](#taskqueue)
-  - [ResponsibilityChain](#responsibilitychain)
-  - [DateTimeTool](#datetimetool)
-  - [CountDown](#countdown)
-  - [Pagination](#pagination)
-  - [Logger](#logger)
-  - [Events](#events)
-  - [Random](#random)
-  - [PriorityQueue](#priorityqueue)
-  - [Trie](#trie)
-  - [utils](#utils)
+- [安装](#%E5%AE%89%E8%A3%85)
+- [用法](#%E7%94%A8%E6%B3%95)
+- [使用示例](#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B)
+  - [数据结构](#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84)
+    - [Stack](#stack)
+    - [Queue](#queue)
+    - [Deque](#deque)
+    - [LinkedList](#linkedlist)
+    - [DoublyLinkedList](#doublylinkedlist)
+    - [Skiplist](#skiplist)
+    - [Heap](#heap)
+    - [UnionFind](#unionfind)
+    - [BinarySearchTree](#binarysearchtree)
+    - [AVLTree](#avltree)
+    - [Trie](#trie)
+    - [Lock](#lock)
+    - [TaskQueue](#taskqueue)
+    - [ResponsibilityChain](#responsibilitychain)
+    - [DateTimeTool](#datetimetool)
+    - [CountDown](#countdown)
+    - [Pagination](#pagination)
+    - [Logger](#logger)
+    - [Events](#events)
+    - [Random](#random)
+    - [PriorityQueue](#priorityqueue)
+  - [工具函数](#%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0)
     - [reverseRange](#reverserange)
     - [swap](#swap)
     - [sleep](#sleep)
@@ -50,164 +49,953 @@
     - [findFirstIndex](#findfirstindex)
     - [objectToString](#objecttostring)
     - [isSame](#issame)
+- [TODO](#todo)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-<!--
-## algorithm ##
+## 安装
 
-学习算法相关的代码
-
-## other ##
-
-一些需要安装依赖的函数
-
-## sorts ##
-
-排序算法
-
--->
-
-## Installing
-
-Using npm:
+使用 npm:
 
 ```bash
 $ npm install @mrtujiawei/utils
 ```
 
-Using yarn:
+使用 yarn:
 
 ```bash
 $ yarn add @mrtujiawei/utils
 ```
 
-Using unpkg CDN:
+使用 unpkg CDN:
 
 ```html
-<script src="https://unpkg.com/@mrtujiawei/utils/dist/utils.js"></script>
+<script src="https://unpkg.com/@mrtujiawei/utils"></script>
 ```
 
-## Usage
+使用 jsdelivr CDN:
 
-### note: Brower usage
-
-```javascript
-const { Stack } = utils.Stack;
+```html
+<script src="https://cdn.jsdelivr.net/npm/@mrtujiawei/utils"></script>
 ```
 
-### note: CommonJS usage
+## 用法
+
+直接在浏览器中使用
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@mrtujiawei/utils"></script>
+<script>
+  const { Stack } = TUtils;
+</script>
+```
+
+通过 CommonJS 引入
 
 ```javascript
 const { Stack } = require('@mrtujiawei/utils');
 ```
 
-or
+或者
 
 ```javascript
 const utils = require('@mrtujiawei/utils');
 const Stack = utils.Stack;
 ```
 
-### note: ESModule usage
+通过 ESModule 引入
 
 ```javascript
 import { Stack } from '@mrtujiawei/utils';
 ```
 
-or
+或者
 
 ```javascript
-import utils from '@mrtujiawei/utils';
+import * as utils from '@mrtujiawei/utils';
 const Stack = utils.Stack;
 ```
 
-## Example
+## 使用示例
 
-使用示例
+### 数据结构
 
-### Stack
+#### Stack
 
-> 堆栈
+> 堆栈（链表实现）
+
+引入
 
 ```javascript
 import { Stack } from '@mrtujiawei/utils';
-
-const stack = new Stack();
-
-stack.size; // 0
-stack.isEmpty(); // true
-
-stack.push(1); // [1]
-stack.push(2, 3); // [1, 2, 3]
-stack.size; // 3
-stack.isEmpty(); // false
-
-stack.pop(); // 3
-stack.peak(); // 2
-stack.pop(); // 2
-stack.peak(); // 1
-stack.pop(); // 1
-stack.peak(); // throw Error: StackEmptyError
-stack.pop(); // throw Error: StackEmptyError
 ```
 
-### Queue
+实例化
 
-> 队列
+```javascript
+const stack = new Stack();
+```
+
+获取当前元素个数
+
+```javascript
+stack.size;
+```
+
+判断栈是否为空
+
+```javascript
+stack.isEmpty();
+```
+
+判断栈是否非空
+
+```javascript
+stack.isNotEmpty();
+```
+
+入栈 
+
+- _支持一次 `push` 多个元素_
+
+```javascript
+stack.push(value);
+```
+
+出栈
+
+- _栈为空时,`pop`会抛出**StackEmptyError**_
+
+```javascript
+stack.pop();
+```
+
+获取栈顶元素
+
+- _栈为空时,`peak`会抛出**StackEmptyError**_
+
+```javascript
+stack.peak();
+```
+
+异常
+
+```javascript
+// 栈为空时获取元素
+Stack.StackEmptyError
+```
+
+#### Queue
+
+> 队列（双端链表实现）
+
+引入
 
 ```javascript
 import { Queue } from '@mrtujiawei/utils';
-
-const queue = new Queue();
-
-queue.size; // 0
-queue.isEmpty(); // true
-
-queue.enqueue(1); // [1]
-queue.enqueue(2); // [1, 2]
-queue.dequeue(); // 1
-
-queue.enqueue(3); // [2, 3]
-
-queue.size; // 2
-queue.isEmpty(); // false
-queue.dequeue(); // 2
-queue.dequeue(); // 3
-queue.dequeue(); // throw Error: QueueEmptyError
 ```
 
-### LinkList
+实例化
+
+```javascript
+const queue = new Queue();
+```
+
+获取当前元素个数
+
+```javascript
+queue.size;
+```
+
+队首元素
+
+- _队列为空时获取`front`会抛出**QueueEmptyError**_
+
+```javascript
+queue.front;
+```
+
+队尾元素
+
+- _队列为空时获取`tail`会抛出**QueueEmptyError**_
+
+```javascript
+queue.tail;
+```
+
+判断队列是否为空
+
+```javascript
+queue.isEmpty();
+```
+
+入队
+
+- _支持一次 `enqueue` 多个元素_
+
+```javascript
+queue.enqueue(value);
+```
+
+出队
+
+- _队列为空时`dequeue`会抛出**QueueEmptyError**_
+
+```javascript
+queue.dequeue();
+```
+
+异常
+
+```javascript
+// 队列为空时仍获取元素
+Queue.QueueEmptyError
+```
+
+#### Deque
+
+> 双端队列（双端链表实现）
+
+引入
+
+```javascript
+import { Deque } from '@mrtujiawei/utils';
+```
+
+实例化
+
+```javascript
+const deque = new Deque();
+```
+
+从队头入队
+
+```javascript
+deque.pushFront(value);
+```
+
+从队尾入队
+
+```javascript
+deque.pushBack(value);
+```
+
+判断队列是否为空
+
+```javascript
+deque.isEmpty();
+```
+
+判断队列是否非空
+
+```javascript
+deque.isNotEmpty();
+```
+
+获取队列元素个数
+
+```javascript
+deque.getSize();
+```
+
+获取队首元素
+
+- _队列为空时`getFront`会抛出**DequeEmptyError**_
+
+```javascript
+deque.getFront();
+```
+
+获取队尾元素
+
+- _队列为空时`getBack`会抛出**DequeEmptyError**_
+
+```javascript
+deque.getBack();
+```
+
+队列转数组
+
+```javascript
+deque.toArray();
+```
+
+从队头出队
+
+- _队列为空时`popFront`会抛出**DequeEmptyError**_
+
+```javascript
+deque.popFront();
+```
+
+从队尾出队
+
+- _队列为空时`popBack`会抛出**DequeEmptyError**_
+
+```javascript
+deque.popBack();
+```
+
+清空队列
+
+```javascript
+deque.clear();
+```
+
+异常
+
+```javascript
+// 队列未空时仍获取元素
+Deque.DequeEmptyError;
+```
+
+#### LinkedList
+
+> 单向链表
+
+引入
+```javascript
+import { LinkedList } from '@mrtujiawei/utils';
+```
+
+实例化
+
+```javascript
+const list = new LinkedList();
+```
+
+获取当前元素个数
+
+```javascript
+list.getSize();
+```
+
+链表是否为空
+
+```javascript
+list.isEmpty();
+```
+
+链表是否非空
+
+```javascript
+list.isNotEmpty();
+```
+
+清空链表
+
+```javascript
+list.clear();
+```
+
+从链表头部插入
+
+```javascript
+list.insertFirst(value);
+```
+
+指定下标处插入
+
+- `0 <= index <= list.getSize()`
+- 下标范围不对时会抛出`InvalidIndexError`
+- 建议尽量少用，最坏时间复杂度 O(n)
+
+```javascript
+list.insertAt(index, value);
+```
+
+链表尾部插入
+
+- 建议尽量少用，时间复杂度 O(n)
+
+```javascript
+list.insertLast(value);
+```
+
+移除头结点
+
+- 链表为空时`removeFirst`会抛出`LinkedListEmptyError`
+
+```javascript
+list.removeFirst();
+```
+
+移除尾节点
+
+- 链表为空时`removeLast`会抛出`LinkedListEmptyError`
+
+```javascript
+list.removeLast();
+```
+
+移除指定下标的节点
+
+- 下标范围不对时会抛出`InvalidIndexError`
+
+```javascript
+list.removeAt(index);
+```
+
+复制链表
+
+```javascript
+list.clone(oldList);
+```
+
+遍历链表
+
+```javascript
+list.forEach((value, index, context) => {
+  // TODO ...
+});
+```
+
+过滤出符合条件的新链表
+
+- Boolean(returnValue) 为 `true` 保留, `false` 不保留
+
+```javascript
+list.filter((value, index, context) => {
+  // TODO ...
+});
+```
+
+查找第一个满足条件的值
+
+- Boolean(returValue) 为 `true` 时，返回对应的`value`
+
+```javascript
+list.find((value, index, context) => {
+  // TODO
+});
+```
+
+获取第一个节点值
+
+- 链表为空时`getFirst`会抛出`LinkedListEmptyError`
+
+```javascript
+list.getFirst();
+```
+
+转化成数组
+
+```javascript
+list.toArray();
+```
+
+从数组创建链表
+
+```
+let list = LinkedList.fromArray(arr);
+```
+
+`for..of` 遍历
+
+```javascript
+for (const value of list) {
+  // TODO
+}
+```
+
+异常
+```javascript
+// 为空时获取元素
+LinkedList.LinkedListEmptyError;
+
+// 传入不合理的下标
+LinkedList.InvalidIndexError;
+```
+
+#### DoublyLinkedList
 
 > 双向链表
 
-```javascript
-import { LinkList } from '@mrtujiawei/utils';
+引入
 
-const list = new LinkList();
+```javascript
+import { DoublyLinkedList } from '@mrtujiawei/utils';
 ```
 
-### Heap
+实例化
+
+```javascript
+const list = new DoublyLinkedList();
+```
+
+清空链表
+
+```javascript
+list.clear();
+```
+
+连接两个链表
+
+- 只是单纯的尾节点连接头结点
+- 继续操作原来的链表会影响连接后的链表
+
+```javascript
+const newList = list.concat(otherList);
+```
+
+是否包含
+
+```javascript
+list.contains(value);
+```
+
+过滤出符合条件的新链表
+- Boolean(returnValue) 为 `true` 保留, `false` 不保留
+
+```
+const newList = list.filter((value, index, context) => {
+  // TODO
+});
+```
+
+查找第一个满足要求的元素
+
+```javascript
+const value = list.find((value, index, context) => {
+  // TODO
+});
+```
+
+查找第一个满足要求的元素下标
+
+```javascript
+const index = list.findIndex((value, index, context) => {
+  // TODO
+});
+```
+
+forEach遍历
+
+```javascript
+list.forEach((value, index, context) => {
+  // TODO
+});
+```
+
+获取指定下标的值
+
+- 0 <= index && index < list.size()
+- 不在范围内的下标会抛出 `InvalidIndexError`
+
+```javascript
+list.get(index);
+```
+
+获取链表中的第一个值
+
+- 链表为空时,会抛出`EmptyError`
+
+```javascript
+const value = list.getFirst();
+```
+
+获取链表中的最后一个值
+
+- 链表为空时,会抛出`EmptyError`
+
+```javascript
+const value = list.getLast();
+```
+
+是否包含某个值
+
+```javascript
+list.includes();
+```
+
+第一个等于指定值的下标
+
+- 不存在时 `index = -1`
+
+```javascript
+const index = list.indexOf(value);
+```
+
+判断链表是否为空
+
+```javascript
+list.isEmpty();
+```
+
+根据参数合并成字符串
+
+- 可以传入第二个参数，用来将元素转化成字符串
+
+```javascript
+const result = list.join(',');
+```
+
+最后一个满足条件的元素下标
+
+```javascript
+const index = lastIndexOf(value);
+```
+
+映射成一个新的链表
+
+```javascript
+const newList = list.map(value => {
+  // TODO
+  return newValue;
+});
+```
+
+移除最后一个元素
+
+- 链表为空时会抛出`EmptyError`
+
+```javascript
+const value = list.pop();
+```
+
+向尾部添加
+
+```javascript
+list.push(value);
+```
+
+元素汇总
+
+```javascript
+list.reduce((previousValue, currentValue, index, context) => {
+  // TODO
+  return nextValue;
+});
+```
+
+元素反向汇总
+
+```javascript
+list.reduceRight((previousValue, currentValue, index, context) => {
+  // TODO
+  return nextValue;
+});
+```
+
+移除指定下标的元素
+
+- 0 <= index < list.size()
+- 下标不合法时会抛出 `InvalidIndexError`
+
+```javascript
+const value = list.remove(index);
+```
+
+反转链表
+
+```javascript
+list.reverse();
+```
+
+设置指定位置的值
+
+- 0 <= index < list.size()
+- 下标不合法时会抛出 `InvalidIndexError`
+
+```javascript
+list.set(index, value);
+```
+
+移除第一个元素
+
+- 链表为空时会抛出 `EmptyError`
+
+```javascript
+list.shift();
+```
+
+获取链表长度
+
+```javascript
+list.size();
+```
+
+复制链表中的一段
+
+- 浅拷贝
+- [startIndex, endIndex)
+
+```javascript
+list.slice(startIndex, endIndex);
+```
+
+查找是否有满足条件的值
+
+```javascript
+list.some((value, index, context) => {
+  // TODO
+  return false || true;
+})
+```
+
+转化成数组
+
+```javascript
+const arr = list.toArray();
+```
+
+头部添加
+
+```javascript
+list.unshift(value);
+```
+
+链表排序
+
+- 同数组排序
+
+```javascript
+sort((a, b) => number);
+```
+
+转化成字符串
+
+```javascript
+const str = list.toString();
+```
+
+移除所有满足条件的元素
+
+```javascript
+const removeSize = list.remove((value, index, context) => {
+  // TODO
+  return true || false;
+});
+```
+
+反向遍历
+
+```javascript
+list.forEachReverse((value, index, context) => {
+  // TODO
+});
+```
+
+反向查找
+
+```javascript
+const value = list.findReverse((value, index, context) => {
+  // TODO
+  return true || false;
+});
+```
+
+for..of 遍历
+
+```javascript
+for (const value of list) {
+  // TODO
+}
+```
+
+异常
+
+```javascript
+// 下标异常
+DoublyLinkedList.InvalidIndexError
+
+// 链表为空
+DoublyLinkedList.EmptyError
+```
+
+#### Skiplist
+
+引入
+
+```javascript
+import { Skiplist } from '@mrtujiawei/utils';
+```
+
+初始化
+
+- _如果 a < b 预期返回小于0的数_
+- _如果 a == b 预期返回0_
+- _如果 a > b 预期返回大于0的数_
+- 递减取相反数
+
+```javascript
+const list = new Skiplist((a, b) => a - b);
+```
+
+获取长度
+
+```javascript
+list.length;
+```
+
+查找是否存在指定值
+
+```javascript
+list.search(value);
+```
+
+
+获取第一个元素
+
+```javascript
+const firstValue = list.getFirst();
+```
+
+插入元素
+
+```javascript
+list.insert(value);
+```
+
+移除元素
+
+```javascript
+list.remove(value);
+```
+
+转化成数组
+
+```javascript
+list.toArray();
+```
+
+遍历
+
+```javascript
+list.forEach((value, index, context) => {
+  // TODO
+});
+```
+
+for..of 遍历
+
+```javascript
+for (const value of list) {
+  // TODO
+}
+```
+
+#### Heap
 
 > 堆
 
+引入
+
 ```javascript
 import { Heap } from '@mrtujiawei/utils';
-
-// 小顶堆
-const heap = new Heap((a, b) => a - b);
-
-heap.insert(2);
-heap.insert(3);
-heap.insert(1);
-heap.remove(); // 1
-heap.remove(); // 2
-heap.insert(0);
-heap.remove(); // 0
-heap.remove(); // 3
 ```
 
-### BinarySearchTree
+实例化(小顶堆) 
+
+- _如果 a < b 预期返回小于0的数_
+- _如果 a == b 预期返回0_
+- _如果 a > b 预期返回大于0的数_
+- 大顶堆取相反数
+
+```javascript
+const heap = new Heap((a, b) => a - b);
+```
+
+获取堆中元素数量
+
+```javascript
+heap.size;
+```
+
+判断堆是否为空
+
+```javascript
+heap.isEmpty();
+```
+
+判断堆是否非空
+
+```javascript
+Heap.isNotEmpty();
+```
+
+获取堆顶元素
+
+- _堆为空时`peak`会抛出**Heap.HeapEmptyError**_
+
+```javascript
+heap.peak();
+```
+
+插入元素
+
+```javascript
+heap.insert(value);
+```
+
+移除堆顶元素
+
+- _堆为空时`peak`会抛出**Heap.HeapEmptyError**_
+
+```javascript
+heap.remove();
+```
+
+替换堆顶元素
+
+- 如堆为空则插入
+- 非空则替换栈顶元素，并重新调整堆
+- 两次O(logn)时间复杂度的操作减少为一次
+
+```javascript
+heap.replaceTop(0);
+```
+
+异常
+
+```javascript
+// 堆为空时获取元素
+Heap.HeapEmptyError
+
+// 比较器错误
+Heap.CompareInvalidError
+```
+
+#### UnionFind
+
+> 并查集
+
+引入
+
+```javascript
+import { UnionFind } from '@mrtujiawei/utils';
+```
+
+实例化
+
+- capacity不能小于1 `IllegaleArgumentException`
+
+```javascript
+const uf = new UnionFind(capacity);
+```
+
+合并集合
+
+- 0 <= u1 < capacity
+- 0 <= u2 < capacity
+
+```javascript
+uf.union(u1, u2);
+```
+
+查找集合的根节点
+
+```javascript
+uf.find(u);
+```
+
+是否属于同一个集合
+
+```javascript
+uf.isBelongSameUnion(u1, u2);
+```
+
+#### BinarySearchTree
 
 > 二叉搜索树
 
@@ -231,12 +1019,160 @@ bTree.toArray(); // [1, 2, 3, 4]
 bTree.clear(); // []
 ```
 
-### Lock
+#### AVLTree
+
+> 平衡二叉搜索树
+
+引入
+
+```javascript
+import { AVLTree } from '@mrtujiawei/utils';
+```
+
+实例化
+
+- _如果 a < b 预期返回小于0的数_
+- _如果 a == b 预期返回0_
+- _如果 a > b 预期返回大于0的数_
+- 取相反数时，左节点 > 父节点 > 右节点
+
+```javascript
+const tree = new AVLTree((a, b) => a - b);
+```
+
+添加节点
+
+- 添加相同的`key`时会抛出`DuplicateValueError`
+
+```javascript
+tree.append(key, value);
+```
+
+根据 `key` 移除节点
+
+- 返回`true`时删除成功，否则失败
+
+```javascript
+tree.remove(key);
+```
+
+判断是否存在`key`
+
+```javascript
+tree.has(key);
+```
+
+获取`key`对应的`value`
+
+```javascript
+const value = tree.getValue(key);
+```
+
+获取节点个数
+
+```javascript
+const size = tree.getSize();
+```
+
+清空树
+
+```javascript
+tree.clear();
+```
+
+异常
+
+```javascript
+// 插入已经存在的key
+AVLTree.DuplicateValueError
+```
+
+#### Trie
+
+> 前缀树(支持插入相同单词)
+
+引入
+
+```javascript
+import { Trie } from '@mrtujiawei/utils';
+```
+
+实例化
+
+```javascript
+const trie = new Trie();
+```
+
+从数组实例化
+
+```javascript
+const trie = Trie.fromArray(words);
+```
+
+获取字典树中有多少个单词
+
+```javascript
+const count = trie.getWordCount();
+```
+
+插入单词
+
+```javascript
+trie.insert(word);
+```
+
+判断是否存在该单词
+
+```javascript
+trie.search(word);
+```
+
+判断指定前缀的单词是否存在
+
+```javascript
+trie.startsWith(prefix);
+```
+
+移除指定单词
+
+- 返回`false`移除失败：单词不存在
+- 返回`true`移除成功
+- 如有多个相同个单词，只会移除一个
+
+```javascript
+trie.remove(word);
+```
+
+遍历
+
+- 不保证遍历的顺序
+
+```javascript
+trie.forEach((word) => {
+  // TODO
+});
+```
+
+转化成数组
+
+- 包含重复单词
+
+```javascript
+const words = trie.toArray();
+```
+
+清空前缀树
+
+```javascript
+trie.clear();
+```
+
+#### Lock
 
 > 异步流程加锁
 
 ```javascript
-import { Lock, sleep }  from '@/mrtujiawei/utils';
+import { Lock, sleep }  from '@mrtujiawei/utils';
 
 const lock = new Lock(1);
 
@@ -261,15 +1197,15 @@ run(2, 0);
 output: 0 1 2
 ```
 
-### TaskQueue
+#### TaskQueue
 
 > 任务队列,主要是用来执行单任务
 
-### ResponsibilityChain
+#### ResponsibilityChain
 
 > 职责链
 
-### DateTimeTool
+#### DateTimeTool
 
 > 日期时间处理类  
 > 解析时间太复杂，没做
@@ -298,7 +1234,7 @@ DateTimeTool.timestampToDateTime(123); // yyyy-mm-dd hh:mm:ss
 DateTimeTool.getCurrentWeek(new Date()); // 获取当周的日期范围
 ```
 
-### CountDown
+#### CountDown
 
 > 倒计时
 
@@ -328,7 +1264,7 @@ countDown.unsubscribe(callback);
 countDown.clear();
 ```
 
-### Pagination
+#### Pagination
 
 > 分页
 
@@ -353,7 +1289,7 @@ pagination.sort(); // 重新排序
 pagination.to(2); // 跳到第二页
 ```
 
-### Logger
+#### Logger
 
 > 日志记录
 
@@ -374,7 +1310,7 @@ logger.fatal('fatal');
 logger.unsubscribe(callback);
 ```
 
-### Events
+#### Events
 
 > 事件发射
 
@@ -398,7 +1334,7 @@ events.emit('start');
 // 没有输出
 ```
 
-### Random
+#### Random
 
 > 随机
 
@@ -416,7 +1352,7 @@ Random.getRandomString(n); // [a-zA-Z0-9]{n}
 Random.getRandomID(); // ********-**************-************
 ```
 
-### PriorityQueue
+#### PriorityQueue
 
 > 优先队列
 
@@ -436,21 +1372,7 @@ pq.dequeue(); // 1
 pq.dequeue(); // 2
 ```
 
-### Trie
-
-> 前缀树
-
-```javascript
-const trie = new Trie();
-trie.insert('Hello');
-trie.insert('World');
-trie.search('Hello');   // true
-trie.search('He');      // false
-trie.startsWith('W');   // true
-trie.startsWith('w');   // false
-```
-
-### utils
+### 工具函数
 
 #### reverseRange
 
@@ -632,3 +1554,8 @@ isSame(null, null); // true
 isSame('123', 123); // false
 isSame(undefined, undefined); // true
 ```
+
+## TODO
+
+- [ ] 算法
+- [ ] 树形数据结构

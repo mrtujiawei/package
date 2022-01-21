@@ -4,9 +4,249 @@
  * @author: Mr Prince
  * @date: 2021-05-07 20:42:28
  */
-import { addZero, } from './utils';
+import { addZero } from './StringUtils';
 
 class DateTimeTool {
+  /**
+   * 1微秒的纳秒数
+   */
+  private static readonly nanosecondsOfOneMicrosecond = 1000;
+
+  /**
+   * 1毫秒的微秒数
+   */
+  private static readonly microsecondsOfOneMillisecond = 1000;
+
+  /**
+   * 一秒钟的毫秒数
+   * 1s = 1000ms
+   */
+  private static readonly millisecondsOfOneSecond = 1000;
+
+  /**
+   * 一分钟的秒数
+   */
+  private static readonly secondsOfOneMinute = 60;
+
+  /**
+   * 一小时的分钟数
+   */
+  private static readonly minutesOfOneHour = 60;
+
+  /**
+   * 一天的小时数
+   */
+  private static readonly hoursOfOneDay = 24;
+
+  /**
+   * 一毫秒的纳秒数
+   */
+  private static readonly nanosecondsOfOneMilliseocnd =
+    DateTimeTool.nanosecondsOfOneMicrosecond *
+    DateTimeTool.microsecondsOfOneMillisecond;
+
+  /**
+   * 一分钟的毫秒数
+   * 1m = 60s
+   */
+  private static readonly millisecondsOfOneMinute =
+    DateTimeTool.millisecondsOfOneSecond * DateTimeTool.secondsOfOneMinute;
+
+  /**
+   * 一小时的毫秒数
+   * 1h = 60m
+   */
+  private static readonly millisecondsOfOneHour =
+    DateTimeTool.millisecondsOfOneMinute * DateTimeTool.minutesOfOneHour;
+
+  /**
+   * 一天的毫秒数
+   * 1d = 24h
+   */
+  private static readonly millisecondsOfOneDay =
+    DateTimeTool.millisecondsOfOneHour * DateTimeTool.hoursOfOneDay;
+
+  /**
+   * 解析日期时间
+   * @todo 遇到没有碰到过的格式时，更新parse
+   * @returns 时间戳
+   */
+  static parse(date: string) {
+    if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}[+-]\d{4}$/.test(date)) {
+      // 2022-08-09T01:43:12.000+0000
+      // utc时间. 毫秒数[+-]小时分钟偏移
+      // 如果是东八区，小时数需要+8
+      // 小时偏移不能超过23，分钟偏移不能超过60
+      const [udate, rest] = date.split('T');
+      const [year, month, day] = udate.split('-').map(Number);
+      const [utime, msAndOffset] = rest.split('.');
+      const [hour, minute, second] = utime.split(':').map(Number);
+      const [ms, offsetType, offsetValue] = msAndOffset.split(/([+-])/);
+
+      const formatedDate = new Date(
+        year,
+        month - 1,
+        day,
+        hour,
+        minute,
+        second,
+        Number(ms)
+      );
+
+      const hourOffset = offsetValue.slice(0, 2);
+      const minuteOffset = offsetValue.slice(2);
+
+      // 计算utc的偏移量
+      if ('+' == offsetType) {
+        formatedDate.setHours(formatedDate.getHours() - Number(hourOffset));
+        formatedDate.setMinutes(
+          formatedDate.getMinutes() - Number(minuteOffset)
+        );
+      } else if ('-' == offsetType) {
+        formatedDate.setHours(formatedDate.getHours() + Number(hourOffset));
+        formatedDate.setMinutes(
+          formatedDate.getMinutes() + Number(minuteOffset)
+        );
+      }
+
+      // 计算utc到本地时间的偏移量
+
+      // 时区偏移量
+      const timezoneOffset = formatedDate.getTimezoneOffset();
+      formatedDate.setMinutes(formatedDate.getMinutes() - timezoneOffset);
+
+      return formatedDate.getTime();
+    } else if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(date)) {
+      // 2022-08-09T02:51:36.291Z
+      const [udate, rest] = date.split('T');
+      const [year, month, day] = udate.split('-').map(Number);
+      const [utime, msAndOffset] = rest.split('.');
+      const [hours, minutes, seconds] = utime.split(':').map(Number);
+      const [ms] = msAndOffset.split('Z');
+
+      const formatedDate = new Date(
+        year,
+        month - 1,
+        day,
+        hours,
+        minutes,
+        seconds,
+        Number(ms)
+      );
+
+      // 计算utc到本地时间的偏移量
+
+      // 时区偏移量
+      const timezoneOffset = formatedDate.getTimezoneOffset();
+      formatedDate.setMinutes(formatedDate.getMinutes() - timezoneOffset);
+
+      return formatedDate.getTime();
+    } else if (
+      /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{9}[+-]\d{2}:\d{2}$/.test(date)
+    ) {
+      // 2021-08-13T14:20:18.992847200-04:00
+      const [udate, rest] = date.split('T');
+      const [year, month, day] = udate.split('-').map(Number);
+      const [utime, msAndOffset] = rest.split('.');
+      const [hours, minutes, seconds] = utime.split(':').map(Number);
+      const [ns, offsetType, offsetValue] = msAndOffset.split(/([+-])/);
+      const ms = Math.floor(
+        Number(ns) / DateTimeTool.nanosecondsOfOneMilliseocnd
+      );
+
+      const formatedDate = new Date(
+        year,
+        month - 1,
+        day,
+        hours,
+        minutes,
+        seconds,
+        ms
+      );
+
+      const [hourOffset, minuteOffset] = offsetValue.split(':').map(Number);
+
+      // 计算utc的偏移量
+      if ('+' == offsetType) {
+        formatedDate.setHours(formatedDate.getHours() - Number(hourOffset));
+        formatedDate.setMinutes(
+          formatedDate.getMinutes() - Number(minuteOffset)
+        );
+      } else if ('-' == offsetType) {
+        formatedDate.setHours(formatedDate.getHours() + Number(hourOffset));
+        formatedDate.setMinutes(
+          formatedDate.getMinutes() + Number(minuteOffset)
+        );
+      }
+
+      // 计算utc到本地时间的偏移量
+
+      // 时区偏移量
+      const timezoneOffset = formatedDate.getTimezoneOffset();
+      formatedDate.setMinutes(formatedDate.getMinutes() - timezoneOffset);
+
+      return formatedDate.getTime();
+    } else if (/^\d{4}[/-]\d{2}[/-]\d{2} \d{2}:\d{2}:\d{2}$/.test(date)) {
+      // 2022/09/09 13:53:20 或者 2022-09-09 13:53:20
+      const [udate, utime] = date.split(' ');
+      const [year, month, day] = udate.split(/[/-]/).map(Number);
+      const [hours, minutes, seconds] = utime.split(':').map(Number);
+      const formatedDate = new Date(
+        year,
+        month - 1,
+        day,
+        hours,
+        minutes,
+        seconds,
+        0
+      );
+      return formatedDate.getTime();
+    } else if (/^\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2}[+-]\d{4}$/.test(date)) {
+      // 1992/02/12 12:23:22+0100
+      const [udate, rest] = date.split(' ');
+      const [year, month, day] = udate.split('/').map(Number);
+      const [utime, offsetType, offsetValue] = rest.split(/([+-])/);
+      const [hours, minutes, seconds] = utime.split(':').map(Number);
+
+      const formatedDate = new Date(
+        year,
+        month - 1,
+        day,
+        hours,
+        minutes,
+        seconds,
+        0
+      );
+
+      const hourOffset = offsetValue.slice(0, 2);
+      const minuteOffset = offsetValue.slice(2, 4);
+
+      // 计算utc的偏移量
+      if ('+' == offsetType) {
+        formatedDate.setHours(formatedDate.getHours() - Number(hourOffset));
+        formatedDate.setMinutes(
+          formatedDate.getMinutes() - Number(minuteOffset)
+        );
+      } else if ('-' == offsetType) {
+        formatedDate.setHours(formatedDate.getHours() + Number(hourOffset));
+        formatedDate.setMinutes(
+          formatedDate.getMinutes() + Number(minuteOffset)
+        );
+      }
+
+      // 计算utc到本地时间的偏移量
+
+      // 时区偏移量
+      const timezoneOffset = formatedDate.getTimezoneOffset();
+      formatedDate.setMinutes(formatedDate.getMinutes() - timezoneOffset);
+
+      return formatedDate.getTime();
+    }
+
+    // throw new Error('未成功匹配');
+    return new Date(date).getTime();
+  }
+
   /**
    * 格式化时间,默认当前时间
    */
@@ -14,7 +254,7 @@ class DateTimeTool {
     const hour = date.getHours();
     const minute = date.getMinutes();
     const second = date.getSeconds();
-    return [hour, minute, second].map(num => addZero(num)).join(delimiter);
+    return [hour, minute, second].map((num) => addZero(num)).join(delimiter);
   }
 
   /**
@@ -24,14 +264,18 @@ class DateTimeTool {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
-    return [year, month, day].map(num => addZero(num)).join(delimiter);
+    return [year, month, day].map((num) => addZero(num)).join(delimiter);
   }
 
   /**
    * 格式化日期时间,默认今天
    */
-  static dateTimeFormat(date: Date = new Date(), dateDelimiter: string = '-', timeDelimiter: string = ':'): string {
-    const day = DateTimeTool.dateFormat(date, dateDelimiter)
+  static dateTimeFormat(
+    date: Date = new Date(),
+    dateDelimiter: string = '-',
+    timeDelimiter: string = ':'
+  ): string {
+    const day = DateTimeTool.dateFormat(date, dateDelimiter);
     const time = DateTimeTool.timeFormat(date, timeDelimiter);
     return `${day} ${time}`;
   }
@@ -53,8 +297,16 @@ class DateTimeTool {
   /**
    * 时间戳转日期时间字符串
    */
-  static timestampToDateTime(timestamp: number, dateDelimiter = '-', timeDelimiter = ':') {
-    return DateTimeTool.dateTimeFormat(new Date(timestamp), dateDelimiter, timeDelimiter);
+  static timestampToDateTime(
+    timestamp: number,
+    dateDelimiter = '-',
+    timeDelimiter = ':'
+  ) {
+    return DateTimeTool.dateTimeFormat(
+      new Date(timestamp),
+      dateDelimiter,
+      timeDelimiter
+    );
   }
 
   /**
@@ -62,7 +314,7 @@ class DateTimeTool {
    */
   static getNthDayBefore(n: number, end = new Date()): Date[] {
     const start = new Date();
-    start.setTime(start.getTime() - 1000 * 60 * 60 * 24 * n);
+    start.setTime(start.getTime() - DateTimeTool.millisecondsOfOneDay * n);
     return [start, end];
   }
 
@@ -81,7 +333,7 @@ class DateTimeTool {
    */
   static getNthHourBefore(n: number, end = new Date()): Date[] {
     const start = new Date();
-    start.setTime(start.getTime() - 1000 * 60 * 60 * n);
+    start.setTime(start.getTime() - DateTimeTool.millisecondsOfOneHour * n);
     return [start, end];
   }
 
@@ -96,13 +348,13 @@ class DateTimeTool {
 
   /**
    * 是否是闰年
+   *
+   * 能被4整除且不能被100整除
+   * 或者能被400整除
    */
   static isLeapYear(date: Date = new Date()): boolean {
     const year = date.getFullYear();
-    if ((0 == year % 4 && 0 != year % 100) || 0 == year % 400) {
-      return true;
-    }
-    return false;
+    return (0 == year % 4 && 0 != year % 100) || 0 == year % 400;
   }
 
   /**
@@ -119,7 +371,7 @@ class DateTimeTool {
    */
   static diffSeconds(start: Date | number, end: Date | number): number {
     const timeStamp = DateTimeTool.diffTimestamp(start, end);
-    return Math.floor(timeStamp / 1000);
+    return DateTimeTool.getSecondsFromMilliseconds(timeStamp);
   }
 
   /**
@@ -127,7 +379,7 @@ class DateTimeTool {
    */
   static diffMinutes(start: Date | number, end: Date | number): number {
     const seconds = DateTimeTool.diffSeconds(start, end);
-    return Math.floor(seconds / 60);
+    return Math.floor(seconds / DateTimeTool.secondsOfOneMinute);
   }
 
   /**
@@ -135,7 +387,7 @@ class DateTimeTool {
    */
   static diffHours(start: Date | number, end: Date | number): number {
     const minutes = DateTimeTool.diffMinutes(start, end);
-    return Math.floor(minutes / 60);
+    return Math.floor(minutes / DateTimeTool.minutesOfOneHour);
   }
 
   /**
@@ -143,7 +395,7 @@ class DateTimeTool {
    */
   static diffDays(start: Date | number, end: Date | number): number {
     const hours = DateTimeTool.diffHours(start, end);
-    return Math.floor(hours / 24);
+    return Math.floor(hours / DateTimeTool.hoursOfOneDay);
   }
 
   /**
@@ -170,10 +422,12 @@ class DateTimeTool {
 
   /**
    * 往后加几天
+   * @param date 需要修改的 Date 或者 milliseconds
+   * @param days 改变的天数
    */
   static addDays(date: Date | number, days: number): Date {
     const result = new Date(date);
-    result.setDate(new Date(date).getTime() + days);
+    result.setDate(new Date(date).getDate() + days);
     return result;
   }
 
@@ -193,6 +447,75 @@ class DateTimeTool {
     }
 
     return [start, end];
+  }
+
+  /**
+   * 毫秒数转秒数
+   * 不足1秒直接舍弃
+   * @param milliseconds 毫秒数
+   */
+  static getSecondsFromMilliseconds(milliseconds: number) {
+    milliseconds = Math.abs(milliseconds);
+    return Math.floor(milliseconds / DateTimeTool.millisecondsOfOneSecond);
+  }
+
+  /**
+   * 毫秒数转分钟数
+   * 不足1分钟直接舍弃
+   * @param milliseconds 毫秒数
+   */
+  static getMinutesFromMilliseconds(milliseconds: number) {
+    const seconds = DateTimeTool.getSecondsFromMilliseconds(milliseconds);
+    return Math.floor(seconds / DateTimeTool.secondsOfOneMinute);
+  }
+
+  /**
+   * 毫秒数转小时数
+   * 不足1小时直接舍弃
+   * @param milliseconds 毫秒数
+   */
+  static getHoursFromMilliseconds(milliseconds: number) {
+    const minutes = DateTimeTool.getMinutesFromMilliseconds(milliseconds);
+    return Math.floor(minutes / DateTimeTool.minutesOfOneHour);
+  }
+
+  /**
+   * 毫秒数转天数
+   * 不足一天直接舍弃
+   * @param milliseconds 毫秒数
+   */
+  static getDayCountFromMilliseconds(milliseconds: number) {
+    const hours = DateTimeTool.getHoursFromMilliseconds(milliseconds);
+    return Math.floor(hours / DateTimeTool.hoursOfOneDay);
+  }
+
+  /**
+   * 毫秒数格式化
+   * @param milliseconds 毫秒数
+   * @returns hh:mm:ss
+   */
+  static millisecondsFormat(milliseconds: number) {
+    return DateTimeTool.secondsFormat(
+      Math.floor(milliseconds / DateTimeTool.millisecondsOfOneSecond)
+    );
+  }
+
+  /**
+   * 秒数格式化
+   *
+   * @param seconds 秒数 seconds >= 0
+   * @returns hh:mm:ss
+   */
+  static secondsFormat(seconds: number) {
+    seconds = Math.floor(seconds);
+    if (seconds < 0) {
+      seconds = 0;
+    }
+    const second = seconds % DateTimeTool.secondsOfOneMinute;
+    seconds -= second;
+    const minute = seconds % DateTimeTool.minutesOfOneHour;
+    const hour = seconds / DateTimeTool.hoursOfOneDay;
+    return [hour, minute, second].map((value) => addZero(value)).join(':');
   }
 }
 

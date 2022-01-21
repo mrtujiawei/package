@@ -1,7 +1,7 @@
 import http from 'http';
 import https from 'https';
 import logger from '../logger';
-import { retry, } from '@mrtujiawei/utils';
+import { retry } from '@mrtujiawei/utils';
 
 /**
  * http,https 适配
@@ -61,17 +61,24 @@ const request = (url: string): Promise<any[]> => {
       reject(new Error('timeout'));
     }, timeout);
 
-    const req = requestSender.request(url, (res) => {
+    const req = requestSender.request(url, {
+      timeout,
+    }, (res) => {
       if (isRedirect(res)) {
         return resolve(redirect(res, url));
       }
 
       const data: any[] = [];
-      res.on('data', chunk => {
+      res.on('data', (chunk) => {
         data.push(chunk);
       });
 
       res.on('end', () => resolve(data));
+    });
+
+    req.on('timeout', () => {
+      reject(new Error('timeout'));
+      req.destroy();
     });
 
     req.on('error', (error: Error) => {
@@ -87,7 +94,7 @@ export default async (url: string) => {
     const data: any[] = await retry(request)(url);
     return data;
   } catch (error) {
-    logger.error('请求失败:', error);
+    logger.error('请求失败:' + error);
     throw error;
   }
 };

@@ -1,6 +1,14 @@
+import http from 'http';
+import https from 'https';
 import { Logger } from '@mrtujiawei/utils';
 
-export const logger = Logger.getLogger();
+export const logger = Logger.getLogger('@mrtujiawei/bin');
+
+logger.setLevel(Logger.LOG_LEVEL.ALL);
+
+logger.subscribe((content) => {
+  console.log(content.getFormattedMessage());
+});
 
 class InvalidAgrumentsError extends Error {
   constructor(message = 'Invalid Arguments') {
@@ -9,40 +17,12 @@ class InvalidAgrumentsError extends Error {
 }
 
 /**
- * 格式化参数
- */
-export const formatArgvs = () => {
-  type Options = {
-    m3u8: string;
-    [key: string]: string;
-  };
-
-  const argvs = process.argv.slice(2);
-  const defaultKey = 'm3u8';
-  let result: Options = {
-    m3u8: '',
-  };
-
-  let key = '';
-  argvs.forEach(argv => {
-    if (argv.startsWith('-')) {
-      key = argv.slice(1);
-    } else {
-      result[key || defaultKey] = argv;
-      key = '';
-    }
-  });
-
-  return result;
-};
-
-/**
- * @param - url http或https开头的url
+ * @param url - http或https开头的url
  * @returns - 返回http或https开头的域名地址
  */
 export const getDomain = (url: string): string => {
   checkUrl(url);
-  const match = url.match(/^http[s]\:\/\/[^/]+/) || [];
+  const match = url.match(/^http[s]?\:\/\/[^/]+/) || [];
   return match[0] || '';
 };
 
@@ -66,7 +46,7 @@ export const isCompleteUrl = (url: string): boolean => {
     return false;
   }
   return url.startsWith('http');
-}
+};
 
 /**
  * 判断是否是完整的url, http开头
@@ -77,3 +57,33 @@ const checkUrl = (url: string): void => {
     throw new InvalidAgrumentsError();
   }
 };
+
+export async function sendRequest(
+  options: https.RequestOptions,
+  body?: Record<string, unknown>,
+  secure?: boolean
+) {
+  let sender = secure ? https : http;
+  return new Promise((resolve, reject) => {
+    const client = sender
+      .request(options, (res) => {
+        let data: any[] = [];
+        res.on('data', (chunk) => {
+          data.push(chunk.toString());
+        });
+        res.on('end', () => {
+          resolve(data.join(''));
+        });
+      })
+      .end(JSON.stringify(body))
+      .on('timeout', () => {
+        logger.info('请求超时');
+        reject(new Error('请求超时'));
+        client.destroy();
+      })
+      .on('error', (err) => {
+        console.log({ err });
+        reject(err);
+      });
+  });
+}

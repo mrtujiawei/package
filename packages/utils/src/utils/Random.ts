@@ -6,7 +6,7 @@
  * @since 1.2.4
  */
 
-import { addZero } from './utils';
+import { addZero } from './StringUtils';
 
 class Random {
   /**
@@ -36,6 +36,17 @@ class Random {
     const diff = Math.random() * (max - min);
 
     return min + Math.floor(diff);
+  };
+
+  /**
+   * 生成范围内的随机数: [min, max)
+   */
+  static getRandomFloat = (min: number, max: number): number => {
+    Random.checkRange(min, max);
+
+    const diff = Math.random() * (max - min);
+
+    return min + diff;
   };
 
   /**

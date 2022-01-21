@@ -1,1 +1,20 @@
+# 依赖
 node_modules
+
+# yarn相关文件
+yarn.lock
+yarn-error.log
+.yarn
+.yarnrc
+
+# 所有的打包目录
+dist/
+scripts/compilers/css/src
+scripts/compilers/css/dist
+packages/*/dist
+
+# 所有package 内部的node_modules
+packages/*/node_modules
+
+# 测试覆盖率报告
+packages/*/coverage

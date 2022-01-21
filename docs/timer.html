@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Timer</title>
+    <link
+      rel="shortcut icon"
+      href="https://avatars.githubusercontent.com/u/46219528"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .timer {
+        margin: auto;
+        padding-top: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        flex-wrap: wrap;
+      }
+
+      .time {
+        min-width: 250px;
+        display: inline-block;
+        padding: 5px;
+        text-align: center;
+        line-height: 1;
+        font-size: 28px;
+        color: red;
+        background: black;
+        flex: 0 0;
+      }
+
+      .btn {
+        box-sizing: border-box;
+        padding: 5px;
+        font-size: 28px;
+        line-height: 1;
+        flex: 0 0;
+      }
+
+      .split-list {
+        width: 100%;
+        text-align: center;
+      }
+    </style>
+    <script src="https://unpkg.com/@mrtujiawei/utils"></script>
+    <script src="https://unpkg.com/@mrtujiawei/web-utils"></script>
+  </head>
+  <body>
+    <div class="timer">
+      <div class="time">00:00:00.000</div>
+      <div class="btns">
+        <button class="btn btn-start">开始</button>
+        <button class="btn btn-split">分割</button>
+        <button class="btn btn-clear">清除</button>
+      </div>
+      <ul class="split-list"></ul>
+    </div>
+    <script>
+      let running = false;
+      let updateCount = 0;
+
+      let time = 0;
+      let lastTime = 0;
+
+      const view = document.querySelector('.time');
+      const startBtn = document.querySelector('.btn-start');
+      const splitList = document.querySelector('.split-list');
+
+      const start = () => {
+        if (!running) {
+          return;
+        }
+        const current = new Date().getTime();
+        time += current - lastTime;
+        lastTime = current;
+        TWebUtils.requestAnimFrame.call(window, start);
+        if (updateCount++ % 2 == 0) {
+          update();
+        }
+      };
+
+      const getTime = (value) => {
+        const ms = value % 1000;
+        value = Math.floor(value / 1000);
+        const s = value % 60;
+        value = Math.floor(value / 60);
+        const m = value % 60;
+        const h = Math.floor(value / 60);
+        const content =
+          [h, m, s].map((value) => TUtils.addZero(value)).join(':') +
+          `.${TUtils.addZero(ms, 3)}`;
+        return content;
+      };
+
+      const update = () => {
+        view.innerText = getTime(time);
+      };
+
+      document.querySelector('.btn-start').addEventListener('click', () => {
+        running = !running;
+        updateCount = 0;
+        lastTime = new Date().getTime();
+        if (running) {
+          TWebUtils.requestAnimFrame.call(window, start);
+          startBtn.innerText = '暂停';
+        } else {
+          update();
+          startBtn.innerText = '开始';
+        }
+      });
+
+      document.querySelector('.btn-split').addEventListener('click', () => {
+        const item = document.createElement('li');
+        if (running) {
+          item.innerHTML = getTime(new Date().getTime() - lastTime + time);
+        } else {
+          item.innerHTML = getTime(time);
+        }
+        splitList.appendChild(item);
+      });
+
+      document.querySelector('.btn-clear').addEventListener('click', () => {
+        time = 0;
+        lastTime = 0;
+        update();
+        running = false;
+        startBtn.innerText = '开始';
+        splitList.innerHTML = '';
+      });
+    </script>
+  </body>
+</html>

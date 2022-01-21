@@ -1,5 +1,3 @@
-#!/bin/env node
-
 /**
  * 自动提交一个文件夹下的所有项目代码
  * @filename: push-all.js
@@ -28,7 +26,7 @@ const push = async (cwd: string) => {
     await exec('git push', options);
     logger.info(`${cwd} 提交成功`);
   } catch (e) {
-    logger.error('提交终止', e);
+    logger.error('提交终止' + e);
   }
 };
 
@@ -45,4 +43,4 @@ const pushAll = async () => {
   }
 };
 
-pushAll();
+export default pushAll;

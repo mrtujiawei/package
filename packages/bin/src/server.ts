@@ -1,33 +1,26 @@
 #!/bin/env node
 
-import Koa from 'koa';
-import Static from 'koa-static';
-import Router from 'koa-router';
-import bodyParser from 'koa-bodyparser';
-import { getIps } from '@mrtujiawei/node-utils';
-import { logger } from './utils';
+import { Command } from 'commander';
+import path from 'path';
+import server from './impl/server';
 
-let port = 3000;
+const program = new Command('server');
 
-if (process.argv[2] == '-p' && process.argv.length == 4) {
-  if (Number.isInteger(Number(process.argv[3]))) {
-    port = Number(process.argv[3]);
-  }
-}
-
-const server = new Koa();
-const router = new Router();
-
-server
-  .use(bodyParser())
-  .use(Static(process.cwd()))
-  .use(router.routes())
-  .use(router.allowedMethods());
-
-server.listen(port, () => {
-  const ips = getIps();
-  logger.info('Server is running at:');
-  ips.forEach((ip) => {
-    logger.info(`\thttp://${ip}:${port}`);
-  });
-});
+program
+  .description('静态文件服务，支持https，请求代理')
+  .option('-s, --https', '开启https', false)
+  .option('-p, --port <port>', '监听端口号', '3000')
+  .option('-d, --dir <directory...>', '项目根目录', [process.cwd()])
+  .option('-t, --target <url>', '代理目录地址')
+  .option('--prefix <prefix>', '需要代理的路径前缀', '/api')
+  .option('--rewrite', '是否移除前缀', false)
+  .action((options) => {
+    options.port = Number(options.port);
+    for (let i = 0; i < options.dir.length; i++) {
+      if (!path.isAbsolute(options.dir[i])) {
+        options.dir[i] = path.resolve(process.cwd(), options.dir[i]);
+      }
+    }
+    server(options);
+  })
+  .parse(process.argv);

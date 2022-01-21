@@ -4,7 +4,7 @@
  * @author: Mr Prince
  * @date: 2021-07-13 16:57:28
  */
-import Heap from './Heap';
+import Heap from '../data-structure/Heap';
 
 class PriorityQueue<T> {
   private queue: Heap<T>;

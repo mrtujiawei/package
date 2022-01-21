@@ -1,12 +1,4 @@
-#!/bin/env node
-
-import {
-  logger,
-  isComment,
-  getDomain,
-  formatArgvs,
-  isCompleteUrl,
-} from './utils';
+import { logger, isComment, getDomain, isCompleteUrl } from './utils';
 import {
   mkdir,
   rmdir,
@@ -41,7 +33,7 @@ const getDownloader = (domain: string, relativePrefix: string, dir: string) => {
     } catch (e) {
       logger.error(`下载失败: ${fileName}`);
       logger.error(`失败地址: ${url}`);
-      logger.error(e);
+      logger.error('' + e);
     } finally {
       lock.unlock();
     }
@@ -51,11 +43,7 @@ const getDownloader = (domain: string, relativePrefix: string, dir: string) => {
 /**
  * 额外的参数只支持 -dir 指定下载目录
  */
-const download = async () => {
-  const params = formatArgvs();
-  logger.info('调用参数', params);
-
-  const m3u8 = params.m3u8;
+const download = async (m3u8: string, params: { dir?: string }) => {
   const domain = getDomain(m3u8);
   const relativePrefix = m3u8.replace(/[^/]*$/, '');
 
@@ -70,9 +58,9 @@ const download = async () => {
     params.dir || m3u8.split(/[/.]/).slice(-2, -1)[0]
   );
   await rmdir(dir);
-  logger.trace('删除目录', dir, '成功');
+  logger.trace('删除目录 ' + dir + ' 成功');
   await mkdir(dir);
-  logger.trace('创建目录', dir, '成功');
+  logger.trace('创建目录 ' + dir + ' 成功');
 
   const filePlayList = playList.map((line) => {
     const url = line;
@@ -91,4 +79,4 @@ const download = async () => {
   });
 };
 
-download();
+export default download;

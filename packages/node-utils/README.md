@@ -73,3 +73,30 @@ import { request } from '@mrtujiawei/node-utils';
 
 request(url);
 ```
+
+### png 压缩(有损)
+
+没有放到代码里
+`imagemin` `imagemin-pngquant` 这两个包下载编译比较慢
+
+```javascript
+import imagemin from 'imagemin';
+import imageminPngquant from 'imagemin-pngquant';
+
+/**
+ * @param {string} filePath 文件路径
+ * @param {string} outputDir 输出目录
+ * @param {[number, number]} quality 压缩质量 [0, 1] 之间的两个数
+ */
+async function compress(filePath, outputDir, quality) {
+  const files = await imagemin([filePath], {
+    destination: outputDir,
+    plugins: [
+      imageminPngquant({
+        speed: 1,
+        quality: [0.93, 0.93],
+      }),
+    ],
+  });
+}
+```

@@ -4,10 +4,9 @@
  * @author: Mr Prince
  * @date: 2020-09-02 20:06:39
  */
-import Queue from './Queue';
+import Queue from '../data-structure/Queue/Queue';
 
 class Lock {
-
   /**
    * size大小不合理
    */
@@ -77,6 +76,7 @@ class Lock {
 
   /**
    * 释放锁
+   * @throws Lock.InvalidSizeError 没有锁时释放锁
    */
   unlock(): void {
     if(this.size <= 0) {

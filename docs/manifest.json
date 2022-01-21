@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "name": "Service Worker Test",
+  "short_name": "SWT",
+  "description": "这是我的网站描述",
+  "start_url": "/package/sw",
+  "display": "fullscreen",
+  "background_color": "#008c8c",
+  "icons": [
+    {
+      "src": "./icons/icon.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    }
+  ]
+}

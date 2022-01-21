@@ -1,4 +1,5 @@
 import fs from 'fs';
+import fsPromise from 'fs/promises';
 import path from 'path';
 
 /**
@@ -117,9 +118,9 @@ export const rmdir = (dir: string): Promise<void> => {
 /**
  * 复制文件
  */
-export const copyFile = (from: string, to: string): Promise<void> => {
+export const copyFile = (src: string, dest: string): Promise<void> => {
   return new Promise((resolve, reject) => {
-    fs.copyFile(from, to, fs.constants.COPYFILE_EXCL, (err) => {
+    fs.copyFile(src, dest, fs.constants.COPYFILE_EXCL, (err) => {
       err ? reject(err) : resolve(void 0);
     });
   });
@@ -170,4 +171,20 @@ export const getDirs = (dir: string): Promise<string[]> => {
       resolve(dirs);
     });
   });
+};
+
+/**
+ * 读文件
+ */
+export const readFile = (path: string) => {
+  return fsPromise.readFile(path, {
+    encoding: 'utf8',
+  });
+};
+
+/**
+ * 读取目录下的所有文件(包括目录)
+ */
+export const getFiles = (path: string) => {
+  return fsPromise.readdir(path);
 };
