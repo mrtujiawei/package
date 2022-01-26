@@ -626,10 +626,25 @@ export const memorize = <T extends Function>(
   return memorized;
 };
 
-/**
- *
- */
-export const test4 = () => {};
+export const currying = <T extends Function>(fn: T) => {
+  const length = fn.length;
+  let received: any[] = [];
+
+  // @ts-ignore
+  const receiver: T = (...args: any[]) => {
+    if (0 == args.length || 0 == length) {
+      return fn(...args);
+    } else {
+      received.push(...args);
+    }
+
+    if (received.length >= length) {
+      return fn(...received);
+    }
+  };
+
+  return receiver;
+};
 
 /**
  *
