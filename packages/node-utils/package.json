@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Mr-Promise/node-utils.git"
+    "url": "git+https://github.com/mrtujiawei/package.git"
   },
   "keywords": [
     "util",
@@ -30,9 +30,9 @@
   "author": "屠佳伟",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Mr-Promise/node-utils/issues"
+    "url": "https://github.com/mrtujiawei/package/issues"
   },
-  "homepage": "https://github.com/Mr-Promise/node-utils#readme",
+  "homepage": "https://github.com/mrtujiawei/package/#readme",
   "devDependencies": {
     "@mrtujiawei/utils": "^1.7.0",
     "@types/jest": "^26.0.23",
