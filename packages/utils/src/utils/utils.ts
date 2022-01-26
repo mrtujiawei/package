@@ -564,24 +564,67 @@ export const objectToString = (
 };
 
 /**
- *
+ * 函数式编程的开始，HOF
  */
-export const test0 = () => {};
+export const not = <T extends Function>(fn: T) => {
+  // @ts-ignore
+  let negated: T = (...args: any[]) => {
+    return !fn(...args);
+  };
+  return negated;
+};
 
 /**
- *
+ * 延迟求值
  */
-export const test1 = () => {};
+export const lazy = <T extends Function>(fn: T) => {
+  let result: any;
+  let initFlag = false;
+  return () => {
+    if (initFlag) {
+      return result;
+    }
+    result = fn();
+    initFlag = true;
+    return result;
+  };
+};
 
 /**
- *
+ * 预先求值
  */
-export const test2 = () => {};
+export const eager = <T extends Function>(fn: T) => {
+  const result = fn();
+  return () => {
+    return result;
+  };
+};
 
 /**
- *
+ * 缓存执行结果
+ * @param fn 需要缓存结果的函数
+ * @param resolver 计算出缓存 key 的函数
  */
-export const test3 = () => {};
+export const memorize = <T extends Function>(
+  fn: T,
+  resolver: (...args: any[]) => string
+) => {
+  const cache = new Map<any, any>();
+
+  // @ts-ignore
+  const memorized: T = (...args: any[]) => {
+    const key: string = resolver(...args);
+    if (cache.has(key)) {
+      return cache.get(key);
+    }
+
+    const res = fn(...args);
+    cache.set(key, res);
+    return res;
+  };
+
+  return memorized;
+};
 
 /**
  *

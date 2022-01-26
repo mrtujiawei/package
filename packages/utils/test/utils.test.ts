@@ -11,6 +11,7 @@ import {
   numFormat,
   objectToUrlParams,
   urlParamsToObject,
+  memorize,
 } from "../src/index";
 
 test("Debounce should trigger one time", () => {
@@ -334,4 +335,19 @@ test('Object to url params test "="', () => {
   expect(
     urlParamsToObject(objectToUrlParams(object))[key]
   ).toBe(object[key]);
+});
+
+test('Memorized test', () => {
+  let count = 0;
+  const fn = memorize((value: string) => {
+    count++;
+    expect(count).toBe(1);
+    return `#${value}#`;
+  }, (value: string) => value);
+
+  const result1 = fn('tujiawei');
+  expect(result1).toBe('#tujiawei#');
+
+  const result2 = fn('tujiawei');
+  expect(result2).toBe('#tujiawei#');
 });
