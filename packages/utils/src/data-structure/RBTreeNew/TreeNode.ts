@@ -4,27 +4,19 @@
  * @author: Mr Prince
  * @date: 2022-01-24 14:58:50
  */
-
-export enum NODE_COLORS {
-  BLACK = 0,
-  RED = 1,
-}
+import { NODE_COLORS } from './enums';
 
 class TreeNode<K, V> {
-  static readonly NODE_COLORS = NODE_COLORS;
-
-  left!: TreeNode<K, V>;
-  right!: TreeNode<K, V>;
-  parent!: TreeNode<K, V>;
-  color: NODE_COLORS = NODE_COLORS.RED;
-
   key!: K;
   value!: V;
 
-  constructor(key: K, value: V) {
-    this.key = key;
-    this.value = value;
-  }
+  /**
+   * 默认红色，介绍对规则的破坏
+   */
+  color = NODE_COLORS.RED;
+  left!: TreeNode<K, V>;
+  right!: TreeNode<K, V>;
+  parent!: TreeNode<K, V>;
 
   /**
    * 祖父节点

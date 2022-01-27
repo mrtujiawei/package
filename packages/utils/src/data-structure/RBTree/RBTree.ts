@@ -6,8 +6,8 @@
  */
 import TreeNode, { NODE_COLORS } from './TreeNode';
 import { KeyOnlyPolicy, ValueOnlyPolicy } from './policy';
-import { Iterator, ReverseIterator, } from './iterators/index';
-import { JsIterator, JsReverseIterator, } from './js-iterators/index';
+import { Iterator, ReverseIterator } from './iterators/index';
+import { JsIterator, JsReverseIterator } from './js-iterators/index';
 import InsertionResult from './InsertResult';
 
 /**
@@ -30,36 +30,37 @@ enum INSERT_MODE {
   REPLACE,
 }
 
-/**
- * 性能优化用的特殊节点
- */
-class Head {
+class RBTree<K, V> {
   /**
    * 最左边的节点
    */
-  leftmost = this;
+  leftmost: TreeNode<K, V> | null = null;
 
   /**
    * 最右边的节点
    */
-  rightmost = this;
+  rightmost: TreeNode<K, V> | null = null;
 
   /**
    * 根节点
    */
-  root = this;
+  root: TreeNode<K, V> | null = null;
 
   /**
    * 节点数
    */
   size = 0;
-}
 
-class RBTree {
-  head = new Head();
+  /**
+   * 兼容处理
+   */
   valuePolicy = new KeyOnlyPolicy();
 
-  compare(a: any, b: any) {
+  /**
+   * 比较函数
+   * 外面可以直接改
+   */
+  compare(a: K, b: K) {
     if (a < b) {
       return -1;
     } else if (a == b) {
@@ -68,25 +69,27 @@ class RBTree {
     return 1;
   }
 
+  /**
+   * 清空节点
+   */
   clear() {
-    this.head = new Head();
+    this.leftmost = null;
+    this.rightmost = null;
+    this.root = null;
+    this.size = 0;
   }
 
   /**
-   * 节点数
+   * 节点比较
    */
-  get size() {
-    return this.head.size;
-  }
-
-  compareNodes(node1: TreeNode, node2: TreeNode) {
+  compareNodes(node1: TreeNode<K, V>, node2: TreeNode<K, V>) {
     return this.compare(node1.key, node2.key);
   }
 
   /**
    * 旋转节点时会用到
    */
-  private replaceNode(oldNode: TreeNode, newNode: TreeNode) {
+  private replaceNode(oldNode: TreeNode<K, V>, newNode: TreeNode<K, V>) {
     if (oldNode === newNode) {
       return;
     }
@@ -110,8 +113,8 @@ class RBTree {
    *  / \     <--  left rotate     / \
    * a   b                       b   c
    */
-  rotateLeft(node: TreeNode) {
-    const right = node.right as TreeNode;
+  rotateLeft(node: TreeNode<K, V>) {
+    const right = node.right as TreeNode<K, V>;
     if (this.isLeaf(right)) {
       throw new Error('节点错乱，无法左旋');
     }
@@ -130,8 +133,8 @@ class RBTree {
   /**
    * 右旋
    */
-  rotateRight(node: TreeNode) {
-    const left = node.left as TreeNode;
+  rotateRight(node: TreeNode<K, V>) {
+    const left = node.left as TreeNode<K, V>;
     if (this.isLeaf(left)) {
       throw new Error('节点错乱，无法右旋');
     }
@@ -146,7 +149,7 @@ class RBTree {
     node.parent = left;
   }
 
-  private getColor(node: TreeNode | null) {
+  private getColor(node: TreeNode<K, V> | null) {
     if (this.isLeaf(node)) {
       return NODE_COLORS.BLACK;
     } else {
@@ -154,19 +157,19 @@ class RBTree {
     }
   }
 
-  isBlack(node: TreeNode | null) {
+  isBlack(node: TreeNode<K, V> | null) {
     return this.getColor(node) === NODE_COLORS.BLACK;
   }
 
-  isRed(node: TreeNode | null) {
+  isRed(node: TreeNode<K, V> | null) {
     return this.getColor(node) == NODE_COLORS.RED;
   }
 
   /**
    * null 或者 头结点 为 true
    */
-  private isLeaf(node: TreeNode | Head | null) {
-    if (null == node || node === this.head) {
+  private isLeaf(node: TreeNode<K, V> | null) {
+    if (null == node || node === this.root) {
       return true;
     }
     return false;
@@ -176,14 +179,14 @@ class RBTree {
    * @returns iterator pointing to the node with the lowest key
    */
   begin() {
-    return new Iterator(this.head.leftmost, this);
+    return new Iterator(this.leftmost, this);
   }
 
   /**
    * @returns iterator pointing to the node following the node with the highest key
    */
   end() {
-    return new Iterator(this.head, this);
+    return new Iterator(this.root, this);
   }
 
   /**
@@ -197,14 +200,14 @@ class RBTree {
    * @returns iterator pointing to the node with the highest key
    */
   rbegin() {
-    return new ReverseIterator(this.head.rightmost, this);
+    return new ReverseIterator(this.rightmost, this);
   }
 
   /**
    * @returns iterator pointing to the node preceding the node with the lowest key
    */
   rend() {
-    return new ReverseIterator(this.head, this);
+    return new ReverseIterator(this.root, this);
   }
 
   /**
@@ -215,7 +218,7 @@ class RBTree {
       return undefined;
     } else {
       const it = this.begin();
-      return this.valuePolicy.fetch(it.node as TreeNode);
+      return this.valuePolicy.fetch(it.node);
     }
   }
 
@@ -226,14 +229,14 @@ class RBTree {
       return undefined;
     } else {
       let it = this.rbegin();
-      return this.valuePolicy.fetch(it.node as TreeNode);
+      return this.valuePolicy.fetch(it.node);
     }
   }
 
   toString() {
     const parts: string[] = [];
     for (let it = this.begin(); !it.equals(this.end()); it.next()) {
-      parts.push(this.valuePolicy.toString(it.node as TreeNode));
+      parts.push(this.valuePolicy.toString(it.node));
     }
     return '{' + parts.join(',') + '}';
   }
@@ -246,7 +249,7 @@ class RBTree {
    * @param node
    * @returns 节点是否添加成功及迭代器
    */
-  insertMulti(node: TreeNode) {
+  insertMulti(node: TreeNode<K, V>) {
     return this.insertNode(node, INSERT_MODE.MULTI);
   }
 
@@ -255,7 +258,7 @@ class RBTree {
    * @param node
    * @returns
    */
-  insertUnique(node: TreeNode) {
+  insertUnique(node: TreeNode<K, V>) {
     return this.insertNode(node, INSERT_MODE.IGNORE);
   }
 
@@ -264,7 +267,7 @@ class RBTree {
    * @param node
    * @returns
    */
-  insertOrReplace(node: TreeNode) {
+  insertOrReplace(node: TreeNode<K, V>) {
     return this.insertNode(node, INSERT_MODE.REPLACE);
   }
 
@@ -272,35 +275,26 @@ class RBTree {
    * 插入节点，更新头结点 平衡红黑树
    * @returns
    */
-  insertNode(n: TreeNode | Head, mode = INSERT_MODE.MULTI) {
+  insertNode(n: TreeNode<K, V>, mode = INSERT_MODE.MULTI) {
     // @ts-ignore
     const res = this.insertNodeInternal(this.head.root, n, mode);
     if (res.wasAdded) {
-      if (this.head.size === 0) {
-        this.head.root = n as Head;
-        this.head.leftmost = n as Head;
-        this.head.rightmost = n as Head;
+      if (this.size === 0) {
+        this.root = n;
+        this.leftmost = n;
+        this.rightmost = n;
 
-        // @ts-ignore
-        n.left = this.head;
-        // @ts-ignore
-        n.right = this.head;
-        // @ts-ignore
-      } else if (this.head.leftmost.left === n) {
-        // @ts-ignore
-        this.head.leftmost = n;
-        // @ts-ignore
-        n.left = this.head;
-        // @ts-ignore
-      } else if (this.head.rightmost.right === n) {
-        // @ts-ignore
-        this.head.rightmost = n;
-        // @ts-ignore
-        n.right = this.head;
+        n.left = this.root;
+        n.right = this.root;
+      } else if (this.leftmost && this.leftmost.left === n) {
+        this.leftmost = n;
+        n.left = this.root as TreeNode<K, V>;
+      } else if (this.rightmost && this.rightmost.right === n) {
+        this.rightmost = n;
+        n.right = this.root as TreeNode<K, V>;
       }
-      // @ts-ignore
       this.insertRepairTree(n);
-      this.head.size = this.head.size + 1;
+      this.size++;
     }
     return res;
   }
@@ -312,19 +306,21 @@ class RBTree {
    * @param mode 插入模式
    * @returns
    */
-  private insertNodeInternal(root: Head | TreeNode, n: TreeNode, mode: INSERT_MODE) {
+  private insertNodeInternal(
+    root: TreeNode<K, V>,
+    n: TreeNode<K, V>,
+    mode: INSERT_MODE
+  ) {
     let x = root;
     let y = null;
     let rc = -1;
     // find matching node
     while (!this.isLeaf(x)) {
       y = x;
-      rc = this.compareNodes(n, y as TreeNode);
+      rc = this.compareNodes(n, y);
       if (rc < 0) {
-        // @ts-ignore
         x = y.left;
       } else if (rc > 0) {
-        // @ts-ignore
         x = y.right;
       } else {
         // node with the same key value
@@ -343,7 +339,8 @@ class RBTree {
       }
     }
 
-    if (this.isLeaf(y as TreeNode)) {
+    if (this.isLeaf(y as TreeNode<K, V>)) {
+      // @ts-ignore
       n.parent = null;
       // @ts-ignore
       n.left = this.head;
@@ -353,10 +350,10 @@ class RBTree {
       // @ts-ignore
       n.parent = y;
       if (rc < 0) {
-      // @ts-ignore
+        // @ts-ignore
         y.left = n;
       } else {
-      // @ts-ignore
+        // @ts-ignore
         y.right = n;
       }
     }
@@ -366,12 +363,13 @@ class RBTree {
   /**
    * 插入修复
    */
-  insertRepairTree(node: TreeNode) {
+  insertRepairTree(node: TreeNode<K, V>) {
     if (null == node.parent) {
       this.repairCase1(node);
     } else if (this.isBlack(node.parent)) {
       /* insert_case2(n);
       // do nothing */
+      // @ts-ignore
     } else if (this.isRed(node.getUncleNode() as TreeNode)) {
       this.repairCase3(node);
     } else {
@@ -382,7 +380,7 @@ class RBTree {
   /**
    * 修复情况1，直接改颜色
    */
-  repairCase1(node: TreeNode) {
+  repairCase1(node: TreeNode<K, V>) {
     node.color = NODE_COLORS.BLACK;
   }
 
@@ -390,14 +388,14 @@ class RBTree {
    * The method is decribed at: https://en.wikipedia.org/wiki/Red%E2%80%93black_tree#Insertion
    * @param n - node
    */
-  repairCase3(n: TreeNode) {
+  repairCase3(n: TreeNode<K, V>) {
     // @ts-ignore
     n.parent.color = NODE_COLORS.BLACK;
     // @ts-ignore
     n.getUncleNode().color = NODE_COLORS.BLACK;
     // @ts-ignore
     n.getGrandparentNode().color = NODE_COLORS.RED;
-    this.insertRepairTree(n.getGrandparentNode() as TreeNode);
+    this.insertRepairTree(n.getGrandparentNode());
   }
 
   /**
@@ -465,32 +463,35 @@ class RBTree {
     h.size = h.size - 1;
   }
 
-  eraseInternal(node: TreeNode) {
-    if (!this.isLeaf(node.left as TreeNode) && !this.isLeaf(node.right as TreeNode)) {
-      let pred = this.fetchMaximum(node.left as TreeNode);
+  eraseInternal(node: TreeNode<K, V>) {
+    if (
+      !this.isLeaf(node.left) &&
+      !this.isLeaf(node.right)
+    ) {
+      let pred = this.fetchMaximum(node.left);
 
       this.valuePolicy.copy(node, pred);
       node = pred;
     }
 
-    let child = this.isLeaf(node.right as TreeNode) ? node.left : node.right;
+    let child = this.isLeaf(node.right) ? node.left : node.right;
 
     if (this.isBlack(node)) {
       this.eraseCase1(node);
     }
-    this.replaceNode(node, child as TreeNode);
-    if (this.head.size === 2) {
-      if (!this.isLeaf(child as TreeNode)) {
+    this.replaceNode(node, child);
+    if (this.size === 2) {
+      if (!this.isLeaf(child)) {
         // Root node must be BLACK
-        (child as TreeNode).color = TreeNode.NODE_COLORS.BLACK;
+        child.color = TreeNode.NODE_COLORS.BLACK;
       }
     }
 
-    let h = this.head;
-    if (this.isLeaf(child as TreeNode)) {
+    let h = this;
+    if (this.isLeaf(child)) {
       // 没有子节点，已被删除，需要跟新最左最右的节点
       // @ts-ignore
-      if (h.leftmost as TreeNode === node) {
+      if ((h.leftmost as TreeNode) === node) {
         let p = node.parent;
         if (p !== null) {
           // @ts-ignore
@@ -498,17 +499,21 @@ class RBTree {
           // @ts-ignore
           p.left = h;
         } else {
-          h.leftmost = h;
+          // @ts-ignore
+          this.leftmost = h;
         }
       }
       // @ts-ignore
       if (h.rightmost === node) {
-      // @ts-ignore
+        // @ts-ignore
         let p = node.parent;
         if (p !== null) {
+          // @ts-ignore
           h.rightmost = p;
+          // @ts-ignore
           p.right = h;
         } else {
+          // @ts-ignore
           h.rightmost = h;
         }
       }
@@ -516,16 +521,16 @@ class RBTree {
       // 只有一个节点，需要该节点替换被删除的节点
       // @ts-ignore
       if (h.leftmost === node) {
-      // @ts-ignore
+        // @ts-ignore
         h.leftmost = child;
-      // @ts-ignore
+        // @ts-ignore
         child.left = h;
       }
       // @ts-ignore
       if (h.rightmost === node) {
-      // @ts-ignore
+        // @ts-ignore
         h.rightmost = child;
-      // @ts-ignore
+        // @ts-ignore
         child.right = h;
       }
     }
@@ -557,10 +562,10 @@ class RBTree {
 
       // @ts-ignore
       if (node === node.parent.left) {
-      // @ts-ignore
+        // @ts-ignore
         this.rotateLeft(node.parent);
       } else {
-      // @ts-ignore
+        // @ts-ignore
         this.rotateRight(node.parent);
       }
     }
@@ -622,7 +627,11 @@ class RBTree {
 
     /* the following statements just force the red to be on the left of the left of the parent,
            or right of the right, so case six will rotate correctly. */
-    if (node === p.left && this.isRed(s.left as TreeNode) && this.isBlack(s.right as TreeNode)) {
+    if (
+      node === p.left &&
+      this.isRed(s.left as TreeNode) &&
+      this.isBlack(s.right as TreeNode)
+    ) {
       s.color = NODE_COLORS.RED;
       (s.left as TreeNode).color = NODE_COLORS.BLACK;
       this.rotateRight(s);

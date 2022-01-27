@@ -626,6 +626,11 @@ export const memorize = <T extends Function>(
   return memorized;
 };
 
+/**
+ * 类型是可以实现的
+ * 使用多个泛型 n个参数的泛型，一个返回值的泛型
+ * 但是实现非常繁琐，没必要
+ */
 export const currying = <T extends Function>(fn: T) => {
   const length = fn.length;
   let received: any[] = [];
@@ -641,6 +646,8 @@ export const currying = <T extends Function>(fn: T) => {
     if (received.length >= length) {
       return fn(...received);
     }
+
+    return receiver;
   };
 
   return receiver;
