@@ -20,7 +20,6 @@ export class TYPES {
 
 /**
  * @description 延迟一段时间(秒)
- *
  */
 export async function sleep(timeout: number = 0): Promise<void> {
   return new Promise((resolve) => {

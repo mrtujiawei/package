@@ -7,7 +7,6 @@
 import Queue from './Queue';
 
 class Lock {
-
   /**
    * size大小不合理
    */
