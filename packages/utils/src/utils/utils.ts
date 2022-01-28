@@ -19,7 +19,8 @@ export class TYPES {
 }
 
 /**
- * 延迟一段时间(秒)
+ * @description 延迟一段时间(秒)
+ *
  */
 export async function sleep(timeout: number = 0): Promise<void> {
   return new Promise((resolve) => {
@@ -656,7 +657,9 @@ export const currying = <T extends Function>(fn: T) => {
 /**
  *
  */
-export const test5 = () => {};
+export const test5 = (...args: any[]) => {
+  return args;
+};
 
 /**
  *
