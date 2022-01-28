@@ -1,11 +1,9 @@
 module.exports = {
-  roots: [
-    '<rootDir>/test'
-  ],
+  roots: ['<rootDir>/test'],
   testRegex: 'test/(.+)\\.test\\.(jsx?|tsx?)$',
   testPathIgnorePatterns: ['test/sorts/*', 'test/algorithm/*'],
   transform: {
-    '^.+\\.tsx?$': 'ts-jest'
+    '^.+\\.tsx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 };

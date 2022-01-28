@@ -9,6 +9,7 @@
     "types"
   ],
   "scripts": {
+    "script-test": "echo 'node-utils scripts run'",
     "build": "tsc",
     "push": "git add . && git commit && git push",
     "test": "jest",

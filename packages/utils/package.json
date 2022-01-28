@@ -14,7 +14,7 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "doc": "doctoc README.md",
-    "pub": "npm run doc && npm run build && npm publish --access public && echo \"publish success\" && rm dist types ts-build -rf && npm run push"
+    "pub": "npm run doc && npm run build && npm publish --access public && rm dist types ts-build -rf && npm run push"
   },
   "repository": {
     "type": "git",
@@ -37,6 +37,7 @@
     "@babel/preset-typescript": "^7.16.0",
     "@types/jest": "^26.0.23",
     "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^4.0.0",
     "core-js": "^3.19.1",
     "doctoc": "^2.1.0",
     "jest": "^26.6.3",

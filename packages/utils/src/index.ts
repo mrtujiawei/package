@@ -12,8 +12,8 @@ import Heap from './utils/Heap';
 import BinarySearchTree from './utils/BinarySearchTree';
 import Events from './utils/Events';
 import Random from './utils/Random';
-import RBTree from './data-structure/RBTree/index';
-import TreeMap from './data-structure/TreeMap/index';
+// import RBTree from './data-structure/RBTree/index';
+// import TreeMap from './data-structure/TreeMap/index';
 
 import * as utils from './utils/utils';
 
@@ -34,8 +34,8 @@ export {
   DateTimeTool,
   BinarySearchTree,
   ResponsibilityChain,
-  RBTree,
-  TreeMap,
+  // RBTree,
+  // TreeMap,
 };
 
 export default {
@@ -54,6 +54,6 @@ export default {
   DateTimeTool,
   BinarySearchTree,
   ResponsibilityChain,
-  RBTree,
-  TreeMap,
+  // RBTree,
+  // TreeMap,
 };
