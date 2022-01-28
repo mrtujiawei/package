@@ -186,3 +186,6 @@ npm install -g vtop
 
 # 测网速
 npm i -g speed-test
+
+# vim 字体
+pip install --user powerline-status
