@@ -29,11 +29,19 @@ FILE_OWNER="tujiawei"
 
 # 最好是什么多没做的时候下载
 # 等切换完镜像再下载就会出现部分依赖安装失败
+# 安装教程: https://github.com/vim/vim/blob/master/src/INSTALL
 function VimInstall() {
   apt update
 
   # 下载依赖，如果有了再安装一遍也没问题
   apt install git make clang libtool-bin -y
+
+  # 支持gui,需要支持一下自提
+  apt install libgtk-3-dev
+
+  # 支持 python
+  apt install libpython3-dev
+
   GitDownload https://github.com/vim/vim.git --depth 1
   cd vim/src
   make
@@ -157,6 +165,9 @@ source "$VIM_CONFIG_PATH/.bashrc"
 
 # ctags
 apt-get install -y universal-ctags
+
+# tmux
+apt-get install tmux
 
 # 模糊搜索 不需要自己下，直接 vim 里 PluginInstall 就可以了
 # apt-get install fzf
