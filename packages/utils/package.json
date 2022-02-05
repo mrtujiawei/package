@@ -1,6 +1,10 @@
 {
   "name": "@mrtujiawei/utils",
   "version": "1.8.6",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "description": "把自己写的工具函数打包发布到npm上",
   "types": "types/index.d.ts",
   "main": "dist/utils.js",
@@ -17,10 +21,6 @@
     "prepub": "npm run doc && npm run build",
     "pub": "npm publish",
     "postpub": "rm dist types ts-build -rf && npm run push"
-  },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
   },
   "repository": {
     "type": "git",
