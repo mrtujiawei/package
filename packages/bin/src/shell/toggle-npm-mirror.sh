@@ -21,7 +21,6 @@ then
   exit 0
 elif [[ 'ls' == $COMMAND ]]
 then
-  ShowRegistry
   echo "npm ---------- https://registry.npmjs.org/"
   echo "cnpm --------- https://r.cnpmjs.org/"
   echo "yarn --------- https://registry.yarnpkg.com/"
