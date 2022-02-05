@@ -1,10 +1,6 @@
 {
   "name": "@mrtujiawei/utils",
-  "version": "1.8.6",
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
-  },
+  "version": "1.8.7",
   "description": "把自己写的工具函数打包发布到npm上",
   "types": "types/index.d.ts",
   "main": "dist/utils.js",
@@ -12,6 +8,10 @@
     "dist",
     "types"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "build": "tsc && webpack",
     "push": "git add . && git commit && git push",
