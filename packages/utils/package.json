@@ -1,6 +1,6 @@
 {
   "name": "@mrtujiawei/utils",
-  "version": "1.8.5",
+  "version": "1.8.6",
   "description": "把自己写的工具函数打包发布到npm上",
   "types": "types/index.d.ts",
   "main": "dist/utils.js",
@@ -14,7 +14,9 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "doc": "doctoc README.md",
-    "pub": "npm run doc && npm run build && npm publish && rm dist types ts-build -rf && npm run push"
+    "prepub": "npm run doc && npm run build",
+    "pub": "npm publish",
+    "postpub": "rm dist types ts-build -rf && npm run push"
   },
   "publishConfig": {
     "access": "public",
