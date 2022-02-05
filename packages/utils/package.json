@@ -1,6 +1,6 @@
 {
   "name": "@mrtujiawei/utils",
-  "version": "1.8.4",
+  "version": "1.8.5",
   "description": "把自己写的工具函数打包发布到npm上",
   "types": "types/index.d.ts",
   "main": "dist/utils.js",
@@ -14,7 +14,11 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "doc": "doctoc README.md",
-    "pub": "npm run doc && npm run build && npm publish --access public && rm dist types ts-build -rf && npm run push"
+    "pub": "npm run doc && npm run build && npm publish && rm dist types ts-build -rf && npm run push"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "repository": {
     "type": "git",
@@ -27,7 +31,7 @@
   "author": "屠佳伟",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mrtujiawei/utils/issues"
+    "url": "https://github.com/mrtujiawei/package/issues"
   },
   "homepage": "https://github.com/mrtujiawei/package#readme",
   "devDependencies": {
