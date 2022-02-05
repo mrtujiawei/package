@@ -1,6 +1,6 @@
 {
   "name": "@mrtujiawei/utils",
-  "version": "1.8.7",
+  "version": "1.8.8",
   "description": "把自己写的工具函数打包发布到npm上",
   "types": "types/index.d.ts",
   "main": "dist/utils.js",
@@ -13,11 +13,13 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
+    "doc": "doctoc README.md",
     "build": "tsc && webpack",
     "push": "git add . && git commit && git push",
+
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "doc": "doctoc README.md",
+
     "prepub": "npm run doc && npm run build",
     "pub": "npm publish",
     "postpub": "rm dist types ts-build -rf && npm run push"
