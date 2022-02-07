@@ -1,6 +1,6 @@
 {
   "name": "@mrtujiawei/node-utils",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "node.js 相关的工具函数",
   "types": "types/index.d.ts",
   "main": "dist/index.js",
@@ -15,7 +15,7 @@
   "scripts": {
     "start": "tsc -w",
     "build": "tsc",
-    "push": "git add . && git commit && git push",
+    "push": "git add . && git commit -m 'feat(all): 自动提交' && git push",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "doc": "doctoc README.md",
