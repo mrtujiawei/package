@@ -654,10 +654,20 @@ export const currying = <T extends Function>(fn: T) => {
 };
 
 /**
- *
+ * 尾递归优化
+ * 需要传入的函数最后返回一个新的函数或非函数的结果
  */
-export const test5 = (...args: any[]) => {
-  return args;
+export const trampoline = <T extends Function>(fn: T) => {
+  // @ts-ignore
+  const trampolined: T = (...args: any[]) => {
+    let result: any = fn(...args);
+    while ('function' == typeof result) {
+      result = result();
+    }
+    return result;
+    // @ts-ignore
+  };
+  return trampolined;
 };
 
 /**
