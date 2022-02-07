@@ -3,11 +3,17 @@
   "version": "1.1.2",
   "description": "web相关工具函数，只能在网页上使用的工具函数",
   "main": "dist/webUtils.js",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "build": "webpack",
     "clean": "rm dist -rf",
-    "pub": "npm run clean && npm run build && npm publish --access public && npm run push",
-    "push": "git add . && git commit -m 'feat(all):auto commit' && git push"
+    "push": "git add . && git commit -m 'feat(all):auto commit' && git push",
+    "prepub": "npm run clean && npm run build",
+    "pub": "npm publish",
+    "postpub": "npm run push"
   },
   "repository": {
     "type": "git",
@@ -33,6 +39,6 @@
     "webpack-cli": "^4.7.0"
   },
   "dependencies": {
-    "@mrtujiawei/utils": "^1.1.3"
+    "@mrtujiawei/utils": "^1.8.8"
   }
 }

@@ -1,7 +1,7 @@
 import LocalData from './LocalData';
 import Tween from './Tween';
 import Ripple from './Ripple';
-import { debounce, } from '@mrtujiawei/utils';
+import { debounce } from '@mrtujiawei/utils';
 import isCorrespondingPlatform from './Platform';
 
 const webUtils = {
