@@ -1,5 +1,6 @@
 module.exports = {
   roots: ['<rootDir>/test'],
+  testTimeout: 60000,
   testRegex: 'test/(.+)\\.test\\.(jsx?|tsx?)$',
   testPathIgnorePatterns: ['test/sorts/*', 'test/algorithm/*'],
   transform: {
