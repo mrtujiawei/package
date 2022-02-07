@@ -2,24 +2,21 @@
  * 红黑树节点
  * @filename: src/data-structure/RBTree/TreeNode.ts
  * @author: Mr Prince
- * @date: 2022-01-24 14:58:50
+ * @date: 2022-02-07 14:58:50
  */
-
-export enum NODE_COLORS {
-  BLACK = 0,
-  RED = 1,
-}
+import { NODE_COLORS } from './enums';
 
 class TreeNode<K, V> {
-  static readonly NODE_COLORS = NODE_COLORS;
+  key!: K;
+  value!: V;
 
+  /**
+   * 默认红色，介绍对规则的破坏
+   */
+  color = NODE_COLORS.RED;
   left!: TreeNode<K, V>;
   right!: TreeNode<K, V>;
   parent!: TreeNode<K, V>;
-  color: NODE_COLORS = NODE_COLORS.RED;
-
-  key!: K;
-  value!: V;
 
   constructor(key: K, value: V) {
     this.key = key;
@@ -27,20 +24,9 @@ class TreeNode<K, V> {
   }
 
   /**
-   * 祖父节点
+   * 获取兄弟节点
    */
-  getGrandparentNode() {
-    const parent = this.parent;
-    if (null == parent) {
-      return parent;
-    }
-    return parent.parent;
-  }
-
-  /**
-   * 兄弟节点
-   */
-  getSiblingNode() {
+  getSibling() {
     const parent = this.parent;
     if (null == parent) {
       return parent;
@@ -53,14 +39,25 @@ class TreeNode<K, V> {
   }
 
   /**
-   * 父节点的兄弟节点
+   * 获取叔叔节点
    */
-  getUncleNode() {
+  getUncle() {
     const parent = this.parent;
     if (null == parent) {
       return parent;
     }
-    return parent.getSiblingNode();
+    return parent.getSibling();
+  }
+
+  /**
+   * 获取祖父节点
+   */
+  getGrandparent() {
+    const parent = this.parent;
+    if (null == parent) {
+      return parent;
+    }
+    return parent.parent;
   }
 }
 

@@ -12,7 +12,7 @@ import Heap from './utils/Heap';
 import BinarySearchTree from './utils/BinarySearchTree';
 import Events from './utils/Events';
 import Random from './utils/Random';
-// import RBTree from './data-structure/RBTree/index';
+import RBTree from './data-structure/RBTree/index';
 // import TreeMap from './data-structure/TreeMap/index';
 
 import * as utils from './utils/utils';
