@@ -1,17 +1,26 @@
 {
   "name": "@mrtujiawei/bin",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "我的命令行工具",
   "main": "",
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "dev": "tsc -w",
     "build": "tsc",
     "clean": "rm -rf dist",
-    "pub": "npm run clean && npm run build && npm publish --access public && npm run push",
-    "push": "git add . && git commit -m 'feat(all):自动提交' && git push"
+
+    "prepush": "git add . && git commit -m 'feat(all): 自动提交'",
+    "push": "git push",
+
+    "prepub": "npm run clean && npm run build",
+    "pub": "npm publish",
+    "postpub": "npm run push"
   },
   "bin": {
     "server": "./dist/server.js",
