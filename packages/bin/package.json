@@ -1,6 +1,6 @@
 {
   "name": "@mrtujiawei/bin",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "我的命令行工具",
   "main": "",
   "files": [
@@ -11,7 +11,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "dev": "tsc -w",
+    "start": "tsc -w",
     "build": "tsc",
     "clean": "rm -rf dist",
 

@@ -1,6 +1,6 @@
 {
   "name": "@mrtujiawei/node-utils",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "node.js 相关的工具函数",
   "types": "types/index.d.ts",
   "main": "dist/index.js",
@@ -8,15 +8,22 @@
     "dist",
     "types"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
-    "script-test": "echo 'node-utils scripts run'",
+    "start": "tsc -w",
     "build": "tsc",
     "push": "git add . && git commit && git push",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "doc": "doctoc README.md",
     "clean": "rm dist types ts-build -rf",
-    "pub": "npm run clean && npm run doc && npm run build && npm publish --access public && npm run push"
+
+    "prepub": "npm run clean && npm run doc && npm run build",
+    "pub": "npm publish",
+    "postpub": "npm run push"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 {
   "name": "@mrtujiawei/utils",
-  "version": "1.8.9",
+  "version": "1.9.0",
   "description": "把自己写的工具函数打包发布到npm上",
   "types": "types/index.d.ts",
   "main": "dist/utils.js",
@@ -13,8 +13,10 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "doc": "doctoc README.md",
+    "start": "tsc -w",
     "build": "tsc && webpack",
+
+    "doc": "doctoc README.md",
     "push": "git add . && git commit && git push",
     "clean": "rm dist types -rf",
 
