@@ -16,7 +16,3 @@ yarn
 > 写代码前在根目录下打包所有项目
 
 yarn build
-
-> 项目启动
-
-yarn start

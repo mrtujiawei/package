@@ -7,8 +7,8 @@
     "packages/web-utils"
   ],
   "scripts": {
-    "start": "yarn workspaces run start",
     "build": "yarn workspaces run build",
     "pub": "yarn workspaces run pub"
-  }
+  },
+  "license": "MIT"
 }
