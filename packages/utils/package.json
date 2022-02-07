@@ -1,6 +1,6 @@
 {
   "name": "@mrtujiawei/utils",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "description": "把自己写的工具函数打包发布到npm上",
   "types": "types/index.d.ts",
   "main": "dist/utils.js",
