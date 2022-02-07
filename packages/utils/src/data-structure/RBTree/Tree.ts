@@ -382,7 +382,7 @@ class RBTree<K, V> {
     const parent = node.parent;
     const grandparent = node.getGrandparent();
 
-    if (node == parent.left) {
+    if (node == parent.left && parent == grandparent.left) {
       this.rotateRight(grandparent);
     } else {
       this.rotateLeft(grandparent);
