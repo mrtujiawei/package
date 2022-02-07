@@ -4,11 +4,11 @@
 [![install size](https://packagephobia.com/badge?p=@mrtujiawei/utils)](https://packagephobia.com/result?p=@mrtujiawei/utils)
 [![npm downloads](https://img.shields.io/npm/dm/@mrtujiawei/utils.svg?style=flat-square)](https://npm-stat.com/charts.html?package=@mrtujiawei/utils)
 [![js delivr downloads](https://data.jsdelivr.com/v1/package/npm/@mrtujiawei/utils/badge)](https://www.jsdelivr.com/package/npm/@mrtujiawei/utils)
-[![issues](https://img.shields.io/github/issues/mrtujiawei/utils)](https://github.com/mrtujiawei/utils/issues)
-[![forks](https://img.shields.io/github/forks/mrtujiawei/utils)](https://github.com/mrtujiawei/utils)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/mrtujiawei/utils/pulls)
-[![stars](https://img.shields.io/github/stars/mrtujiawei/utils)](https://github.com/mrtujiawei/utils)
-[![license](https://img.shields.io/github/license/mrtujiawei/utils)](https://github.com/mrtujiawei/utils/blob/main/LICENSE)
+[![issues](https://img.shields.io/github/issues/mrtujiawei/package)](https://github.com/mrtujiawei/package/issues)
+[![forks](https://img.shields.io/github/forks/mrtujiawei/package)](https://github.com/mrtujiawei/package)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/mrtujiawei/package/pulls)
+[![stars](https://img.shields.io/github/stars/mrtujiawei/package)](https://github.com/mrtujiawei/package)
+[![license](https://img.shields.io/github/license/mrtujiawei/package)](https://github.com/mrtujiawei/package/blob/main/LICENSE)
 
 <!-- 以下是自动生成的内容 -->
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
