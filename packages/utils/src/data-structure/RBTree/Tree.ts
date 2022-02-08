@@ -106,9 +106,12 @@ class RBTree<K, V> {
    * @description 如果有两个子节点,找左子树的最大值或右字树的最小值，移动对应值，颜色不改动
    */
   remove(key: K) {
-    // TODO
-    console.log(key);
-    return null;
+    const node = this.getNodeByKey(key);
+    if (this.isLeaf(node)) {
+      return;
+    }
+    this.removeNode(node);
+    this.nodeSize--;
   }
 
   /**
@@ -399,7 +402,6 @@ class RBTree<K, V> {
     this.repaireCase5(node);
   }
 
-
   /**
    * 情况5: 父节点P是红色而叔父节点U是黑色
    * 情形4 完成之后一定为情形5
@@ -418,6 +420,228 @@ class RBTree<K, V> {
 
     parent.color = NODE_COLORS.BLACK;
     grandparent.color = NODE_COLORS.RED;
+  }
+
+  /**
+   * 根据 key 查对应的节点
+   */
+  private getNodeByKey(key: K) {
+    let node = this.root;
+    while (node) {
+      let compare = this.comparator(node.key, key);
+      if (0 < compare) {
+        node = node.left;
+      } else if (0 > compare) {
+        node = node.right;
+      } else {
+        break;
+      }
+    }
+    return node;
+  }
+
+  /**
+   * @description 获取相对于当前节点的最大值
+   */
+  private getMaxNode(node: TreeNode<K, V>) {
+    while (!this.isLeaf(node.right)) {
+      node = node.right;
+    }
+    return node;
+  }
+
+  /**
+   * 转换被删除的节点
+   * @description 如果当前节点有两个子节点，转换成最多有一个子节点的节点
+   */
+  private convertDeleteNode(node: TreeNode<K, V>) {
+    // 有两个非叶子节点
+    if (!this.isLeaf(node.left) && !this.isLeaf(node.right)) {
+      // 获取左子树的最大值来替换当前节点
+      const leftMaxNode = this.getMaxNode(node.left);
+      node.key = leftMaxNode.key;
+      node.value = leftMaxNode.value;
+      // 现在要删除的节点变成了左子树值最大的节点,最多只有一个孩子节点
+      node = leftMaxNode;
+    }
+    return node;
+  }
+  /**
+   * 删除节点
+   * @description 需要确保节点存在
+   */
+  private removeNode(node: TreeNode<K, V>) {
+    node = this.convertDeleteNode(node);
+    let child = this.isLeaf(node.right) ? node.left : node.right;
+    if (this.isBlack(node)) {
+      this.eraseCase1(node);
+    }
+    this.replaceNode(node, child);
+    if (2 == this.nodeSize) {
+      if (!this.isLeaf(child)) {
+        // 根节点必须是黑色的
+        child.color = NODE_COLORS.BLACK;
+      }
+    }
+
+    // TODO 这里又不一样了
+    // 感觉会出点问题
+    if (this.isLeaf(child)) {
+      // 没有子节点，已被删除
+      // 需要更新最大最小节点
+      if (this.minimum == node) {
+        let parent = node.parent;
+        if (null != parent) {
+          this.minimum = parent;
+          // @ts-ignore
+          parent.left = null;
+        } else {
+          // 这里parent是null
+          // 相当于删除最小节点
+          this.minimum = parent;
+        }
+      }
+      if (this.maximum == node) {
+        let parent = node.parent;
+        if (null != parent) {
+          this.maximum = parent;
+          // @ts-ignore
+          parent.right = null;
+        } else {
+          // 这里parent是null
+          // 相当于删除最大节点
+          this.maximum = parent;
+        }
+      }
+    } else {
+      if (this.minimum == node) {
+        this.minimum = child;
+        // @ts-ignore
+        child.left = null;
+      }
+      if (this.maximum == node) {
+        this.maximum = child;
+        // @ts-ignore
+        child.right = null;
+      }
+    }
+  }
+
+  /**
+   * 情况1: node 是新的根
+   */
+  eraseCase1(node: TreeNode<K, V>) {
+    if (null == node.parent) {
+      return;
+    } else {
+      this.eraseCase2(node);
+    }
+  }
+
+  /**
+   * 情况2: 兄弟节点是红色
+   */
+  eraseCase2(node: TreeNode<K, V>) {
+    const sibling = node.getSibling();
+    if (this.isRed(sibling)) {
+      node.parent.color = NODE_COLORS.RED;
+      sibling.color = NODE_COLORS.BLACK;
+      if (node == node.parent.left) {
+        this.rotateLeft(node.parent);
+      } else {
+        this.rotateRight(node.parent);
+      }
+    }
+    this.eraseCase3(node);
+  }
+
+  /**
+   * 情况3: 当前节点的父节点、兄弟节点和兄弟的儿子都是黑色的
+   */
+  eraseCase3(node: TreeNode<K, V>) {
+    const sibling = node.getSibling();
+    const parent = node.parent;
+    if (
+      this.isBlack(parent) &&
+      this.isBlack(sibling) &&
+      this.isBlack(sibling.left) &&
+      this.isBlack(sibling.right)
+    ) {
+      sibling.color = NODE_COLORS.RED;
+      this.eraseCase1(parent);
+    } else {
+      this.eraseCase4(node);
+    }
+  }
+
+  /**
+   * 情形4: 兄弟节点和兄弟的儿子节点都是黑色，但是父节点是红色
+   */
+  eraseCase4(node: TreeNode<K, V>) {
+    const sibling = node.getSibling();
+    const parent = node.parent;
+    if (
+      this.isRed(parent) &&
+      this.isBlack(sibling) &&
+      this.isBlack(sibling.left) &&
+      this.isBlack(sibling.right)
+    ) {
+      sibling.color = NODE_COLORS.RED;
+      parent.color = NODE_COLORS.BLACK;
+    } else {
+      this.eraseCase5(node);
+    }
+  }
+
+  /**
+   * 情形5: 兄弟节点是黑色
+   * 兄弟节点的左儿子节点是红色
+   * 兄弟节点的右儿子节点是黑色
+   * 而当前节点是它父亲的左儿子节点
+   */
+  eraseCase5(node: TreeNode<K, V>) {
+    const sibling = node.getSibling();
+    const parent = node.parent;
+    if (
+      this.isBlack(sibling) &&
+      this.isRed(sibling.left) &&
+      this.isBlack(sibling.right) &&
+      node == parent.left
+    ) {
+      sibling.color = NODE_COLORS.RED;
+      sibling.left.color = NODE_COLORS.BLACK;
+      this.rotateRight(sibling);
+    } else if (
+      node == parent.right &&
+      this.isBlack(sibling.left) &&
+      this.isRed(sibling.right)
+    ) {
+      sibling.color = NODE_COLORS.RED;
+      sibling.right.color = NODE_COLORS.BLACK;
+      this.rotateLeft(sibling);
+    }
+    this.eraseCase6(node);
+  }
+
+  /**
+   * 情形6: 兄弟节点是黑色
+   * 兄弟的右儿子节点是红色
+   * 当前节点是它父亲的左儿子节点
+   */
+  eraseCase6(node: TreeNode<K, V>) {
+    const sibling = node.getSibling();
+    const parent = node.parent;
+
+    sibling.color = this.fetchColor(parent);
+    parent.color = NODE_COLORS.BLACK;
+
+    if (node == parent.left) {
+      sibling.right.color = NODE_COLORS.BLACK;
+      this.rotateLeft(parent);
+    } else {
+      sibling.left.color = NODE_COLORS.BLACK;
+      this.rotateRight(parent);
+    }
   }
 }
 
