@@ -400,9 +400,7 @@ class RBTree<K, V> {
     const parent = node.parent;
     const grandparent = node.getGrandparent();
 
-    // 文档里有加下面的判断，jstreemap 并没有用
-    //  && parent == grandparent.left
-    if (node == parent.left) {
+    if (node == parent.left && parent == grandparent.left) {
       this.rotateRight(grandparent);
     } else {
       this.rotateLeft(grandparent);
