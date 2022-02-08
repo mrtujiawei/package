@@ -168,9 +168,8 @@ class RBTree<K, V> {
       }
     }
 
-    // 原来的父节点给他挂上去
-    // 除了根节点和叶节点不需要设置父节点
-    if (!this.isLeaf(newNode) && !this.isRoot(newNode)) {
+    // 如果不是叶节点需要设置父节点
+    if (!this.isLeaf(newNode)) {
       newNode.parent = oldNode.parent;
     }
   }
@@ -400,7 +399,9 @@ class RBTree<K, V> {
     const parent = node.parent;
     const grandparent = node.getGrandparent();
 
-    if (node == parent.left && parent == grandparent.left) {
+    // 文档中有判断，jstreemap中没有
+    //  && parent == grandparent.left
+    if (node == parent.left) {
       this.rotateRight(grandparent);
     } else {
       this.rotateLeft(grandparent);
