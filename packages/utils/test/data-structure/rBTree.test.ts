@@ -1,12 +1,12 @@
 import { NODE_COLORS } from '../../src/data-structure/RBTree/enums';
 import TreeNode from '../../src/data-structure/RBTree/TreeNode';
-import { RBTree } from '../../src/index';
+import { Random, RBTree } from '../../src/index';
 
 /**
  * 验证是否满足红黑树性质
  */
 describe('RBTree Properties test', () => {
-  const size = 100000;
+  const size = 1000;
   const tree = new RBTree<number, number>((a, b) => a - b);
   const options = { length: size };
   const sorter = () => (Math.random() < 0.5 ? 1 : -1);
@@ -29,7 +29,7 @@ describe('RBTree Properties test', () => {
 
   const result: number[] = [];
   test('key value test', () => {
-    tree.forEach((key, value) => {
+    tree.forEach((value, key) => {
       if (key != value) {
         console.warn('数据有误');
       }
@@ -120,9 +120,81 @@ describe('RBTree Properties test', () => {
     };
 
     helper(root, 0);
-    console.log({
-      minPath,
-      maxPath,
-    });
+    expect(maxPath).toBeLessThan(minPath * 2);
   });
+});
+
+test('RBTree delete test', () => {
+  const size = 1000;
+  const tree = new RBTree<number, number>((a, b) => a - b);
+  const options = { length: size };
+  const sorter = () => (Math.random() < 0.5 ? 1 : -1);
+  const mapper = (_: any, index: number) => 1 + index;
+  const nums = Array.from(options, mapper).sort(sorter);
+
+  tree.clear();
+  expect(tree.getSize()).toBe(0);
+
+  nums.forEach((num) => {
+    tree.insertMultiple(num, num);
+  });
+
+  tree.clear();
+  expect(tree.getSize()).toBe(0);
+
+  nums.forEach((num) => {
+    tree.insertMultiple(num, num);
+  });
+
+  const removedNums = new Set<number>();
+  const getUnremoveKey = (): number => {
+    const removeIndex = Random.getRandomNumber(0, size);
+    const removeKey = nums[removeIndex];
+    if (removedNums.has(removeKey)) {
+      return getUnremoveKey();
+    }
+    return removeKey;
+  };
+
+  for (let i = 0; i < size; i++) {
+    const key = getUnremoveKey();
+    // 重复移除确定不报错
+    tree.remove(key);
+    tree.remove(key);
+    removedNums.add(key);
+    expect(tree.getSize()).toBe(size - removedNums.size);
+    expect(tree.getSize()).toBe(size - removedNums.size);
+  }
+
+  expect(tree.getSize()).toBe(0);
+
+  // 为空时也可以调用移除
+  tree.remove(nums[0]);
+  expect(tree.getSize()).toBe(0);
+  expect(tree.isEmpty()).toBe(true);
+  tree.insertUnique(0, 0);
+  tree.insertUnique(0, 1);
+  expect(tree.getSize()).toBe(1);
+  tree.forEach((value, key) => {
+    if (0 == key) {
+      expect(value).toBe(0);
+    }
+  });
+  tree.insertOrReplace(0, 2);
+  tree.forEach((value, key) => {
+    if (0 == key) {
+      expect(value).toBe(2);
+    }
+  });
+  tree.insertMultiple(0, 3);
+
+  const sameValues: number[] = [];
+  tree.forEach((value, key) => {
+    if (0 == key) {
+      sameValues.push(value);
+    }
+  });
+  sameValues.sort((a, b) => a - b);
+  expect(sameValues[0]).toBe(2);
+  expect(sameValues[1]).toBe(3);
 });
