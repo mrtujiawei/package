@@ -9,8 +9,6 @@ import TreeNode from './TreeNode';
 import { INSERT_MODE, NODE_COLORS } from './enums';
 import InsertResult from './InsertResult';
 
-// TODO 有点死循环，难搞
-
 /**
  * 相关性质:
  * 1: 结点是红色或黑色
@@ -18,6 +16,10 @@ import InsertResult from './InsertResult';
  * 3: 所有叶子都是黑色（叶子是null结点）
  * 4: 每个红色结点的两个子结点都是黑色（从每个叶子到根的所有路径上不能有两个连续的红色结点）
  * 5: 从任一节结点其每个叶子的所有路径都包含相同数目的黑色结点
+ *
+ * 性质1和性质3总是保持着。
+ * 性质4只在增加红色节点、重绘黑色节点为红色，或做旋转时受到威胁。
+ * 性质5只在增加黑色节点、重绘红色节点为黑色，或做旋转时受到威胁。
  */
 class RBTree<K, V> {
   /**
@@ -53,10 +55,16 @@ class RBTree<K, V> {
     this.comparator = comparator;
   }
 
+  /**
+   * 节点个数
+   */
   getSize() {
     return this.nodeSize;
   }
 
+  /**
+   * 是否为空树
+   */
   isEmpty() {
     return 0 == this.nodeSize;
   }
@@ -94,12 +102,18 @@ class RBTree<K, V> {
     return null;
   }
 
+  /**
+   * 清空红黑树
+   */
   clear() {
     // @ts-ignore
     this.root = this.minimum = this.maximum = null;
     this.nodeSize = 0;
   }
 
+  /**
+   * 先序遍历二叉树
+   */
   forEach(callback: (key: K, value: V) => void) {
     const helper = (node: TreeNode<K, V>) => {
       if (node) {
@@ -121,11 +135,15 @@ class RBTree<K, V> {
 
   /**
    * 判断是不是叶节点
+   * @description 叶节点是null
    */
   private isLeaf(node: TreeNode<K, V>) {
     return null == node;
   }
 
+  /**
+   * 是否是根节点
+   */
   private isRoot(node: TreeNode<K, V>) {
     return this.root == node;
   }
@@ -200,7 +218,7 @@ class RBTree<K, V> {
     }
     this.replaceNode(node, left);
     node.left = left.right;
-    if (left.right != null) {
+    if (null != left.right) {
       left.right.parent = node;
     }
     left.right = node;
@@ -356,8 +374,8 @@ class RBTree<K, V> {
    *        并且新节点是其父节点的右子节点而父节点又是其父节点的左子节点
    */
   private repairCase4(node: TreeNode<K, V>) {
-    let parent = node.parent;
-    let grandparent = node.getGrandparent();
+    const parent = node.parent;
+    const grandparent = node.getGrandparent();
 
     // 新节点node是其父节点P的右子节点而父节点P又是其父节点的左子节点
     // 因为我的左旋和右旋中旋转的对象不一样，所以传入的参数不一样
@@ -382,7 +400,9 @@ class RBTree<K, V> {
     const parent = node.parent;
     const grandparent = node.getGrandparent();
 
-    if (node == parent.left && parent == grandparent.left) {
+    // 文档里有加下面的判断，jstreemap 并没有用
+    //  && parent == grandparent.left
+    if (node == parent.left) {
       this.rotateRight(grandparent);
     } else {
       this.rotateLeft(grandparent);
