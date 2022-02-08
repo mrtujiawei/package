@@ -123,14 +123,24 @@ class RBTree<K, V> {
     this.nodeSize = 0;
   }
 
+  has(key: K) {
+    const node = this.getNodeByKey(key);
+    return !!node;
+  }
+
+  getValue(key: K) {
+    const node = this.getNodeByKey(key);
+    return node?.value;
+  }
+
   /**
    * 先序遍历二叉树
    */
-  forEach(callback: (key: K, value: V) => void) {
+  forEach(callback: (value: V, key: K) => void) {
     const helper = (node: TreeNode<K, V>) => {
       if (node) {
         helper(node.left);
-        callback(node.key, node.value);
+        callback(node.value, node.key);
         helper(node.right);
       }
     };
@@ -530,7 +540,7 @@ class RBTree<K, V> {
   /**
    * 情况1: node 是新的根
    */
-  eraseCase1(node: TreeNode<K, V>) {
+  private eraseCase1(node: TreeNode<K, V>) {
     if (null == node.parent) {
       return;
     } else {
@@ -541,7 +551,7 @@ class RBTree<K, V> {
   /**
    * 情况2: 兄弟节点是红色
    */
-  eraseCase2(node: TreeNode<K, V>) {
+  private eraseCase2(node: TreeNode<K, V>) {
     const sibling = node.getSibling();
     if (this.isRed(sibling)) {
       node.parent.color = NODE_COLORS.RED;
@@ -558,7 +568,7 @@ class RBTree<K, V> {
   /**
    * 情况3: 当前节点的父节点、兄弟节点和兄弟的儿子都是黑色的
    */
-  eraseCase3(node: TreeNode<K, V>) {
+  private eraseCase3(node: TreeNode<K, V>) {
     const sibling = node.getSibling();
     const parent = node.parent;
     if (
@@ -577,7 +587,7 @@ class RBTree<K, V> {
   /**
    * 情形4: 兄弟节点和兄弟的儿子节点都是黑色，但是父节点是红色
    */
-  eraseCase4(node: TreeNode<K, V>) {
+  private eraseCase4(node: TreeNode<K, V>) {
     const sibling = node.getSibling();
     const parent = node.parent;
     if (
@@ -599,7 +609,7 @@ class RBTree<K, V> {
    * 兄弟节点的右儿子节点是黑色
    * 而当前节点是它父亲的左儿子节点
    */
-  eraseCase5(node: TreeNode<K, V>) {
+  private eraseCase5(node: TreeNode<K, V>) {
     const sibling = node.getSibling();
     const parent = node.parent;
     if (
@@ -628,7 +638,7 @@ class RBTree<K, V> {
    * 兄弟的右儿子节点是红色
    * 当前节点是它父亲的左儿子节点
    */
-  eraseCase6(node: TreeNode<K, V>) {
+  private eraseCase6(node: TreeNode<K, V>) {
     const sibling = node.getSibling();
     const parent = node.parent;
 
