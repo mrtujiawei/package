@@ -63,9 +63,7 @@ class RBTree<K, V> {
   }
 
   getMin() {
-    if (this.minimum) {
-      return this.minimum?.value;
-    }
+    return this.minimum?.value;
   }
 
   getMax() {
