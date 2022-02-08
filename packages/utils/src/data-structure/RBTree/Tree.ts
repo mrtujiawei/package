@@ -62,6 +62,16 @@ class RBTree<K, V> {
     return this.nodeSize;
   }
 
+  getMin() {
+    if (this.minimum) {
+      return this.minimum?.value;
+    }
+  }
+
+  getMax() {
+    return this.maximum?.value;
+  }
+
   /**
    * 是否为空树
    */
@@ -95,6 +105,7 @@ class RBTree<K, V> {
 
   /**
    * 移除节点
+   * @description 如果有两个子节点,找左子树的最大值或右字树的最小值，移动对应值，颜色不改动
    */
   remove(key: K) {
     // TODO
