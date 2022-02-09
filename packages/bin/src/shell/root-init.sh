@@ -94,26 +94,26 @@ rm -rf shell
 # 安装yarn是为了代码提示
 npm i -g yarn
 
-GitDownload https://github.com/mrtujiawei/vimrc.git --depth 1 "~/.vim"
+GitDownload https://github.com/mrtujiawei/vimrc.git --depth 1 ~/.vim
 
 # 放在下面的原因是安装的时候会进入vim
 # 后面的脚本就执行不下去了
 # 安装vundle vim包管理工具
-GitDownload https://github.com/VundleVim/Vundle.vim.git --depth 1 "~/.vim/bundle/Vundle.vim"
+GitDownload https://github.com/VundleVim/Vundle.vim.git --depth 1 ~/.vim/bundle/Vundle.vim
 
 # 失败几率比较大，所以重试两次
 vim +PluginInstall +qall && vim +PluginInstall +qall && vim +PluginInstall +qall && vim -c ':call mkdp#util#install()' +qall
 
 # coc-nvim 需要手动更新一下
-cd "~/.vim/bundle/coc.nvim/"
+cd ~/.vim/bundle/coc.nvim/
 yarn
 cd -
 
 # fzf 配置
 
-echo "export FZF_DEFAULT_COMMAND=\"find -type f | grep -Ev '/node_modules|/.git/|/dev/|/prod/|/dist/|/.pub/|/.mozilla/|/.java/|/.dartServer/|/.local/|/.node-gyp/|/.gradle/'\"" >> "~/.bashrc"
-echo -e "export FZF_DEFAULT_OPTS=\"--layout=reverse --inline-info --preview 'batcat --color=always --style=numbers --line-range=:50 {}'\"" >> "~/.bashrc"
-source "~/.bashrc"
+echo "export FZF_DEFAULT_COMMAND=\"find -type f | grep -Ev '/node_modules|/.git/|/dev/|/prod/|/dist/|/.pub/|/.mozilla/|/.java/|/.dartServer/|/.local/|/.node-gyp/|/.gradle/'\"" >> ~/.bashrc
+echo -e "export FZF_DEFAULT_OPTS=\"--layout=reverse --inline-info --preview 'batcat --color=always --style=numbers --line-range=:50 {}'\"" >> ~/.bashrc
+source ~/.bashrc
 
 # ctags
 apt-get install universal-ctags -y
