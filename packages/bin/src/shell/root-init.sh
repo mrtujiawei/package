@@ -4,13 +4,10 @@
 # 默认这个文件有root权限
 # 使用的使用用 cat > init.sh
 # 输入完成后用 ctrl+d 结束
-# @filename: init.sh
+# 这是专门给 root 用户用的
+# @filename: root-init.sh
 # @author: Mr Prince
-# @date: 2020年08月05日 星期三 19时58分43秒
-
-# vim 一些配置文件的路径
-VIM_CONFIG_PATH="/home/tujiawei"
-FILE_OWNER="tujiawei"
+# @date: 2021年02月09日 星期三 10时58分43秒
 
 # git 下载重试 直到成功为止
 function GitDownload() {
@@ -43,7 +40,6 @@ function VimInstall() {
   apt install libgtk-3-dev -y
 
   # 支持 python
-  # TODO
   # 在Makefil里 把下面这行的注释去掉
   # CONF_OPT_PYTHON3 = --enable-python3interp
   # 没有什么办法能让脚本在这里停下来
@@ -58,18 +54,6 @@ function VimInstall() {
   cd -
   rm vim -rf
 }
-
-# 有给所有者就用所有者的，否则就是我自己
-if [ "$1" ]
-then
-  FILE_OWNER="$1"
-fi
-
-# 如果不是root，尝试添加用户，反正报错不影响下面的代码
-if [ "root" != "$FILE_OWNER" ]
-then
-  adduser $FILE_OWNER
-fi
 
 VimInstall
 
@@ -98,9 +82,6 @@ apt-get install wget git -y
 wget -qO- https://deb.nodesource.com/setup_17.x | bash -
 apt-get install -y nodejs
 
-# 切换淘宝镜像
-npm config set registry http://registry.npm.taobao.org/
-
 # 复制一波自己写的脚本
 # 要是git能下载快一点就好了
 GitDownload https://github.com/mrtujiawei/package.git --depth 1
@@ -113,30 +94,26 @@ rm -rf shell
 # 安装yarn是为了代码提示
 npm i -g yarn
 
-GitDownload https://github.com/mrtujiawei/vimrc.git --depth 1 "$VIM_CONFIG_PATH/.vim"
+GitDownload https://github.com/mrtujiawei/vimrc.git --depth 1 "~/.vim"
 
 # 放在下面的原因是安装的时候会进入vim
 # 后面的脚本就执行不下去了
 # 安装vundle vim包管理工具
-GitDownload https://github.com/VundleVim/Vundle.vim.git --depth 1 "$VIM_CONFIG_PATH/.vim/bundle/Vundle.vim"
+GitDownload https://github.com/VundleVim/Vundle.vim.git --depth 1 "~/.vim/bundle/Vundle.vim"
 
-chown -R "$FILE_OWNER:$FILE_OWNER" "$VIM_CONFIG_PATH/.vim/"
-
-# 切换 tujiawei 安装插件
 # 失败几率比较大，所以重试两次
-su - tujiawei -c "vim +PluginInstall +qall && vim +PluginInstall +qall && vim +PluginInstall +qall && vim -c ':call mkdp#util#install()' +qall"
+vim +PluginInstall +qall && vim +PluginInstall +qall && vim +PluginInstall +qall && vim -c ':call mkdp#util#install()' +qall
 
 # coc-nvim 需要手动更新一下
-cd "$VIM_CONFIG_PATH/.vim/bundle/coc.nvim/"
+cd "~/.vim/bundle/coc.nvim/"
 yarn
 cd -
 
 # fzf 配置
 
-echo "export FZF_DEFAULT_COMMAND=\"find -type f | grep -Ev '/node_modules|/.git/|/dev/|/prod/|/dist/|/.pub/|/.mozilla/|/.java/|/.dartServer/|/.local/|/.node-gyp/|/.gradle/'\"" >> "$VIM_CONFIG_PATH/.bashrc"
-echo -e "export FZF_DEFAULT_OPTS=\"--layout=reverse --inline-info --preview 'batcat --color=always --style=numbers --line-range=:50 {}'\"" >> "$VIM_CONFIG_PATH/.bashrc"
-
-source "$VIM_CONFIG_PATH/.bashrc"
+echo "export FZF_DEFAULT_COMMAND=\"find -type f | grep -Ev '/node_modules|/.git/|/dev/|/prod/|/dist/|/.pub/|/.mozilla/|/.java/|/.dartServer/|/.local/|/.node-gyp/|/.gradle/'\"" >> "~/.bashrc"
+echo -e "export FZF_DEFAULT_OPTS=\"--layout=reverse --inline-info --preview 'batcat --color=always --style=numbers --line-range=:50 {}'\"" >> "~/.bashrc"
+source "~/.bashrc"
 
 # ctags
 apt-get install universal-ctags -y
