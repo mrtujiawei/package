@@ -13,6 +13,7 @@ import BinarySearchTree from './utils/BinarySearchTree';
 import Events from './utils/Events';
 import Random from './utils/Random';
 import RBTree from './data-structure/RBTree/Tree';
+import TreeMap from './data-structure/TreeMap';
 
 import * as utils from './utils/utils';
 
@@ -34,6 +35,7 @@ export {
   BinarySearchTree,
   ResponsibilityChain,
   RBTree,
+  TreeMap,
 };
 
 export default {
@@ -53,4 +55,5 @@ export default {
   BinarySearchTree,
   ResponsibilityChain,
   RBTree,
+  TreeMap,
 };

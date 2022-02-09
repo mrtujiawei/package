@@ -17,12 +17,16 @@ class TreeMap<K, V> {
     this.tree = new RBTree<K, V>(comparator);
   }
 
+  has(key: K) {
+    return this.tree.has(key);
+  }
+
   get(key: K) {
     return this.tree.getValue(key);
   }
 
   set(key: K, value: V) {
-    this.tree.insertUnique(key, value);
+    this.tree.insertOrReplace(key, value);
   }
 
   forEach(callback: (value: V, key: K) => any) {
