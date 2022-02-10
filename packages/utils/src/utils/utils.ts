@@ -671,14 +671,41 @@ export const trampoline = <T extends Function>(fn: T) => {
 };
 
 /**
- *
+ * 辗转相除法
+ * @description 求最大公约数
+ * @param dividend 被除数
+ * @param divisor 除数
  */
-export const test6 = () => {};
+const _gcd = (dividend: number, divisor: number): number => {
+  const remainder = dividend % divisor;
+  if (0 == remainder) {
+    return divisor;
+  }
+  return gcd(divisor, remainder);
+};
 
 /**
- *
+ * 辗转相除法
+ * @description 求最大公约数
+ * @param dividend 被除数
+ * @param divisor 除数
+ * @throws {TypeError|RangeError}
  */
-export const test7 = () => {};
+export const gcd = (dividend: number, divisor: number): number => {
+  if (!isInteger(dividend)) {
+    throw TypeError(`dividend must be integer`);
+  }
+  if (!isInteger(divisor)) {
+    throw TypeError(`divisor must be integer`);
+  }
+  if (0 == dividend) {
+    throw RangeError(`dividend can't be 0`);
+  }
+  if (0 == divisor) {
+    throw RangeError(`divisor can't be 0`);
+  }
+  return _gcd(dividend, divisor);
+};
 
 /**
  *

@@ -12,6 +12,7 @@ import {
   objectToUrlParams,
   urlParamsToObject,
   memorize,
+  gcd,
 } from "../src/index";
 
 test("Debounce should trigger one time", () => {
@@ -350,4 +351,16 @@ test('Memorized test', () => {
 
   const result2 = fn('tujiawei');
   expect(result2).toBe('#tujiawei#');
+});
+
+test('Gcd test', () => {
+  expect(gcd(10, 5)).toBe(5);
+  expect(gcd(2, 3)).toBe(1);
+  expect(gcd(3, 2)).toBe(1);
+  expect(() => gcd(1.1, 2)).toThrowError(TypeError);
+  expect(() => gcd(2, 1.1)).toThrowError(TypeError);
+  expect(() => gcd(1.2, 1.1)).toThrowError(TypeError);
+  expect(() => gcd(0, 2)).toThrowError(RangeError);
+  expect(() => gcd(2, 0)).toThrowError(RangeError);
+  expect(() => gcd(0, 0)).toThrowError(RangeError);
 });
