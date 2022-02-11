@@ -544,5 +544,154 @@ describe('RBTree methods test', () => {
 
     tree.remove(30);
 
+    // @ts-ignore
+    root = tree.root;
+    validNode(root, 10, 10, NODE_COLORS.BLACK, null);
+    validNode(root.left, 5, 5, NODE_COLORS.BLACK, root);
+    validNode(root.right, 20, 20, NODE_COLORS.BLACK, root);
+    validNode(root.right.left, 15, 15, NODE_COLORS.RED, root.right);
+  });
+
+  test('Remove: remove repair case 3 5 6 (left child)', () => {
+    const tree = buildTree(20, 10, 30, 5, 15, 25, 35, 40);
+
+    tree.remove(40);
+    [12, 17, 16].forEach(value => {
+      tree.insertMultiple(value, value);
+    });
+
+    // 初始状态检查
+    // @ts-ignore
+    let root = tree.root;
+    validNode(root, 20, 20, NODE_COLORS.BLACK, null);
+    validNode(root.left, 10, 10, NODE_COLORS.BLACK, root);
+    validNode(root.right, 30, 30, NODE_COLORS.BLACK, root);
+    validNode(root.left.left, 5, 5, NODE_COLORS.BLACK, root.left);
+    validNode(root.left.right, 15, 15, NODE_COLORS.RED, root.left);
+    validNode(root.right.left, 25, 25, NODE_COLORS.BLACK, root.right);
+    validNode(root.right.right, 35, 35, NODE_COLORS.BLACK, root.right);
+    validNode(root.left.right.left, 12, 12, NODE_COLORS.BLACK, root.left.right);
+    validNode(root.left.right.right, 17, 17, NODE_COLORS.BLACK, root.left.right);
+    validNode(root.left.right.right.left, 16, 16, NODE_COLORS.RED, root.left.right.right);
+
+    // case 3
+    tree.remove(25);
+
+    // @ts-ignore
+    root = tree.root;
+
+    validNode(root, 15, 15, NODE_COLORS.BLACK, null);
+    validNode(root.left, 10, 10, NODE_COLORS.BLACK, root);
+    validNode(root.right, 20, 20, NODE_COLORS.BLACK, root);
+    validNode(root.left.left, 5, 5, NODE_COLORS.BLACK, root.left);
+    validNode(root.left.right, 12, 12, NODE_COLORS.BLACK, root.left);
+    validNode(root.right.left, 17, 17, NODE_COLORS.BLACK, root.right);
+    validNode(root.right.right, 30, 30, NODE_COLORS.BLACK, root.right);
+    validNode(root.right.left.left, 16, 16, NODE_COLORS.RED, root.right.left);
+    validNode(root.right.right.right, 35, 35, NODE_COLORS.RED, root.right.right);
+  });
+
+  test('Remove: remove repair case 3 5 6 (right child)', () => {
+    const tree = buildTree(20, 10, 30, 5, 15, 25, 35, 40);
+    tree.remove(40);
+    [12, 17, 16].forEach(value => {
+      tree.insertMultiple(value, value);
+    });
+
+    // 初始状态检查
+    // @ts-ignore
+    let root = tree.root;
+    validNode(root, 20, 20, NODE_COLORS.BLACK, null);
+    validNode(root.left, 10, 10, NODE_COLORS.BLACK, root);
+    validNode(root.right, 30, 30, NODE_COLORS.BLACK, root);
+    validNode(root.left.left, 5, 5, NODE_COLORS.BLACK, root.left);
+    validNode(root.left.right, 15, 15, NODE_COLORS.RED, root.left);
+    validNode(root.right.left, 25, 25, NODE_COLORS.BLACK, root.right);
+    validNode(root.right.right, 35, 35, NODE_COLORS.BLACK, root.right);
+    validNode(root.left.right.left, 12, 12, NODE_COLORS.BLACK, root.left.right);
+    validNode(root.left.right.right, 17, 17, NODE_COLORS.BLACK, root.left.right);
+    validNode(root.left.right.right.left, 16, 16, NODE_COLORS.RED, root.left.right.right);
+
+    tree.remove(35);
+    // @ts-ignore
+    root = tree.root;
+    validNode(root, 15, 15, NODE_COLORS.BLACK, null);
+    validNode(root.left, 10, 10, NODE_COLORS.BLACK, root);
+    validNode(root.right, 20, 20, NODE_COLORS.BLACK, root);
+    validNode(root.left.left, 5, 5, NODE_COLORS.BLACK, root.left);
+    validNode(root.left.right, 12, 12, NODE_COLORS.BLACK, root.left);
+    validNode(root.right.left, 17, 17, NODE_COLORS.BLACK, root.right);
+    validNode(root.right.right, 30, 30, NODE_COLORS.BLACK, root.right);
+    validNode(root.right.left.left, 16, 16, NODE_COLORS.RED, root.right.left);
+    validNode(root.right.right.left, 25, 25, NODE_COLORS.RED, root.right.right);
+  });
+
+  test('Remove: cases 5, 6 (red left child)', () => {
+    const tree = buildTree(20, 10, 30, 5, 15, 25, 35, 40);
+    tree.remove(40);
+    [12, 17, 16].forEach(value => {
+      tree.insertMultiple(value, value);
+    });
+    tree.remove(35);
+    tree.remove(16);
+
+    // 初始状态检查
+    // @ts-ignore
+    let root = tree.root;
+
+    validNode(root, 15, 15, NODE_COLORS.BLACK, null);
+    validNode(root.left, 10, 10, NODE_COLORS.BLACK, root);
+    validNode(root.right, 20, 20, NODE_COLORS.BLACK, root);
+    validNode(root.left.left, 5, 5, NODE_COLORS.BLACK, root.left);
+    validNode(root.left.right, 12, 12, NODE_COLORS.BLACK, root.left);
+    validNode(root.right.left, 17, 17, NODE_COLORS.BLACK, root.right);
+    validNode(root.right.right, 30, 30, NODE_COLORS.BLACK, root.right);
+    validNode(root.right.right.left, 25, 25, NODE_COLORS.RED, root.right.right);
+
+    // case 5
+    tree.remove(17);
+    // @ts-ignore
+    root = tree.root;
+    validNode(root, 15, 15, NODE_COLORS.BLACK, null);
+    validNode(root.left, 10, 10, NODE_COLORS.BLACK, root);
+    validNode(root.right, 25, 25, NODE_COLORS.BLACK, root);
+    validNode(root.left.left, 5, 5, NODE_COLORS.BLACK, root.left);
+    validNode(root.left.right, 12, 12, NODE_COLORS.BLACK, root.left);
+    validNode(root.right.left, 20, 20, NODE_COLORS.BLACK, root.right);
+    validNode(root.right.right, 30, 30, NODE_COLORS.BLACK, root.right);
+  });
+
+  test('Remove: cae 5 6 (red left child 2)', () => {
+    const tree = buildTree(20, 10, 30, 5, 15, 25, 35, 40);
+    tree.remove(40);
+    [12, 17, 16].forEach((value) => {
+      tree.insertMultiple(value, value);
+    });
+    tree.remove(35);
+    tree.remove(25);
+
+    // 初始状态检查
+    // @ts-ignore
+    let root = tree.root;
+    validNode(root, 15, 15, NODE_COLORS.BLACK, null);
+    validNode(root.left, 10, 10, NODE_COLORS.BLACK, root);
+    validNode(root.right, 20, 20, NODE_COLORS.BLACK, root);
+    validNode(root.left.left, 5, 5, NODE_COLORS.BLACK, root.left);
+    validNode(root.left.right, 12, 12, NODE_COLORS.BLACK, root.left);
+    validNode(root.right.left, 17, 17, NODE_COLORS.BLACK, root.right);
+    validNode(root.right.right, 30, 30, NODE_COLORS.BLACK, root.right);
+    validNode(root.right.left.left, 16, 16, NODE_COLORS.RED, root.right.left);
+
+    // case 5 6
+    tree.remove(30);
+    // @ts-ignore
+    root = tree.root;
+    validNode(root, 15, 15, NODE_COLORS.BLACK, null);
+    validNode(root.left, 10, 10, NODE_COLORS.BLACK, root);
+    validNode(root.right, 17, 17, NODE_COLORS.BLACK, root);
+    validNode(root.left.left, 5, 5, NODE_COLORS.BLACK, root.left);
+    validNode(root.left.right, 12, 12, NODE_COLORS.BLACK, root.left);
+    validNode(root.right.left, 16, 16, NODE_COLORS.BLACK, root.right);
+    validNode(root.right.right, 20, 20, NODE_COLORS.BLACK, root.right);
   });
 });
