@@ -3,6 +3,9 @@ import { objectToString } from './utils';
 
 /**
  * 日志等级
+ * 如果加等级的话
+ * 需要更新 formatMessage 里面
+ * 等级字符串的长度
  */
 export enum LOG_LEVEL {
   ALL,
@@ -46,8 +49,8 @@ class Logger {
    * 格式化日志信息
    */
   private formatMessage(level: LOG_LEVEL, message: string): string[] {
-    let logLevel: string = LOG_LEVEL[level];
-    let time: string = DateTimeTool.dateTimeFormat(new Date());
+    const logLevel: string = LOG_LEVEL[level].padEnd(5, ' ');
+    const time: string = DateTimeTool.dateTimeFormat(new Date());
 
     const result: string[] = [];
     (message || '').split('\n').forEach((line) => {
