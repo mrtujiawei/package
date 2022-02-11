@@ -1,6 +1,8 @@
 module.exports = {
+  // 显示测试信息明细
+  verbose: false,
   roots: ['<rootDir>/test'],
-  testTimeout: 60000,
+  testTimeout: 100000,
   testRegex: 'test/(.+)\\.test\\.(jsx?|tsx?)$',
   testPathIgnorePatterns: ['test/sorts/*', 'test/algorithm/*'],
   transform: {

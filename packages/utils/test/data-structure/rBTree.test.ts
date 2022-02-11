@@ -2,21 +2,51 @@ import { NODE_COLORS } from '../../src/data-structure/RBTree/enums';
 import TreeNode from '../../src/data-structure/RBTree/TreeNode';
 import { Random, RBTree } from '../../src/index';
 
-/**
- * 验证是否满足红黑树性质
- */
-describe('RBTree Properties test', () => {
-  const size = 1000;
+const size = 1000;
+
+const buildTree = (...values: number[]) => {
   const tree = new RBTree<number, number>((a, b) => a - b);
+  values.forEach(value => {
+    tree.insertMultiple(value, value);
+  });
+  return tree;
+};
+
+const buildRandomNums = () => {
   const options = { length: size };
   const sorter = () => (Math.random() < 0.5 ? 1 : -1);
   const mapper = (_: any, index: number) => 1 + index;
   const nums = Array.from(options, mapper).sort(sorter);
+  return nums;
+};
+
+const validNode = (
+  node: TreeNode<number, number>,
+  key: number,
+  value: number,
+  color: NODE_COLORS,
+  parent: TreeNode<number, number> | null,
+) => {
+  expect(node.key).toBe(key);
+  expect(node.value).toBe(value);
+  expect(node.color).toBe(color);
+  expect(node.parent).toBe(parent);
+};
+
+/**
+ * 验证是否满足红黑树性质
+ */
+describe('RBTree properties test', () => {
+  const tree = buildTree();
+  const nums = buildRandomNums();
 
   test('insert test', () => {
-    nums.forEach((num) => {
+    nums.forEach((num, index) => {
+      expect(tree.getSize()).toBe(index);
       tree.insertMultiple(num, num);
+      expect(tree.getSize()).toBe(index + 1);
     });
+    expect(tree.getSize()).toBe(size);
   });
 
   test('min value test', () => {
@@ -30,9 +60,7 @@ describe('RBTree Properties test', () => {
   const result: number[] = [];
   test('key value test', () => {
     tree.forEach((value, key) => {
-      if (key != value) {
-        console.warn('数据有误');
-      }
+      expect(key).toBe(value);
       result.push(key);
     });
   });
@@ -124,77 +152,397 @@ describe('RBTree Properties test', () => {
   });
 });
 
-test('RBTree delete test', () => {
-  const size = 1000;
-  const tree = new RBTree<number, number>((a, b) => a - b);
-  const options = { length: size };
-  const sorter = () => (Math.random() < 0.5 ? 1 : -1);
-  const mapper = (_: any, index: number) => 1 + index;
-  const nums = Array.from(options, mapper).sort(sorter);
+describe('RBTree methods test', () => {
+  test('Delete test', () => {
+    const tree = buildTree();
+    const nums = buildRandomNums();
 
-  tree.clear();
-  expect(tree.getSize()).toBe(0);
+    expect(tree.getSize()).toBe(0);
+    tree.clear();
+    expect(tree.getSize()).toBe(0);
 
-  nums.forEach((num) => {
-    tree.insertMultiple(num, num);
-  });
+    nums.forEach((num) => {
+      tree.insertMultiple(num, num);
+    });
 
-  tree.clear();
-  expect(tree.getSize()).toBe(0);
+    expect(tree.getSize()).toBe(size);
+    tree.clear();
+    expect(tree.getSize()).toBe(0);
 
-  nums.forEach((num) => {
-    tree.insertMultiple(num, num);
-  });
+    nums.forEach((num) => {
+      tree.insertMultiple(num, num);
+    });
+    expect(tree.getSize()).toBe(size);
 
-  const removedNums = new Set<number>();
-  const getUnremoveKey = (): number => {
-    const removeIndex = Random.getRandomNumber(0, size);
-    const removeKey = nums[removeIndex];
-    if (removedNums.has(removeKey)) {
-      return getUnremoveKey();
+    const removedNums = new Set<number>();
+    const getUnremoveKey = (): number => {
+      const removeIndex = Random.getRandomNumber(0, size);
+      const removeKey = nums[removeIndex];
+      if (removedNums.has(removeKey)) {
+        return getUnremoveKey();
+      }
+      return removeKey;
+    };
+
+    for (let i = 0; i < size; i++) {
+      const key = getUnremoveKey();
+      // 重复移除确定不报错
+      tree.remove(key);
+      tree.remove(key);
+      removedNums.add(key);
+      expect(tree.getSize()).toBe(size - removedNums.size);
+      expect(tree.getSize()).toBe(size - removedNums.size);
     }
-    return removeKey;
-  };
 
-  for (let i = 0; i < size; i++) {
-    const key = getUnremoveKey();
-    // 重复移除确定不报错
+    expect(tree.getSize()).toBe(0);
+
+    // 为空时也可以调用移除
+    tree.remove(nums[0]);
+    expect(tree.getSize()).toBe(0);
+    expect(tree.isEmpty()).toBe(true);
+  });
+
+  test('Insert same value test', () => {
+    const tree = buildTree();
+    tree.insertUnique(0, 0);
+    tree.insertUnique(0, 1);
+    expect(tree.getSize()).toBe(1);
+    expect(tree.getValue(0)).toBe(0);
+    tree.forEach((value, key) => {
+      if (0 == key) {
+        expect(value).toBe(0);
+      }
+    });
+    tree.insertOrReplace(0, 2);
+    expect(tree.getValue(0)).toBe(2);
+    tree.forEach((value, key) => {
+      if (0 == key) {
+        expect(value).toBe(2);
+      }
+    });
+    tree.insertMultiple(0, 3);
+
+    const sameValues: number[] = [];
+    tree.forEach((value, key) => {
+      if (0 == key) {
+        sameValues.push(value);
+      }
+    });
+    sameValues.sort((a, b) => a - b);
+    expect(sameValues[0]).toBe(2);
+    expect(sameValues[1]).toBe(3);
+  });
+
+  test('Replace root node test', () => {
+    const tree = buildTree();
+    const key = 0;
+    const value = 1;
+    tree.insertOrReplace(key, value);
+
+    // @ts-ignore
+    let root = tree.root;
+    expect(root.key).toBe(key);
+    expect(root.value).toBe(value);
+    expect(!root.left).toBe(true);
+    expect(!root.right).toBe(true);
+    expect(root.color).toBe(NODE_COLORS.BLACK);
+    expect(!root.parent).toBe(true);
+    expect(!root.getUncle()).toBe(true);
+    expect(!root.getSibling()).toBe(true);
+    expect(!root.getGrandparent()).toBe(true);
+    const newValue = 2;
+    tree.insertOrReplace(key, newValue);
+
+    // @ts-ignore
+    root = tree.root;
+    expect(root.key).toBe(key);
+    expect(root.value).toBe(newValue);
+    expect(!root.left).toBe(true);
+    expect(!root.right).toBe(true);
+    expect(root.color).toBe(NODE_COLORS.BLACK);
+    expect(!root.parent).toBe(true);
+    expect(!root.getUncle()).toBe(true);
+    expect(!root.getSibling()).toBe(true);
+    expect(!root.getGrandparent()).toBe(true);
+  });
+
+  test('GetMin test', () => {
+    const tree = buildTree();
+    const nums = buildRandomNums();
+    let min = Number.MAX_SAFE_INTEGER;
+    nums.forEach((value, index) => {
+      tree.insertMultiple(value, index);
+      min = Math.min(value, min);
+      expect(nums[tree.getMin()]).toBe(min);
+    });
+    for (let i = 1; i <= size; i++) {
+      expect(nums[tree.getMin()]).toBe(i);
+      tree.remove(i);
+    }
+  });
+
+  test('GetMax test', () => {
+    const tree = buildTree();
+    const nums = buildRandomNums();
+    let max = Number.MIN_SAFE_INTEGER;
+    nums.forEach((value, index) => {
+      tree.insertMultiple(value, index);
+      max = Math.max(value, max);
+      expect(nums[tree.getMax()]).toBe(max);
+    });
+    for (let i = size; i > 0; i--) {
+      expect(nums[tree.getMax()]).toBe(i);
+      tree.remove(i);
+    }
+  });
+
+  test('Remove case 1', () => {
+    const tree = buildTree();
+    const key = Random.getRandomNumber(0, size);
+    const value = Random.getRandomNumber(0, size);
+
+    tree.insertUnique(key, value);
+
     tree.remove(key);
-    tree.remove(key);
-    removedNums.add(key);
-    expect(tree.getSize()).toBe(size - removedNums.size);
-    expect(tree.getSize()).toBe(size - removedNums.size);
-  }
 
-  expect(tree.getSize()).toBe(0);
+    // @ts-ignore
+    expect(!tree.root).toBe(true);
 
-  // 为空时也可以调用移除
-  tree.remove(nums[0]);
-  expect(tree.getSize()).toBe(0);
-  expect(tree.isEmpty()).toBe(true);
-  tree.insertUnique(0, 0);
-  tree.insertUnique(0, 1);
-  expect(tree.getSize()).toBe(1);
-  tree.forEach((value, key) => {
-    if (0 == key) {
-      expect(value).toBe(0);
-    }
-  });
-  tree.insertOrReplace(0, 2);
-  tree.forEach((value, key) => {
-    if (0 == key) {
-      expect(value).toBe(2);
-    }
-  });
-  tree.insertMultiple(0, 3);
+    // @ts-ignore
+    expect(!tree.minimum).toBe(true);
 
-  const sameValues: number[] = [];
-  tree.forEach((value, key) => {
-    if (0 == key) {
-      sameValues.push(value);
-    }
+    // @ts-ignore
+    expect(!tree.maximum).toBe(true);
   });
-  sameValues.sort((a, b) => a - b);
-  expect(sameValues[0]).toBe(2);
-  expect(sameValues[1]).toBe(3);
+
+  test('Remove: replace by left max value child', () => {
+    const tree = buildTree();
+    tree.insertUnique(2, 2);
+    tree.insertUnique(1, 1);
+    tree.insertUnique(3, 3);
+
+    // @ts-ignore
+    let root = tree.root;
+    expect(root.key).toBe(2);
+    expect(root.value).toBe(2);
+    // @ts-ignore
+    expect(root.left).toBe(tree.minimum);
+    // @ts-ignore
+    expect(root.right).toBe(tree.maximum);
+    expect(root.color).toBe(NODE_COLORS.BLACK);
+    expect(root.parent).toBeNull();
+
+    tree.remove(2);
+
+    // @ts-ignore
+    root = tree.root;
+    expect(root.key).toBe(1);
+    expect(root.value).toBe(1);
+    expect(!root.left).toBe(true);
+    // @ts-ignore
+    expect(root.right).toBe(tree.maximum);
+    expect(root.color).toBe(NODE_COLORS.BLACK);
+    expect(root.parent).toBeNull();
+    expect(root.right.parent).toBe(root);
+
+    // @ts-ignore
+    expect(tree.minimum).toBe(tree.root);
+    const right = root.right;
+    expect(right.color).toBe(NODE_COLORS.RED);
+    expect(!right.getSibling()).toBe(true);
+    expect(right.key).toBe(3);
+  });
+
+  test('Remove: delete minimum', () => {
+    const tree = buildTree();
+    tree.insertUnique(2, 2);
+    tree.insertUnique(1, 1);
+    tree.insertUnique(3, 3);
+    // @ts-ignore
+    let root = tree.root;
+    let right = root.right;
+    tree.remove(1);
+    // @ts-ignore
+    expect(tree.root).toBe(root);
+    expect(!root.left).toBe(true);
+    expect(root.right).toBe(right);
+    // @ts-ignore
+    expect(tree.minimum).toBe(tree.root);
+    // @ts-ignore
+    expect(tree.maximum).toBe(tree.root.right);
+  });
+
+  test('Remove: delete minimum 2', () => {
+    const tree = buildTree();
+    [10, 8, 12, 6, 14].forEach(value => {
+      tree.insertUnique(value, value);
+    });
+
+    // @ts-ignore
+    let root = tree.root;
+
+    validNode(root, 10, 10, NODE_COLORS.BLACK, null);
+    validNode(root.left, 8, 8, NODE_COLORS.BLACK, root);
+    validNode(root.right, 12, 12, NODE_COLORS.BLACK, root);
+    validNode(root.left.left, 6, 6, NODE_COLORS.RED, root.left);
+    validNode(root.right.right, 14, 14, NODE_COLORS.RED, root.right);
+    // @ts-ignore
+    expect(tree.minimum).toBe(root.left.left);
+    // @ts-ignore
+    expect(tree.maximum).toBe(root.right.right);
+
+    tree.remove(6);
+
+    validNode(root, 10, 10, NODE_COLORS.BLACK, null);
+    validNode(root.left, 8, 8, NODE_COLORS.BLACK, root);
+    validNode(root.right, 12, 12, NODE_COLORS.BLACK, root);
+    validNode(root.right.right, 14, 14, NODE_COLORS.RED, root.right);
+
+    // @ts-ignore
+    expect(tree.minimum).toBe(root.left);
+    // @ts-ignore
+    expect(tree.maximum).toBe(root.right.right);
+  });
+
+  test('Remove: delete as 1 2 3', () => {
+    const tree = buildTree();
+    tree.insertUnique(2, 0);
+    tree.insertUnique(1, 1);
+    tree.insertUnique(3, 2);
+    tree.remove(1);
+    tree.remove(2);
+    // @ts-ignore
+    validNode(tree.root, 3, 2, NODE_COLORS.BLACK, null);
+    expect(tree.getSize()).toBe(1);
+    tree.remove(3);
+    // @ts-ignore
+    expect(tree.root).toBe(null);
+  });
+
+  test('Remove: remove as 1 3', () => {
+    const tree = buildTree();
+    tree.insertUnique(1, Random.getRandomNumber(0, size));
+    tree.insertUnique(3, Random.getRandomNumber(0, size));
+    tree.remove(1);
+    tree.remove(3);
+    expect(tree.getSize()).toBe(0);
+    // @ts-ignore
+    expect(!tree.root).toBe(true);
+  });
+
+  test('Remove: remove as 3 1', () => {
+    const tree = buildTree();
+    tree.insertUnique(1, Random.getRandomNumber(0, size));
+    tree.insertUnique(3, Random.getRandomNumber(0, size));
+    tree.remove(3);
+    tree.remove(1);
+    expect(tree.getSize()).toBe(0);
+    // @ts-ignore
+    expect(!tree.root).toBe(true);
+  });
+
+  test('Remove: remove maximum', () => {
+    const tree = buildTree(2, 1, 3);
+    tree.remove(3);
+    // @ts-ignore
+    const root = tree.root;
+    validNode(root, 2, 2, NODE_COLORS.BLACK, null);
+    validNode(root.left, 1, 1, NODE_COLORS.RED, root);
+    expect(!root.right).toBe(true);
+    expect(tree.getMax()).toBe(2);
+  });
+
+  test('Remove: remove maximum(14)', () => {
+    const tree = buildTree(10, 8, 12, 6, 14);
+    tree.remove(14);
+    // @ts-ignore
+    const root = tree.root;
+    validNode(root, 10, 10, NODE_COLORS.BLACK, null);
+    validNode(root.left, 8, 8, NODE_COLORS.BLACK, root);
+    validNode(root.right, 12, 12, NODE_COLORS.BLACK, root);
+    validNode(root.left.left, 6, 6, NODE_COLORS.RED, root.left);
+    expect(!root.right.right).toBe(true);
+  });
+
+  test('Remove: remove maximum and root', () => {
+    const tree = buildTree(2, 1, 3);
+    tree.remove(3);
+    tree.remove(2);
+
+    // @ts-ignore
+    const root = tree.root;
+    validNode(root, 1, 1, NODE_COLORS.BLACK, null);
+    expect(!root.left).toBeTruthy();
+    expect(!root.right).toBeTruthy();
+    expect(tree.getMax()).toBe(1);
+    expect(tree.getMin()).toBe(1);
+    expect(tree.getSize()).toBe(1);
+  });
+
+  test('Remove: remove node with a single left child', () => {
+    const tree = buildTree(20, 10, 30, 25, 35, 22);
+    tree.remove(25);
+
+    // @ts-ignore
+    const root = tree.root;
+    validNode(root, 20, 20, NODE_COLORS.BLACK, null);
+
+    validNode(root.left, 10, 10, NODE_COLORS.BLACK, root);
+    validNode(root.right, 30, 30, NODE_COLORS.BLACK, root);
+    validNode(root.right.left, 22, 22, NODE_COLORS.RED, root.right);
+    validNode(root.right.right, 35, 35, NODE_COLORS.RED, root.right);
+  });
+
+  test('Remove: remove node with a single right child', () => {
+    const tree = buildTree(20, 10, 30, 25, 35, 27);
+    tree.remove(25);
+
+    // @ts-ignore
+    const root = tree.root;
+    validNode(root, 20, 20, NODE_COLORS.BLACK, null);
+
+    validNode(root.left, 10, 10, NODE_COLORS.BLACK, root);
+    validNode(root.right, 30, 30, NODE_COLORS.BLACK, root);
+    validNode(root.right.left, 27, 27, NODE_COLORS.RED, root.right);
+    validNode(root.right.right, 35, 35, NODE_COLORS.RED, root.right);
+  });
+
+  test('Remove: remove repair case 2 4 (left child)', () => {
+    const tree = buildTree(20, 10, 30, 5, 25, 35, 40);
+    tree.remove(5);
+    tree.remove(40);
+
+    // @ts-ignore
+    let root = tree.root;
+    validNode(root, 20, 20, NODE_COLORS.BLACK, null);
+    validNode(root.left, 10, 10, NODE_COLORS.BLACK, root);
+    validNode(root.right, 30, 30, NODE_COLORS.RED, root);
+    validNode(root.right.left, 25, 25, NODE_COLORS.BLACK, root.right);
+    validNode(root.right.right, 35, 35, NODE_COLORS.BLACK, root.right);
+
+    tree.remove(10);
+    // @ts-ignore
+    root = tree.root;
+
+    validNode(root, 30, 30, NODE_COLORS.BLACK, null);
+    validNode(root.left, 20, 20, NODE_COLORS.BLACK, root);
+    validNode(root.right, 35, 35, NODE_COLORS.BLACK, root);
+    validNode(root.left.right, 25, 25, NODE_COLORS.RED, root.left);
+  });
+
+  test('Remove: remove repair case 2 4 (right child)', () => {
+    const tree = buildTree(20, 10, 30, 5, 15, 18);
+    tree.remove(18);
+
+    // @ts-ignore
+    let root = tree.root;
+    validNode(root, 20, 20, NODE_COLORS.BLACK, null);
+    validNode(root.left, 10, 10, NODE_COLORS.RED, root);
+    validNode(root.right, 30, 30, NODE_COLORS.BLACK, root);
+    validNode(root.left.left, 5, 5, NODE_COLORS.BLACK, root.left);
+    validNode(root.left.right, 15, 15, NODE_COLORS.BLACK, root.left);
+
+    tree.remove(30);
+
+  });
 });
