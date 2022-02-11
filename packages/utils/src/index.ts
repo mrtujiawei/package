@@ -14,6 +14,7 @@ import Events from './utils/Events';
 import Random from './utils/Random';
 import RBTree from './data-structure/RBTree/Tree';
 import TreeMap from './data-structure/TreeMap';
+import TreeSet from './data-structure/TreeSet';
 
 import * as utils from './utils/utils';
 
@@ -36,6 +37,7 @@ export {
   ResponsibilityChain,
   RBTree,
   TreeMap,
+  TreeSet,
 };
 
 export default {
@@ -56,4 +58,5 @@ export default {
   ResponsibilityChain,
   RBTree,
   TreeMap,
+  TreeSet,
 };
