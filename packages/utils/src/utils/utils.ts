@@ -685,8 +685,8 @@ const _gcd = (dividend: number, divisor: number): number => {
 };
 
 /**
- * 辗转相除法
- * @description 求最大公约数
+ * 求最大公约数
+ * @description 辗转相除法
  * @param dividend 被除数
  * @param divisor 除数
  * @throws {TypeError|RangeError}
