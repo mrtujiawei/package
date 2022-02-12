@@ -1,6 +1,6 @@
 {
   "name": "@mrtujiawei/utils",
-  "version": "1.9.5",
+  "version": "1.9.6",
   "description": "把自己写的工具函数打包发布到npm上",
   "types": "types/index.d.ts",
   "main": "dist/utils.js",
@@ -13,12 +13,11 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "start": "tsc -w",
-    "build": "webpack && tsc",
+    "build": "webpack",
 
     "doc": "doctoc README.md",
     "push": "git add . && git commit -m 'feat(all): 自动提交' && git push",
-    "clean": "rm types -rf",
+    "clean": "rm dist types -rf",
 
     "test": "jest",
     "test:coverage": "jest --coverage",
