@@ -13,7 +13,8 @@
     "outDir": "dist",
     "declaration": true,
     "declarationDir": "types",
-    "declarationMap": true
+    "declarationMap": true,
+    "emitDeclarationOnly": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts", "src/data-structure"]
