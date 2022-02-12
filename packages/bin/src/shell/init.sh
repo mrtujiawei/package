@@ -124,7 +124,10 @@ apt-get install tmux zsh -y
 # onmyzsh 配置
 GitDownload https://github.com/ohmyzsh/ohmyzsh.git --depth 1
 ./ohmyzsh/tools/install.sh
-rm onmyzsh
+rm ohmyzsh
+
+# ohmyzsh 会改 git branch 的行为
+git config --global core.pager ''
 
 # 模糊搜索 不需要自己下，直接 vim 里 PluginInstall 就可以了
 # apt-get install fzf
