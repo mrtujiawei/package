@@ -49,7 +49,7 @@ class Logger {
    * 格式化日志信息
    */
   private formatMessage(level: LOG_LEVEL, message: string): string[] {
-    const logLevel: string = LOG_LEVEL[level].padEnd(5, ' ');
+    const logLevel: string = LOG_LEVEL[level];
     const time: string = DateTimeTool.dateTimeFormat(new Date());
 
     const result: string[] = [];
