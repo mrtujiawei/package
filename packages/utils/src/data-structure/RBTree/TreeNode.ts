@@ -21,6 +21,8 @@ class TreeNode<K, V> {
   constructor(key: K, value: V) {
     this.key = key;
     this.value = value;
+    // @ts-ignore
+    this.left = this.right = this.parent = null;
   }
 
   /**

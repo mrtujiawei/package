@@ -1,6 +1,6 @@
 {
   "name": "@mrtujiawei/utils",
-  "version": "1.9.10",
+  "version": "1.9.11",
   "description": "把自己写的工具函数打包发布到npm上",
   "types": "types/index.d.ts",
   "main": "dist/utils.js",
@@ -16,7 +16,7 @@
     "build": "webpack",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "prepub": "npm run build",
+    "prepub": "npm run test && npm run build",
     "pub": "npm publish"
   },
   "repository": {
