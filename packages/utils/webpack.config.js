@@ -1,10 +1,32 @@
 // 用这个插件主要是移除tsc 输出的代码文件，保留 types 文件，类型文件在 types 里
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
+const { rmSync } = require('fs');
 const { execSync } = require('child_process');
 
+// 执行命令
+const runCommand = (command) => {
+  console.log(`> Run command: ${command}`);
+  execSync(command);
+};
+
+const removeDir = (dir) => {
+  console.log(`> rm ${dir}`);
+  rmSync(dir, {
+    force: true,
+    recursive: true,
+  });
+};
+
+// 清空目录
+removeDir('dist');
+removeDir('types');
+
 // 生成ts类型文件
-execSync('npx tsc');
+runCommand('npx tsc');
+
+// 生成文档
+runCommand('npx doctoc README.md');
 
 module.exports = {
   mode: 'production',

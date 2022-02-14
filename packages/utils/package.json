@@ -1,6 +1,6 @@
 {
   "name": "@mrtujiawei/utils",
-  "version": "1.9.6",
+  "version": "1.9.10",
   "description": "把自己写的工具函数打包发布到npm上",
   "types": "types/index.d.ts",
   "main": "dist/utils.js",
@@ -14,17 +14,10 @@
   },
   "scripts": {
     "build": "webpack",
-
-    "doc": "doctoc README.md",
-    "push": "git add . && git commit -m 'feat(all): 自动提交' && git push",
-    "clean": "rm dist types -rf",
-
     "test": "jest",
     "test:coverage": "jest --coverage",
-
-    "prepub": "npm run clean && npm run doc && npm run build",
-    "pub": "npm publish",
-    "postpub": "npm run push"
+    "prepub": "npm run build",
+    "pub": "npm publish"
   },
   "repository": {
     "type": "git",
