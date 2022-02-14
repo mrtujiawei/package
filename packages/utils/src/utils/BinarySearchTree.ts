@@ -67,7 +67,7 @@ class BinarySearchTree<T> {
   }
 
   append(value: T): void {
-    let node = new TreeNode<T>(value);
+    const node = new TreeNode<T>(value);
     this.root = this.appendNode(this.root, node);
   }
 
