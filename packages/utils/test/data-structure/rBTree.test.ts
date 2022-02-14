@@ -1,6 +1,6 @@
 import { NODE_COLORS } from '../../src/data-structure/RBTree/enums';
 import TreeNode from '../../src/data-structure/RBTree/TreeNode';
-import { Random, RBTree } from '../../src/index';
+import { Random, RBTree, toString } from '../../src/index';
 
 const size = 1000;
 
@@ -713,6 +713,11 @@ describe('RBTree iterator test', () => {
   test('toString test', () => {
     const tree = buildTree();
     expect(tree.toString()).toBe('{}');
+  });
+
+  test('tab test', () => {
+    const tree = buildTree();
+    expect(toString(tree)).toBe('[object RBTree]');
   });
 });
 
