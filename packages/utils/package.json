@@ -15,6 +15,7 @@
     "build": "webpack",
     "test": "jest",
     "test:coverage": "jest --coverage",
+    "doc": "doctoc README.md",
     "prepublish": "npm run test && npm run build"
   },
   "repository": {

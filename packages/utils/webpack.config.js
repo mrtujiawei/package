@@ -24,7 +24,7 @@ removeDir('dist');
 runCommand('npx tsc');
 
 // 生成文档
-runCommand('npx doctoc README.md');
+// runCommand('npx doctoc README.md');
 
 module.exports = {
   mode: 'production',
