@@ -23,6 +23,14 @@ import InsertResult from './InsertResult';
  */
 class RBTree<K, V> {
   /**
+   * 有类继承当前类的话
+   * new 时会调用当前的构造函数
+   */
+  static get [Symbol.species]() {
+    return RBTree;
+  }
+
+  /**
    * 根节点
    */
   private root!: TreeNode<K, V>;
@@ -137,15 +145,45 @@ class RBTree<K, V> {
    * 先序遍历二叉树
    */
   forEach(callback: (value: V, key: K) => void) {
-    const helper = (node: TreeNode<K, V>) => {
-      if (node) {
-        helper(node.left);
-        callback(node.value, node.key);
-        helper(node.right);
-      }
-    };
+    for (const [key, value] of this) {
+      callback(value, key);
+    }
+  }
 
-    helper(this.root);
+  keys() {
+    return this.getIterator(node => node?.key);
+  }
+
+  values() {
+    return this.getIterator(node => node?.value);
+  }
+
+  entries() {
+    return this.getIterator(node => {
+      const entries: [K, V] = [node?.key, node?.value];
+      return entries;
+    });
+  }
+
+  toString() {
+    const items: string[] = [];
+    for (const [key, value] of this) {
+      items.push(`${key}:${value}`);
+    }
+    return `{${items.join(',')}}`;
+  }
+  /**
+   * ES6 迭代器
+   */
+  [Symbol.iterator]() {
+    return this.entries();
+  }
+
+  /**
+   * @description Object.prototypt.toString.call(RBTree) 时返回 '[object RBTree]'
+   */
+  get [Symbol.toStringTag]() {
+    return 'RBTree';
   }
 
   /**
@@ -652,6 +690,58 @@ class RBTree<K, V> {
       sibling.left.color = NODE_COLORS.BLACK;
       this.rotateRight(parent);
     }
+  }
+
+  /**
+   * 迭代器方法会用到
+   * @description 获取正向遍历的下一个节点
+   */
+  private next(node: TreeNode<K, V>) {
+    if (!node) {
+      return node;
+    }
+    if (node.right) {
+      return this.getMinNodeByNode(node.right);
+    }
+
+    if (node.parent && node == node.parent.left) {
+      return node.parent;
+    }
+
+    while (node.parent && node == node.parent.right) {
+      node = node.parent;
+    }
+
+    return node.parent;
+  }
+
+  /**
+   * @description 获取以当前节点为根节点的最小值
+   */
+  private getMinNodeByNode(node: TreeNode<K, V>): TreeNode<K, V> {
+    if (node.left) {
+      return this.getMinNodeByNode(node.left);
+    }
+    return node;
+  }
+
+  /**
+   * 生成迭代器
+   */
+  private getIterator<T>(transform: (node: TreeNode<K, V>) => T) {
+    let node = this.minimum;
+    const next = () => {
+      let value = transform(node);
+      let done = !node;
+      node = this.next(node);
+      return {
+        value,
+        done,
+      };
+    };
+    return {
+      next,
+    };
   }
 }
 

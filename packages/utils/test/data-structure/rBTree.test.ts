@@ -176,10 +176,11 @@ describe('RBTree methods test', () => {
 
     const removedNums = new Set<number>();
     const getUnremoveKey = (): number => {
-      const removeIndex = Random.getRandomNumber(0, size);
-      const removeKey = nums[removeIndex];
-      if (removedNums.has(removeKey)) {
-        return getUnremoveKey();
+      let removeIndex = Random.getRandomNumber(0, size);
+      let removeKey = nums[removeIndex];
+      while (removedNums.has(removeKey)) {
+        removeIndex = Random.getRandomNumber(0, size);
+        removeKey = nums[removeIndex];
       }
       return removeKey;
     };
@@ -695,3 +696,24 @@ describe('RBTree methods test', () => {
     validNode(root.right.right, 20, 20, NODE_COLORS.BLACK, root.right);
   });
 });
+
+describe('RBTree iterator test', () => {
+  test('for...of test', () => {
+    const tree = buildTree(...buildRandomNums());
+    const nums: number[] = [];
+    for (const [key, value] of tree) {
+      expect(key).toBe(value);
+      nums.push(value);
+    }
+    for (let i = 1; i < nums.length; i++) {
+      expect(nums[i - 1]).toBeLessThan(nums[i]);
+    }
+  });
+
+  test('toString test', () => {
+    const tree = buildTree();
+    expect(tree.toString()).toBe('{}');
+  });
+});
+
+
