@@ -1,6 +1,6 @@
 {
   "name": "@mrtujiawei/utils",
-  "version": "1.9.11",
+  "version": "1.9.12",
   "description": "把自己写的工具函数打包发布到npm上",
   "types": "types/index.d.ts",
   "main": "dist/utils.js",
@@ -40,7 +40,6 @@
     "@babel/preset-typescript": "^7.16.0",
     "@types/jest": "^26.0.23",
     "babel-loader": "^8.2.2",
-    "clean-webpack-plugin": "^4.0.0",
     "core-js": "^3.19.1",
     "doctoc": "^2.1.0",
     "jest": "^26.6.3",

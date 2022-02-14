@@ -1,5 +1,4 @@
 // 用这个插件主要是移除tsc 输出的代码文件，保留 types 文件，类型文件在 types 里
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
 const { rmSync } = require('fs');
 const { execSync } = require('child_process');
@@ -80,5 +79,4 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
-  plugins: [new CleanWebpackPlugin()],
 };
