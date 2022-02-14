@@ -1,5 +1,10 @@
+/**
+ * 栈
+ * @filename: package/packages/utils/src/utils/Stack.ts
+ * @author: Mr Prince
+ * @date: 2022-02-14 15:44:36
+ */
 class Stack<T> {
-
   /**
    * 栈为空时仍获取元素
    */
