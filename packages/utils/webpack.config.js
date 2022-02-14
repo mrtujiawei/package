@@ -19,7 +19,6 @@ const removeDir = (dir) => {
 
 // 清空目录
 removeDir('dist');
-removeDir('types');
 
 // 生成ts类型文件
 runCommand('npx tsc');

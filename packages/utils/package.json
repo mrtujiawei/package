@@ -1,12 +1,11 @@
 {
   "name": "@mrtujiawei/utils",
-  "version": "1.9.12",
+  "version": "1.9.14",
   "description": "把自己写的工具函数打包发布到npm上",
-  "types": "types/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "main": "dist/utils.js",
   "files": [
-    "dist",
-    "types"
+    "dist"
   ],
   "publishConfig": {
     "access": "public",
