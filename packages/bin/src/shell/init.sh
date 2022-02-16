@@ -109,12 +109,6 @@ cd ~/.vim/bundle/coc.nvim/
 yarn
 cd -
 
-# fzf 配置
-
-echo "export FZF_DEFAULT_COMMAND=\"find -type f | grep -Ev '/node_modules|/.git/|/dev/|/prod/|/dist/|/.pub/|/.mozilla/|/.java/|/.dartServer/|/.local/|/.node-gyp/|/.gradle/'\"" >> ~/.bashrc
-echo -e "export FZF_DEFAULT_OPTS=\"--layout=reverse --inline-info --preview 'batcat --color=always --style=numbers --line-range=:50 {}'\"" >> ~/.bashrc
-source ~/.bashrc
-
 # ctags
 apt-get install universal-ctags -y
 
