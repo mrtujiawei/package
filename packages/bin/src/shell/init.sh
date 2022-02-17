@@ -123,6 +123,9 @@ rm ohmyzsh
 # ohmyzsh 会改 git branch 的行为
 git config --global core.pager ''
 
+# tmux 支持256色 或者 tmux -2 强制开启256色
+echo "export TERM=\"xterm-256color\"" >> ~/.zshrc
+
 # 模糊搜索 不需要自己下，直接 vim 里 PluginInstall 就可以了
 # apt-get install fzf
 # 下面这两个是增强的，暂时不需要
