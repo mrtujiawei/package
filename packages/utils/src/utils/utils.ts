@@ -708,9 +708,23 @@ export const gcd = (dividend: number, divisor: number): number => {
 };
 
 /**
- *
+ * 精度转换
+ * 超过 Number.MAX_SAFE_INTEGER 后无法处理
+ * @description 如果 fractionDigits 为小数，向下取整,不支持 BigInt
+ * @param number 要转换的数值
+ * @param fractionDigits 小数点后位数, 负数会将整数部分改成0
  */
-export const test8 = () => {};
+export const fixed = (number: number, fractionDigits: number) => {
+  fractionDigits = Math.floor(fractionDigits);
+  if (0 == fractionDigits) {
+    return `${Math.floor(number)}`;
+  }
+  if (0 > fractionDigits) {
+    return `${Math.floor(number * Math.pow(10, fractionDigits)) * Math.pow(10, -fractionDigits)}`;
+  }
+  const factor = Math.pow(10, fractionDigits);
+  return `${(Math.floor(number * factor) / factor).toFixed(fractionDigits)}`;
+};
 
 /**
  *

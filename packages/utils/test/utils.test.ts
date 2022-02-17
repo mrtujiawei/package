@@ -13,6 +13,7 @@ import {
   urlParamsToObject,
   memorize,
   gcd,
+  fixed,
 } from "../src/index";
 
 test("Debounce should trigger one time", () => {
@@ -363,4 +364,22 @@ test('Gcd test', () => {
   expect(() => gcd(0, 2)).toThrowError(RangeError);
   expect(() => gcd(2, 0)).toThrowError(RangeError);
   expect(() => gcd(0, 0)).toThrowError(RangeError);
+});
+
+test('Fix test', () => {
+  expect(fixed(0.1 + 0.2, 10)).toBe('0.3000000000');
+  expect(fixed(10.01, 3)).toBe('10.010');
+  expect(fixed(10.49, 1)).toBe('10.4');
+  expect(fixed(10.495, 2)).toBe('10.49');
+  expect(fixed(123.01, -1)).toBe('120');
+  expect(fixed(123.01, -2)).toBe('100');
+  expect(fixed(100, 3)).toBe('100.000');
+  expect(fixed(123.45655, -2)).toBe('100');
+  expect(fixed(123.45655, -1)).toBe('120');
+  expect(fixed(123.45655, 0)).toBe('123');
+  expect(fixed(123.45655, 1)).toBe('123.4');
+  expect(fixed(123.45655, 2)).toBe('123.45');
+  expect(fixed(123.45655, 3)).toBe('123.456');
+  expect(fixed(123.45655, 4)).toBe('123.4565');
+  expect(fixed(123.45655, 5)).toBe('123.45655');
 });
