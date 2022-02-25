@@ -28,7 +28,9 @@
     "download-m3u8": "./dist/m3u8-dowmload.js",
     "combine-m3u8": "./src/shell/combine.sh",
     "split-m3u8": "./src/shell/split.sh",
-    "toggle-npm-mirror": "./src/shell/toggle-npm-mirror.sh"
+    "check-command": "./src/shell/check-command.sh",
+    "git-download": "./src/shell/git-download.sh",
+    "toggle-npm-mirror": "./src/shell/toggle-npm-mirror.sh",
   },
   "dependencies": {
     "@mrtujiawei/node-utils": "^0.1.5",
