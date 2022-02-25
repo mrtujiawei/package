@@ -7,10 +7,10 @@
 while [ 1 -eq 1 ]
 do
   git clone $@
-  if [ 0 -ne $? ]
+  if [ 0 -eq $? ]
   then
-    echo "git clone $@ failed"
-  else
     break
+  else
+    echo "git clone $@ failed"
   fi
 done

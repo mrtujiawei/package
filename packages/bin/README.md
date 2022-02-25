@@ -1,8 +1,8 @@
-# bin #
+# bin
 
 shell 工具
 
-## server ##
+## server
 
 ```shell script
 # 把当前目录作为静态服务器的根目录
@@ -10,23 +10,23 @@ server [-p port]
 # 输入localhost[:port]/filepath 即可访问
 ```
 
-## download-m3u8 ##
+## download-m3u8
 
-下载m3u8及ts文件
+下载 m3u8 及 ts 文件
 
 ```shell
 # dir 下载目录
 download-m3u8 {m3u8} [-dir {dir}]
 ```
 
-## split-m3u8 ##
+## split-m3u8
 
 ```shell
 # filename 不要带.mp4
-split-m3u8 {filename} 
+split-m3u8 {filename}
 ```
 
-## combine-m3u8 ##
+## combine-m3u8
 
 ```shell
 combine-m3u8 {filename} {port}
