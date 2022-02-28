@@ -1,8 +1,8 @@
-const path = require('path')
+const path = require('path');
 
 module.exports = {
   mode: 'production',
-  entry: './src/index.js',
+  entry: './src/index.ts',
   devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -14,28 +14,25 @@ module.exports = {
       name: 'webUtils',
       // 支持所有格式
       type: 'umd',
+      export: 'default',
     },
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(ts|js)$/,
         exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env'],
-            plugins: [
-              [
-                '@babel/plugin-transform-runtime',
-              ],
-            ],
+            presets: [['@babel/preset-env'], ['@babel/preset-typescript']],
+            plugins: [['@babel/plugin-transform-runtime']],
           },
         },
       },
     ],
   },
   resolve: {
-    extensions: ['.js', '.ts'],
+    extensions: ['.ts', '.js', '.tsx'],
   },
 };
