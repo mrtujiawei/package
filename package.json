@@ -1,10 +1,10 @@
 {
   "private": true,
   "workspaces": [
-    "utils",
-    "node-utils",
-    "bin",
-    "web-utils"
+    "packages/utils",
+    "packages/node-utils",
+    "packages/bin",
+    "packages/web-utils"
   ],
   "scripts": {
     "build": "yarn workspaces run build",
