@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>copy demo</title>
+</head>
+<body>
+  <button id="btn">复制</button>
+  <script src="/dist/webUtils.js"></script>
+  <script>
+    const { copyToClipboard } = webUtils;
+    let counter = 0;
+    document
+      .querySelector('#btn')
+      .addEventListener('click', () => {
+        copyToClipboard(`Hello World: ${counter++}`);
+      });
+  </script>
+</body>
+</html>

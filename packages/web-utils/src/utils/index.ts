@@ -4,6 +4,7 @@
  * @author: Mr Prince
  * @date: 2022-02-28 14:24:52
  */
+import copy from 'copy-to-clipboard';
 
 /**
  * 判断浏览器支不支持css属性
@@ -79,67 +80,67 @@ export const getScrollTop = () => {
   return document.documentElement.scrollTop || document.body.scrollTop;
 };
 
-
 /**
  * 判断是否是IE8以下版本
  */
 export const isLessThenIE8 = () => {
-  return !+"\v1";
+  return !+'\v1';
 };
-
 
 /**
  * 异步加载js脚本
  *
- * @param {string} url - 脚本地址
- * @returns {Promise<void>}
+ * @param url - 脚本地址
  */
-// loadScript(scriptSrc) {
-//   return new Promise((resolve, reject) => {
-//     let script = document.createElement('script');
-//     if (script.readyState) {
-//       // 改变的时候触发  IE才有
-//       script.onreadystatechange = () => {
-//         if ('complete' == script.readyState || 'loaded' == script.readyState) {
-//           resolve();
-//         }
-//       };
-//     } else {
-//       // IE没有
-//       script.onload = () => {
-//         resolve();
-//       };
-//     }
-//     script.onerror = reject;
-//
-//     // 可能加载的速度非常快，状态不会发生改变
-//     // 所以需要在下面加载
-//     script.src = scriptSrc;
-//     document.body.appendChild(script);
-//   });
-// },
-//
+export const loadScript = (scriptSrc: string) => {
+  return new Promise((resolve, reject) => {
+    let script = document.createElement('script');
+    // @ts-ignore
+    if (script.readyState) {
+      // 改变的时候触发  IE才有
+      // @ts-ignore
+      script.onreadystatechange = () => {
+        // @ts-ignore
+        if ('complete' == script.readyState || 'loaded' == script.readyState) {
+          resolve(void 0);
+        }
+      };
+    } else {
+      // IE没有
+      script.onload = () => {
+        resolve(void 0);
+      };
+    }
+    script.onerror = reject;
+
+    // 可能加载的速度非常快，状态不会发生改变
+    // 所以需要在下面加载
+    script.src = scriptSrc;
+    script.onerror = reject;
+    document.body.appendChild(script);
+  });
+};
+
 /**
  * 触发下载
  *
- * @param {string} url - 下载的blob地址
- * @param {string} filename - 下载的文件名
- * @returns {void}
+ * @param url - 下载的blob地址
+ * @param filename - 下载的文件名
  */
-// downloadBlob(url, filename) {
-//   let link = document.createElement('a');
-//   link.style.display = 'none';
-//   link.href = url;
-//   link.setAttribute('download', filename);
-//
-//   document.body.appendChild(link);
-//   link.click();
-//
-//   // 释放资源
-//   document.body.removeChild(link);
-//   window.URL.revokeObjectURL(url);
-// },
-//
+export const downloadBlob = (url: string, filename: string)  => {
+  let link = document.createElement('a');
+  link.style.display = 'none';
+  link.href = url;
+  link.setAttribute('download', filename);
+
+  document.body.appendChild(link);
+  link.click();
+
+  // 释放资源
+  document.body.removeChild(link);
+  window.URL.revokeObjectURL(url);
+};
+
 /**
  * 将一个函数转换成一个立即调用的地址
  * 主要是为了 new Worker(url)
@@ -150,251 +151,104 @@ export const isLessThenIE8 = () => {
  *  2. 将函数转换成IIFE
  *  3. 通过new Blob生成地址
  *
- * @param {function} func
- * @returns {string}
+ * @param func
  */
-// createScriptUrl(func) {
-//   return URL.createObjectURL(new Blob([`(${func.toString()})();`]));
-// },
-//
-/**
- * 滚动锁定
- * 需要提前写好:
- * .modal-open {
- *   position: fixed;
- * }
- *
- * @typedef {object} ScrollCtrl
- * @property {function} ScrollCtrl.stopScroll - 进入遮罩层，禁止滑动
- * @property {function} ScrollCtrl.allowScroll - 取消滑动限制
- *
- * @returns {ScrollCtrl}
- */
-// getScrollCtrl() {
-//   const bodyClass = 'modal-open';
-//   let position = webUtils.getStyle(document.body, 'position');
-//   if ('fixed' != position) {
-//     throw new Error(`body's position is not fixed.`);
-//   }
-//   let scrollTop;
-//   const ModalHelper = {
-//     afterOpen() {
-//       scrollTop = webUtils.getScrollTop();
-//       document.body.classList.add(bodyClass);
-//       document.body.style.top = -scrollTop + 'px';
-//     },
-//     beforeClose() {
-//       document.body.classList.remove(bodyClass);
-//       document.scrollingElement.scrollTop = scrollTop;
-//     }
-//   };
-//
-//   return {
-//     stopScroll() {
-//       ModalHelper.afterOpen();
-//     },
-//     allowScroll() {
-//       ModalHelper.beforeClose()
-//     },
-//   };
-// },
-//
+export const createScriptUrl = (func: Function) => {
+  return URL.createObjectURL(new Blob([`(${func.toString()})();`]));
+};
+
 /**
  * 移动端全面禁止默认事件
  * 在需要的地方 ev.stopPropagation();
  */
-// preventDefaultEvent() {
-//   const callback = ev => {
-//     ev = ev || window.event;
-//     ev.preventDefault();
-//   };
-//
-//   const options = {
-//     passive: false,
-//   };
-//
-//   document.addEventListener('touchstart', callback, options);
-// },
-//
+export const preventDefaultEvent = () => {
+  const callback = (ev: Event) => {
+    ev = ev || window.event;
+    ev.preventDefault();
+    return false;
+  };
+
+  const options = {
+    passive: false,
+  };
+
+  document.addEventListener('touchstart', callback, options);
+
+  return callback;
+};
+
 /**
- * rem适配
- * 需要在页面上先写好:
- * <meta name="viewport" content="width=device-width,init-scale=1.0,maximum-scale=1.0,minimum-scle=1.0,user-scalable=no, viewport-fit=cover">
- *
- * @param  {number} [num = 10] - 宽度为多少rem.
- * @param {number} [timeout = 100] - 延时 timeout ms 后调整
- * @returns {function} - 移除适配
+ * 移动端允许默认事件
+ * @param callback - preventDefault 的返回值
  */
-// remAdaptation(num = 10, timeout = 100) {
-//   let styleNode = document.createElement('style');
-//   let adjust = () => {
-//     styleNode.innerHTML = `html{font-size: ${document.documentElement.clientWidth / num}px !important;}`;
-//   };
-//   let debounceAdjust = debounce(adjust, timeout);
-//
-//   adjust();
-//   document.head.appendChild(styleNode);
-//   addEventListener('resize', debounceAdjust);
-//
-//   return () => {
-//     removeEventListener('resize', debounceAdjust);
-//     document.head.removeChild(styleNode);
-//     styleNode = null;
-//   };
-// },
-//
-/**
- * viewport 适配
- * 需要提前在页面上写好:
- * <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,viewport-fit=cover">
- * 因为innerWidth等兼容性太差
- * 用viewport 适配后,1px 就是1物理像素
- *
- * @param {number} [targetWidth = 750] - 设计图的宽度
- * @param {number} [timeout = 100] - 延时 timeout ms 后调整
- * @returns {function} - 移除适配方案
- */
-// viewportAdaptation(targetWidth = 750, timeout = 100) {
-//   let viewport = document.querySelector('meta[name=viewport]');
-//   let originViewportContent = viewport.content;
-//   let adjust = () => {
-//     viewport.content = originViewportContent;
-//     let clientWidth = document.documentElement.clientWidth;
-//     let scale = clientWidth / targetWidth;
-//     viewport.content = `width=device-width, initial-scale=${scale}, maximum-scale=${scale}, minimum-scale=${scale}, user-scalable=no, viewport-fit=cover`;
-//   };
-//   let debounceAdjust = debounce(adjust(), timeout);
-//
-//   adjust();
-//   addEventListener('resize', debounceAdjust);
-//
-//   return () => {
-//     viewport.content = originViewportContent;
-//     viewport = null;
-//     removeEventListener('resize', debounceAdjust);
-//   };
-// },
-//
-/**
- * 1物理像素实现
- * rem 与原来相同
- * 1px 就是1物理像素
- * 保留完美视口
- *
- * @param {number} [num = 10] - rem
- * @param {number} [timeout = 100] - resize after timeout ms 后重新调整
- * @returns {function} 资源释放，状态恢复
- */
-// remAndViewportAdaptation(num = 10, timeout = 100) {
-//   let dpr = window.devicePixelRatio || 1;
-//   let scale = 1 / dpr;
-//   let styleNode = document.createElement('style');
-//   let meta = document.querySelector('meta[name=viewport');
-//   let originMeta = meta;
-//   if (!meta) {
-//     // 如果meta标签不存在
-//     meta = document.createElement('meta');
-//     meta.name = 'viewport';
-//     meta.content = 'width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,viewport-fit=cover';
-//     document.head.appendChild(meta);
-//   }
-//   document.head.appendChild(styleNode);
-//   let originViewportContent = meta.content;
-//
-//   let adjust = () => {
-//     meta.content = originViewportContent;
-//     let fontSize = document.documentElement.clientWidth * dpr / num;
-//     styleNode.innerHTML = `html{font-size: ${fontSize}px !important;}`;
-//     meta.content = `width=device-width, initial-scale=${scale}, maximum-scale=${scale}, minimum-scale=${scale}, user-scalable=no,viewport-fit=cover`;
-//   };
-//   let debounceAdjust = debounce(adjust, timeout);
-//
-//   adjust();
-//   addEventListener('resize', debounceAdjust);
-//
-//   return () => {
-//     viewport.content = originViewportContent;
-//     viewport = null;
-//     removeEventListener('resize', debounceAdjust)
-//     if (originMeta != meta) {
-//       document.head.removeChild(meta);
-//     }
-//   };
-// },
-//
+export const allowDefaultEvent = (callback: (ev: Event) => any) => {
+  document.removeEventListener('click', callback);
+};
+
 /**
  * 处理url请求参数
  *
- * @param {object} params
- * @returns {string}
+ * @param params
  */
-// objectToUrlParams(params) {
-//   let urlParams = Object.entries(params).map(([key, value]) => `${key}=${value}`).join('&');
-//   return encodeURI(urlParams);
-// },
-//
+export const objectToUrlParams = (params: Object) => {
+  let urlParams = Object.entries(params)
+    .map(([key, value]) => {
+      key = encodeURIComponent(key);
+      value = encodeURIComponent(value);
+      return `${key}=${value}`
+    })
+    .join('&');
+  return encodeURI(urlParams);
+};
+
 /**
  * 请求参数转对象
  *
- * @param {String} urlParams - 以 ？开头的url请求参数
- * @returns {Object}
+ * @param urlParams - 以 ？开头的url请求参数
  */
-// urlParamsToObject(urlParams) {
-//   urlParams = decodeURIComponent(urlParams);
-//   return urlParams.slice(1).split('&')
-//     .map(entry => entry.split('='))
-//     .reduce((params, [key, value]) => {
-//       params[key] = value;
-//       return params;
-//     }, {});
-// },
-//
-// async imgSrcToBase64Uri(src) {
-//   const img = new Image();
-//   return new Promise((resolve, reject) => {
-//     img.onload = () => {
-//       const canvas = document.createElement('canvas');
-//       const context = canvas.getContext('2d');
-//
-//       const width = img.width;
-//       const height = img.height;
-//       canvas.width = width;
-//       canvas.height = height;
-//       context.drawImage(img, 0, 0, width, height)
-//
-//       const base64Str = canvas.toDataURL('image/jpeg').split(',')[1];
-//       resolve(base64Str);
-//     };
-//     img.onerror = reject;
-//     img.src = src;
-//   });
-// },
-//
+export const urlParamsToObject = (urlParams: string) => {
+  // 先分割是为了防止键值对中有 '=&' 等符号
+  return urlParams
+    .slice(1)
+    .split('&')
+    .map((entry) => entry.split('='))
+    .reduce((params: any, [key, value]) => {
+      key = decodeURIComponent(key);
+      value = decodeURIComponent(value);
+      params[key] = value;
+      return params;
+    }, {});
+};
+
+/**
+ * 图片地址转uir
+ */
+export const imgSrcToBase64Uri = async (src: string) => {
+  const img = new Image();
+  return new Promise((resolve, reject) => {
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d') as CanvasRenderingContext2D;
+
+      const width = img.width;
+      const height = img.height;
+      canvas.width = width;
+      canvas.height = height;
+      context.drawImage(img, 0, 0, width, height);
+
+      const base64Str = canvas.toDataURL('image/jpeg').split(',')[1];
+      resolve(base64Str);
+    };
+    img.onerror = reject;
+    img.src = src;
+  });
+};
 
 /**
  * 复制到剪切板
  */
-// copyToClipboard(str) {
-//   const el = document.createElement('textarea');
-//   el.value = str;
-//   el.setAttribute('readonly', '');
-//   el.style.position = 'absolute';
-//   el.style.left = '-9999px';
-//   document.body.appendChild(el);
-//   const selected =
-//     document.getSelection().rangeCount > 0
-//     ? document.getSelection().getRangeAt(0)
-//     : false;
-//   el.select();
-//   document.execCommand('copy');
-//   document.body.removeChild(el);
-//   if (selected) {
-//     document.getSelection().removeAllRanges();
-//     document.getSelection().addRange(selected);
-//   }
-// },
 export const copyToClipboard = (text: string) => {
-
+  copy(text);
 };
 
 /**
