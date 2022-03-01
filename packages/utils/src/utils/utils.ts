@@ -727,11 +727,31 @@ export const fixed = (number: number, fractionDigits: number) => {
 };
 
 /**
- *
+ * 获取全局对象
  */
-export const test9 = () => {
+export const getGlobalThis = (() => {
+  let _globalThis: any
+  const _getGlobalThis = () => {
+    if (_globalThis) {
+      return _globalThis;
+    }
+    const UNDEFINED = typeof void 0;
 
-};
+    if (UNDEFINED != typeof globalThis) {
+      _globalThis = globalThis;
+    } else if (UNDEFINED != typeof self) {
+      _globalThis = self;
+    } else if (UNDEFINED != typeof window) {
+      _globalThis = window;
+    } else if (UNDEFINED != typeof global) {
+      _globalThis = global;
+    } else {
+      _globalThis = {};
+    }
+    return _globalThis;
+  };
+  return _getGlobalThis;
+})();
 
 /**
  *
