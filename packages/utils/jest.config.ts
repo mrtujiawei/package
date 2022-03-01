@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   // 显示测试信息明细
   verbose: false,
   roots: ['<rootDir>/test'],
