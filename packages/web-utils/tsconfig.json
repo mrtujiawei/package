@@ -10,12 +10,18 @@
     "removeComments": false,
     "moduleResolution": "node",
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "dist",
     "declaration": true,
     "declarationDir": "dist/types",
     "declarationMap": true,
     "emitDeclarationOnly": true
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

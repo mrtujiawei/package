@@ -1,14 +1,15 @@
-const path = require('path');
-const { execSync } = require('child_process');
-const { rmSync } = require('fs');
+import path from 'path';
+import { execSync } from 'child_process';
+import { rmSync } from 'fs';
+import webpack from 'webpack';
 
 // 执行命令
-const runCommand = (command) => {
+const runCommand = (command: string) => {
   console.log(`> Run command: ${command}`);
   execSync(command);
 };
 
-const removeDir = (dir) => {
+const removeDir = (dir: string) => {
   console.log(`> rm ${dir}`);
   rmSync(dir, {
     force: true,
@@ -22,7 +23,7 @@ removeDir('dist');
 // 生成ts类型文件
 runCommand('npx tsc');
 
-module.exports = {
+const config: webpack.Configuration = {
   mode: 'production',
   entry: './src/index.ts',
   devtool: 'source-map',
@@ -61,3 +62,5 @@ module.exports = {
 
   },
 };
+
+export default config;

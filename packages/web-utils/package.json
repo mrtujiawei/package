@@ -34,7 +34,11 @@
     "@mrtujiawei/utils": "^2.0.1",
     "babel-loader": "^8.2.2",
     "copy-to-clipboard": "^3.3.1",
+    "ts-node": "^10.5.0",
     "webpack": "^5.36.2",
     "webpack-cli": "^4.7.0"
+  },
+  "dependencies": {
+    "@mrtujiawei/utils": "^2.0.1"
   }
 }
