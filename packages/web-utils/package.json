@@ -1,21 +1,16 @@
 {
   "name": "@mrtujiawei/web-utils",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "web相关工具函数，只能在网页上使用的工具函数",
   "main": "dist/webUtils.js",
+  "types": "dist/types/index.d.ts",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "start": "echo 'web-utils started'",
     "build": "webpack",
-    "clean": "rm dist -rf",
-    "prepush": "git add . && git commit -m 'feat(all):auto commit'",
-    "push": "git push",
-    "prepub": "npm run clean && npm run build",
-    "pub": "npm publish",
-    "postpub": "npm run push"
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
