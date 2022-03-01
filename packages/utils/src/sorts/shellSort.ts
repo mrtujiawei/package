@@ -4,6 +4,28 @@
  * @author: Mr Prince
  * @date: 2021-05-31 12:10:54
  */
+
+
+/**
+ * 希尔排序
+ */
+// function shellSort(arr, compareTo = (a, b) => a - b) {
+//   let n = arr.length;
+//   let h = 1;
+//   while(h < n / 3) {
+//     h = 3 * h + 1;
+//   }
+//
+//   while(h >= 1) {
+//     for(let i = h; i < n; i++) {
+//       for(let j = i; j >= h && compareTo(arr[j], arr[j - h]) < 0; j -= h) {
+//         [arr[j], arr[j - h]] = [arr[j - h], arr[j]];
+//       }
+//     }
+//     h = parseInt(h / 3);
+//   }
+// }
+
 function shellSort(arr: number[]) {
   let stepSequence: number[] = [];
 

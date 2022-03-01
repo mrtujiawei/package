@@ -729,7 +729,9 @@ export const fixed = (number: number, fractionDigits: number) => {
 /**
  *
  */
-export const test9 = () => {};
+export const test9 = () => {
+
+};
 
 /**
  *
