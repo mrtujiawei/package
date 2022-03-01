@@ -1,4 +1,26 @@
 const path = require('path');
+const { execSync } = require('child_process');
+const { rmSync } = require('fs');
+
+// 执行命令
+const runCommand = (command) => {
+  console.log(`> Run command: ${command}`);
+  execSync(command);
+};
+
+const removeDir = (dir) => {
+  console.log(`> rm ${dir}`);
+  rmSync(dir, {
+    force: true,
+    recursive: true,
+  });
+};
+
+// 清空目录
+removeDir('dist');
+
+// 生成ts类型文件
+runCommand('npx tsc');
 
 module.exports = {
   mode: 'production',
@@ -34,5 +56,8 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.js', '.tsx'],
+  },
+  externals: {
+
   },
 };

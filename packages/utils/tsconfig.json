@@ -9,12 +9,19 @@
     "noImplicitAny": true,
     "removeComments": false,
     "esModuleInterop": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "dist",
     "declaration": true,
     "declarationDir": "dist/types",
     "declarationMap": true,
     "emitDeclarationOnly": true
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts", "src/data-structure"]
