@@ -285,7 +285,7 @@ export function reverseRange(arr: any[], start: number, end: number): void {
 /**
  * 交换数组中的两个元素
  */
-function swap(arr: any[], index1: number, index2: number): void {
+export function swap(arr: any[], index1: number, index2: number): void {
   if (!isNaturalNumber(index1)) {
     throw new RangeError(`index1: ${index1} is not a valid index`);
   }
