@@ -21,7 +21,7 @@ export class TYPES {
 /**
  * @description 延迟一段时间(秒)
  */
-export async function sleep(timeout: number = 0): Promise<void> {
+export const sleep = async (timeout: number = 0) => {
   return new Promise((resolve) => {
     setTimeout(resolve, timeout * 1000);
   });
