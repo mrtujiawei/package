@@ -5,8 +5,8 @@
  * @date: 2022-02-07 17:00:58
  */
 class InsertResult {
-  added: boolean;
-  replaced: boolean;
+  added: boolean = false;
+  replaced: boolean = false;
   constructor(wasAdded: boolean, wasReplaced: boolean) {
     this.added = wasAdded;
     this.replaced = wasReplaced;

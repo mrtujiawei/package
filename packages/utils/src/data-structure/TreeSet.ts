@@ -7,7 +7,8 @@
 import RBTree from './RBTree/Tree';
 
 class TreeMap<T> {
-  private tree: RBTree<T, undefined>;
+  // @ts-ignore
+  private tree: RBTree<T, undefined> = null;
 
   get size() {
     return this.tree.getSize();

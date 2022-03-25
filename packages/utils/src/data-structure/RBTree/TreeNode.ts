@@ -7,16 +7,21 @@
 import { NODE_COLORS } from './enums';
 
 class TreeNode<K, V> {
-  key!: K;
-  value!: V;
+  // @ts-ignore
+  key!: K = null;
+  // @ts-ignore
+  value!: V = null;
 
   /**
    * 默认红色，介绍对规则的破坏
    */
   color = NODE_COLORS.RED;
-  left!: TreeNode<K, V>;
-  right!: TreeNode<K, V>;
-  parent!: TreeNode<K, V>;
+  // @ts-ignore
+  left!: TreeNode<K, V> = null;
+  // @ts-ignore
+  right!: TreeNode<K, V> = null;
+  // @ts-ignore
+  parent!: TreeNode<K, V> = null;
 
   constructor(key: K, value: V) {
     this.key = key;
