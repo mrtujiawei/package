@@ -33,20 +33,17 @@ class RBTree<K, V> {
   /**
    * 根节点
    */
-  // @ts-ignore
-  private root!: TreeNode<K, V> = null;
+  private root!: TreeNode<K, V>;
 
   /**
    * 最小值
    */
-  // @ts-ignore
-  private minimum!: TreeNode<K, V> = null;
+  private minimum!: TreeNode<K, V>;
 
   /**
    * 最大值
    */
-  // @ts-ignore
-  private maximum!: TreeNode<K, V> = null;
+  private maximum!: TreeNode<K, V>;
 
   /**
    * 节点数
@@ -56,8 +53,7 @@ class RBTree<K, V> {
   /**
    * 比较器
    */
-  // @ts-ignore
-  private comparator: (lhs: K, rhs: K) => number = null;
+  private comparator: (lhs: K, rhs: K) => number;
 
   /**
    * 不带数据的初始化
