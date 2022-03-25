@@ -4,25 +4,74 @@ import Ripple from './utils/Ripple';
 import Platform from './utils/Platform';
 import ScrollControler from './utils/ScrollControl';
 import Adaptation from './utils/Adaptation';
-import * as utils from './utils/index';
-
-export * from './utils/index';
+import excelExport from './utils/xlsx';
+import {
+  isCssPropertySupported,
+  getElementStyle,
+  getElementPosition,
+  getScrollTop,
+  isLessThenIE8,
+  loadScript,
+  downloadBlob,
+  createScriptUrl,
+  preventDefaultEvent,
+  allowDefaultEvent,
+  objectToUrlParams,
+  urlParamsToObject,
+  imgSrcToBase64Uri,
+  copyToClipboard,
+  readBlobAsDataURL,
+  getElement,
+} from './utils/index';
 
 export {
   Tween,
   LocalData,
+  excelExport,
   Ripple,
   Platform,
   Adaptation,
   ScrollControler,
+  isCssPropertySupported,
+  getElementStyle,
+  getElementPosition,
+  getScrollTop,
+  isLessThenIE8,
+  loadScript,
+  downloadBlob,
+  createScriptUrl,
+  preventDefaultEvent,
+  allowDefaultEvent,
+  objectToUrlParams,
+  urlParamsToObject,
+  imgSrcToBase64Uri,
+  copyToClipboard,
+  readBlobAsDataURL,
+  getElement,
 };
 
 export default {
-  ...utils,
   Tween,
   LocalData,
+  excelExport,
   Ripple,
   Platform,
   Adaptation,
   ScrollControler,
+  isCssPropertySupported,
+  getElementStyle,
+  getElementPosition,
+  getScrollTop,
+  isLessThenIE8,
+  loadScript,
+  downloadBlob,
+  createScriptUrl,
+  preventDefaultEvent,
+  allowDefaultEvent,
+  objectToUrlParams,
+  urlParamsToObject,
+  imgSrcToBase64Uri,
+  copyToClipboard,
+  readBlobAsDataURL,
+  getElement,
 };

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>xlsx demo</title>
+  </head>
+  <body>
+    <button id="btn">导出</button>
+    <script src="https://cdn.bootcdn.net/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="/dist/webUtils.js"></script>
+    <script>
+      const { excelExport } = webUtils;
+      document.querySelector('#btn').addEventListener('click', () => {
+        const columns = [
+          { title: '姓名', dataIndex: 'name' },
+          {
+            title: '年龄',
+            dataIndex: 'age',
+            normalize(age) {
+              return age + 1;
+            },
+          },
+        ];
+        const data = [
+          { name: '屠佳伟', age: 20 },
+          { name: '陈绾', age: 19 },
+        ];
+        excelExport(columns, data, '个人信息');
+      });
+    </script>
+  </body>
+</html>

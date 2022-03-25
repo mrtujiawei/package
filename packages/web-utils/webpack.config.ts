@@ -59,7 +59,7 @@ const config: webpack.Configuration = {
     extensions: ['.ts', '.js', '.tsx'],
   },
   externals: {
-
+    xlsx: 'XLSX',
   },
 };
 

@@ -52,23 +52,7 @@ const config: webpack.Configuration = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [
-              [
-                '@babel/preset-env',
-                // {
-                //   corejs: '3.19.1',
-                //   useBuiltIns: 'usage',
-                //   targets: {
-                //     "ie": '6',
-                //     "edge": "17",
-                //     "firefox": "60",
-                //     "chrome": "20",
-                //     "safari": "11.1"
-                //   }
-                // },
-              ],
-              ['@babel/preset-typescript'],
-            ],
+            presets: [['@babel/preset-env'], ['@babel/preset-typescript']],
             plugins: [['@babel/plugin-transform-runtime']],
           },
         },
