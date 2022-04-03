@@ -24,6 +24,16 @@ class Logger {
   static LOG_LEVEL = LOG_LEVEL;
 
   /**
+   * logger 实例
+   */
+  private static instances: Map<string, Logger> = new Map();
+
+  /**
+   * 实例标识
+   */
+  private identifier: string;
+
+  /**
    * 大于等于当前等级的才会打印
    * 默认不打印日志
    */
