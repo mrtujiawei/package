@@ -112,13 +112,6 @@ class Logger {
   }
 
   /**
-   * 单例工厂,获取logger实例
-   */
-  static getLogger(): Logger {
-    return this.instance;
-  }
-
-  /**
    * 设置日志等级
    */
   setLevel(level: LOG_LEVEL): void {
