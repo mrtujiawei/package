@@ -45,15 +45,23 @@ class Logger {
   private listenHandle: Listener[] = [];
 
   /**
-   * logger 实例
-   */
-  private static instance: Logger = new Logger();
-
-  /**
    * 私有化构造函数
    * 不允许外部初始化
    */
-  private constructor() {}
+  private constructor(identifier: string) {
+    this.identifier = identifier;
+  }
+
+  /**
+   * 单例工厂,获取logger实例
+   */
+  static getLogger(identifier: string = 'default'): Logger {
+    if (!this.instances.has(identifier)) {
+      this.instances.set(identifier, new Logger(identifier));
+    }
+    return this.instances.get(identifier) as Logger;
+  }
+
 
   /**
    * 格式化日志信息
@@ -82,9 +90,6 @@ class Logger {
     return args.map((item) => objectToString(item)).join(' ');
   }
 
-  /**
-   * 内部调用的输出函数
-   */
   private print(level: LOG_LEVEL, messages: any[]) {
     if (level >= this.level) {
       this.publish(this.formatMessage(level, this.getParameters(messages)));
