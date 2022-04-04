@@ -72,7 +72,7 @@ class Logger {
 
     const result: string[] = [];
     (message || '').split('\n').forEach((line) => {
-      result.push(`${time} [${logLevel}] (${this.identifier}): ${line}`);
+      result.push(`${time} [${logLevel}] ${this.identifier} - ${line}`);
     });
 
     return result;
