@@ -14,10 +14,8 @@
     "start": "tsc -w",
     "build": "tsc",
     "clean": "rm -rf dist",
-
     "prepush": "git add . && git commit -m 'feat(all): 自动提交'",
     "push": "git push",
-
     "prepub": "npm run clean && npm run build",
     "pub": "npm publish",
     "postpub": "npm run push"
@@ -34,7 +32,7 @@
   },
   "dependencies": {
     "@mrtujiawei/node-utils": "^0.1.5",
-    "@mrtujiawei/utils": "^1.7.2",
+    "@mrtujiawei/utils": "^2.1.2",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",

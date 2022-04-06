@@ -1,6 +1,6 @@
 import { Logger } from '@mrtujiawei/utils';
 
-export const logger = Logger.getLogger();
+export const logger = Logger.getLogger('@mrtujiawei/bin');
 
 class InvalidAgrumentsError extends Error {
   constructor(message = 'Invalid Arguments') {
@@ -37,7 +37,7 @@ export const formatArgvs = () => {
 };
 
 /**
- * @param - url http或https开头的url
+ * @param url - http或https开头的url
  * @returns - 返回http或https开头的域名地址
  */
 export const getDomain = (url: string): string => {
