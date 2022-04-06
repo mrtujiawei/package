@@ -127,8 +127,13 @@ class Logger {
 
   /**
    * 取消订阅
+   * @param listener - 要取消订阅的回调，不传清除全部
    */
-  unsubscribe(listener: Listener): void {
+  unsubscribe(listener?: Listener): void {
+    if (!listener) {
+      this.listenHandle.length = 0;
+      return;
+    }
     const index = this.listenHandle.indexOf(listener);
     if (-1 == index) {
       console.warn('Listener is not exists');
