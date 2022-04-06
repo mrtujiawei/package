@@ -62,6 +62,18 @@ class Logger {
     return this.instances.get(identifier) as Logger;
   }
 
+  /**
+   * 移除实例
+   * @description 获取之后保存在外部的实例无法更改
+   * @returns 是否移除成功
+   */
+  static removeLogger(identifier: string = 'default'): boolean {
+    if (!this.instances.has(identifier)) {
+      return false;
+    }
+    this.instances.delete(identifier);
+    return true;
+  }
 
   /**
    * 格式化日志信息
