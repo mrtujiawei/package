@@ -127,19 +127,26 @@ class Logger {
 
   /**
    * 取消订阅
-   * @param listener - 要取消订阅的回调，不传清除全部
+   * @param listener - 要取消订阅的回调
+   * @returns - 是否清除成功
    */
-  unsubscribe(listener?: Listener): void {
-    if (!listener) {
-      this.listenHandle.length = 0;
-      return;
-    }
+  unsubscribe(listener: Listener): boolean {
     const index = this.listenHandle.indexOf(listener);
     if (-1 == index) {
-      console.warn('Listener is not exists');
+      return false;
     } else {
       this.listenHandle.splice(index, 1);
+      return true;
     }
+  }
+
+  /**
+   * 清除全部订阅
+   */
+  unsubscribeAll(): number {
+    const length = this.listenHandle.length;
+    this.listenHandle.length = 0;
+    return length;
   }
 
   trace(...messages: any[]): void {
