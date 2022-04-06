@@ -19,7 +19,6 @@
     "test:coverage": "jest --coverage",
     "doc": "doctoc README.md",
     "clean": "rm dist types ts-build -rf",
-
     "prepub": "npm run clean && npm run doc && npm run build",
     "pub": "npm publish",
     "postpub": "npm run push"
@@ -41,7 +40,7 @@
   },
   "homepage": "https://github.com/mrtujiawei/package/#readme",
   "devDependencies": {
-    "@mrtujiawei/utils": "^1.7.0",
+    "@mrtujiawei/utils": "^2.1.2",
     "@types/jest": "^26.0.23",
     "doctoc": "^2.1.0",
     "jest": "^26.6.3",
@@ -50,5 +49,8 @@
   },
   "jest": {
     "testEnvironment": "node"
+  },
+  "dependencies": {
+    "@mrtujiawei/utils": "^2.1.2"
   }
 }

@@ -1181,11 +1181,6 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@mrtujiawei/utils@^1.7.0":
-  version "1.9.16"
-  resolved "https://registry.npmjs.org/@mrtujiawei/utils/-/utils-1.9.16.tgz#c810ad8c2e0ecbbe8287d2e7a25ba3c00a13e18e"
-  integrity sha512-fexBO0a7tNbjt8GqBuspDGtRz5LaTx5h2czxWA2Z5/J+xRsUMPeMjeirrRCuGKPEzOnglpTQx8stjkMaRu9rAw==
-
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
   resolved "https://registry.npmjs.org/@sinonjs/commons/-/commons-1.8.3.tgz#3802ddd21a50a949b6721ddd72da36e67e7f1b2d"
