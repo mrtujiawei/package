@@ -4,7 +4,7 @@
  * @author: Mr Prince
  * @date: 2021-05-07 20:42:28
  */
-import { addZero, } from './utils';
+import { addZero } from './utils';
 
 class DateTimeTool {
   /**
@@ -14,7 +14,7 @@ class DateTimeTool {
     const hour = date.getHours();
     const minute = date.getMinutes();
     const second = date.getSeconds();
-    return [hour, minute, second].map(num => addZero(num)).join(delimiter);
+    return [hour, minute, second].map((num) => addZero(num)).join(delimiter);
   }
 
   /**
@@ -24,14 +24,18 @@ class DateTimeTool {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
-    return [year, month, day].map(num => addZero(num)).join(delimiter);
+    return [year, month, day].map((num) => addZero(num)).join(delimiter);
   }
 
   /**
    * 格式化日期时间,默认今天
    */
-  static dateTimeFormat(date: Date = new Date(), dateDelimiter: string = '-', timeDelimiter: string = ':'): string {
-    const day = DateTimeTool.dateFormat(date, dateDelimiter)
+  static dateTimeFormat(
+    date: Date = new Date(),
+    dateDelimiter: string = '-',
+    timeDelimiter: string = ':'
+  ): string {
+    const day = DateTimeTool.dateFormat(date, dateDelimiter);
     const time = DateTimeTool.timeFormat(date, timeDelimiter);
     return `${day} ${time}`;
   }
@@ -53,8 +57,16 @@ class DateTimeTool {
   /**
    * 时间戳转日期时间字符串
    */
-  static timestampToDateTime(timestamp: number, dateDelimiter = '-', timeDelimiter = ':') {
-    return DateTimeTool.dateTimeFormat(new Date(timestamp), dateDelimiter, timeDelimiter);
+  static timestampToDateTime(
+    timestamp: number,
+    dateDelimiter = '-',
+    timeDelimiter = ':'
+  ) {
+    return DateTimeTool.dateTimeFormat(
+      new Date(timestamp),
+      dateDelimiter,
+      timeDelimiter
+    );
   }
 
   /**
