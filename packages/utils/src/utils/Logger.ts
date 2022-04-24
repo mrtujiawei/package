@@ -3,9 +3,6 @@ import { objectToString } from './utils';
 
 /**
  * 日志等级
- * 如果加等级的话
- * 需要更新 formatMessage 里面
- * 等级字符串的长度
  */
 export enum LOG_LEVEL {
   ALL,
@@ -27,6 +24,12 @@ class Logger {
    * logger 实例
    */
   private static instances: Map<string, Logger> = new Map();
+
+  /**
+   * 是否有效
+   * 如果移除之后，改为无效
+   */
+  private valid = true;
 
   /**
    * 实例标识
@@ -71,6 +74,10 @@ class Logger {
     if (!this.instances.has(identifier)) {
       return false;
     }
+    const instance = this.instances.get(identifier) as Logger;
+    instance.setLevel(LOG_LEVEL.OFF);
+    instance.unsubscribeAll();
+    instance.valid = false;
     this.instances.delete(identifier);
     return true;
   }
@@ -103,7 +110,7 @@ class Logger {
   }
 
   private print(level: LOG_LEVEL, messages: any[]) {
-    if (level >= this.level) {
+    if (this.valid && level >= this.level) {
       this.publish(this.formatMessage(level, this.getParameters(messages)));
     }
   }
