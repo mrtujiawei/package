@@ -25,7 +25,7 @@ export const sleep = async (timeout: number = 0) => {
   return new Promise((resolve) => {
     setTimeout(resolve, timeout * 1000);
   });
-}
+};
 
 /**
  * 遍历对象所有属性
@@ -720,7 +720,10 @@ export const fixed = (number: number, fractionDigits: number) => {
     return `${Math.floor(number)}`;
   }
   if (0 > fractionDigits) {
-    return `${Math.floor(number * Math.pow(10, fractionDigits)) * Math.pow(10, -fractionDigits)}`;
+    return `${
+      Math.floor(number * Math.pow(10, fractionDigits)) *
+      Math.pow(10, -fractionDigits)
+    }`;
   }
   const factor = Math.pow(10, fractionDigits);
   return `${(Math.floor(number * factor) / factor).toFixed(fractionDigits)}`;
@@ -730,7 +733,7 @@ export const fixed = (number: number, fractionDigits: number) => {
  * 获取全局对象
  */
 export const getGlobalThis = (() => {
-  let _globalThis: any
+  let _globalThis: any;
   const _getGlobalThis = () => {
     if (_globalThis) {
       return _globalThis;
@@ -753,112 +756,21 @@ export const getGlobalThis = (() => {
   return _getGlobalThis;
 })();
 
-export const aaa = () => {
-
+/**
+ * 判断两个数组中的元素是否完全相同
+ */
+export const isArrayElementsEqual = <T>(
+  values0: T[],
+  values1: T[],
+  comparator = (value0: T, value1: T) => value0 == value1
+) => {
+  return (
+    values0.length == values1.length &&
+    values0.every((value0, index) => comparator(value0, values1[index]))
+  );
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  *
  */
 export const test10 = () => {};
-
-

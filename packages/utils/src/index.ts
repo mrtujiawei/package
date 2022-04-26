@@ -55,6 +55,7 @@ import {
   gcd,
   fixed,
   getGlobalThis,
+  isArrayElementsEqual,
 } from './utils/utils';
 
 export {
@@ -115,6 +116,7 @@ export {
   gcd,
   fixed,
   getGlobalThis,
+  isArrayElementsEqual,
 };
 
 export default {
@@ -175,4 +177,5 @@ export default {
   gcd,
   fixed,
   getGlobalThis,
+  isArrayElementsEqual
 };
