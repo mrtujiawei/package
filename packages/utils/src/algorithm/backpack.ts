@@ -26,7 +26,7 @@ function backpack(values: number[], weights: number[], capacity: number): number
       } else {
         // dp[i - 1][j] 不放，还是原来的价值
         // chooseValue 放，但是前面的重量上限要降低
-        
+
         // 能放的情况下，是否能够比之前的价值高
         let chooseValue = values[i - 1] + dp[i - 1][j - weights[i - 1]];
 
