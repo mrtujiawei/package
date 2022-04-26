@@ -191,6 +191,30 @@ class Logger {
   fatal(...messages: any[]): void {
     this.print(LOG_LEVEL.FATAL, messages);
   }
+
+  isTraceEnabled(): boolean {
+    return LOG_LEVEL.TRACE >= this.level;
+  }
+
+  isDebugEnabled(): boolean {
+    return LOG_LEVEL.DEBUG >= this.level;
+  }
+
+  isInfoEnabled(): boolean {
+    return LOG_LEVEL.INFO >= this.level;
+  }
+
+  isWarnEnabled(): boolean {
+    return LOG_LEVEL.WARN >= this.level;
+  }
+
+  isErrorEnabled(): boolean {
+    return LOG_LEVEL.ERROR >= this.level;
+  }
+
+  isFatalEnabled(): boolean {
+    return LOG_LEVEL.FATAL >= this.level;
+  }
 }
 
 export default Logger;
