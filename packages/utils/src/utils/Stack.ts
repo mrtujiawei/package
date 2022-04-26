@@ -34,7 +34,7 @@ class Stack<T> {
    * 入栈
    */
   public push(...values: T[]): void {
-    values.forEach(value => {
+    values.forEach((value) => {
       this.stack.push(value);
     });
   }
@@ -53,7 +53,7 @@ class Stack<T> {
   /**
    * 返回栈顶元素
    */
-  public peak():T {
+  public peak(): T {
     if (this.isEmpty()) {
       throw new Stack.StackEmptyError();
     }
