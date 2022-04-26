@@ -172,12 +172,12 @@ class Logger {
     this.print(LOG_LEVEL.TRACE, messages);
   }
 
-  info(...messages: any[]): void {
-    this.print(LOG_LEVEL.INFO, messages);
-  }
-
   debug(...messages: any[]): void {
     this.print(LOG_LEVEL.DEBUG, messages);
+  }
+
+  info(...messages: any[]): void {
+    this.print(LOG_LEVEL.INFO, messages);
   }
 
   warn(...messages: any[]): void {
