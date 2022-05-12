@@ -4,35 +4,40 @@
  * @author: Mr Prince
  * @date: 2021-11-21 18:08:25
  */
-
 class Trie {
-  private children: any = {
-    isEnd: false,
-  };
+  /**
+   * 是否是某个单词结尾
+   */
+  private end: boolean = false;
+
+  /**
+   * 末尾
+   */
+  private children = new Map<string, Trie>();
 
   /**
    * 搜索指定前缀的前缀树
    */
   private searchPrefix(prefix: string) {
-    let node = this.children;
+    let node: Trie = this;
     for (const ch of prefix) {
-      if (!node[ch]) {
+      if (!node.children.has(ch)) {
         return false;
       }
-      node = node[ch];
+      node = node.children.get(ch) as Trie;
     }
-    return node;
+    return node.end;
   }
 
   insert(word: string): void {
-    let node = this.children;
+    let node: Trie = this;
     for (const ch of word) {
-      if (!node[ch]) {
-        node[ch] = {};
+      if (!node.children.has(ch)) {
+        node.children.set(ch, new Trie());
       }
-      node = node[ch];
+      node = node.children.get(ch) as Trie;
     }
-    node.isEnd = true;
+    node.end = true;
   }
 
   /**
