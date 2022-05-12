@@ -29,7 +29,7 @@ class Trie {
     return node.end;
   }
 
-  insert(word: string): void {
+  insert(word: string) {
     let node: Trie = this;
     for (const ch of word) {
       if (!node.children.has(ch)) {
@@ -44,8 +44,7 @@ class Trie {
    * 是否存在
    */
   search(word: string): boolean {
-    const node = this.searchPrefix(word);
-    return node && node.isEnd;
+    return this.searchPrefix(word);
   }
 
   /**
