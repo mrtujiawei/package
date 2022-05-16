@@ -108,6 +108,14 @@ class Heap<T> {
   }
 
   /**
+   * 是否非空
+   * @description 使用过程中经常会用到非空判断，就给它加上了
+   */
+  isNotEmpty(): boolean {
+    return !this.isEmpty();
+  }
+
+  /**
    * 获取顶点值
    */
   peak(): T {
