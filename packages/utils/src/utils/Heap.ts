@@ -148,6 +148,23 @@ class Heap<T> {
     }
     return value;
   }
+
+  /**
+   * 替换顶点
+   * @description 限制堆大小的情况下，经常会有一下两种情况
+   * 1. 先remove后insert
+   * 2. 先insert后remove的操作
+   * 其实完全可以通过一步操作来实现
+   * 所以添加了这样一个 replaceTop 方法
+   */
+  replaceTop(value: T): void {
+    if (this.isEmpty()) {
+      this.insert(value);
+    } else {
+      this.heap[0] = value;
+      this.shiftDown(0);
+    }
+  }
 }
 
 export default Heap;
