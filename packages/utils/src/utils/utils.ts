@@ -771,6 +771,9 @@ export const isArrayElementsEqual = <T>(
 };
 
 /**
- *
+ * 求: 2 ^ k
+ * 需要2 大于等于0
  */
-export const test10 = () => {};
+export const lowbit = (k: number) => {
+  return k & (-k);
+};
