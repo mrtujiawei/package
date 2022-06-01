@@ -177,7 +177,7 @@ class SkipList<T> {
   [Symbol.iterator]() {
     let node = this.head.nexts[0];
     const next = () => {
-      let value: T;
+      let value!: T;
       let done = false;
       if (node) {
         value = node.value;
