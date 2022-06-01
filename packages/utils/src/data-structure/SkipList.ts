@@ -47,7 +47,7 @@ class SkipList<T> {
   /**
    * 头结点 不存放数据
    */
-  private head = new SkipListNode<T>(null as T, SkipList.MAX_LEVEL);
+  private head = new SkipListNode<T>(null as unknown as T, SkipList.MAX_LEVEL);
 
   constructor(private compare: (a: T, b: T) => number) {}
 

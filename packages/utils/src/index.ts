@@ -15,7 +15,7 @@ import Random from './utils/Random';
 import RBTree from './data-structure/RBTree/Tree';
 import TreeMap from './data-structure/TreeMap';
 import TreeSet from './data-structure/TreeSet';
-import SkipList from './algorithm/SkipList';
+import SkipList from './data-structure/SkipList';
 
 import {
   toString,
