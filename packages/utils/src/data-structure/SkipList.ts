@@ -49,7 +49,16 @@ class SkipList<T> {
    */
   private head = new SkipListNode<T>(null as unknown as T, SkipList.MAX_LEVEL);
 
+  /**
+   * 节点数
+   */
+  private size = 0;
+
   constructor(private compare: (a: T, b: T) => number) {}
+
+  get length() {
+    return this.size;
+  }
 
   search(target: T): boolean {
     let node = this.head;
@@ -60,7 +69,10 @@ class SkipList<T> {
       ) {
         node = node.nexts[i];
       }
-      if (null != node.nexts[i] && this.compare(target, node.nexts[i].value)) {
+      if (
+        null != node.nexts[i] &&
+        0 == this.compare(target, node.nexts[i].value)
+      ) {
         return true;
       }
     }
@@ -102,6 +114,7 @@ class SkipList<T> {
 
     // 实际的节点插入操作和属性更新操作
     this.currentLevel = Math.max(level, this.currentLevel);
+    this.size++;
     const newNode = new SkipListNode(value, level);
 
     // 实际插入节点
@@ -154,6 +167,7 @@ class SkipList<T> {
 
     if (result) {
       this.reduceLevel();
+      this.size--;
     }
 
     return result;
@@ -178,10 +192,9 @@ class SkipList<T> {
     let node = this.head.nexts[0];
     const next = () => {
       let value!: T;
-      let done = false;
+      let done = !node;
       if (node) {
         value = node.value;
-        done = !node;
         node = node.nexts[0];
       }
       return {
