@@ -10,6 +10,7 @@ import LinkList from './utils/LinkList';
 import Logger from './utils/Logger';
 import Heap from './utils/Heap';
 import BinarySearchTree from './utils/BinarySearchTree';
+import KMP from './utils/KMP';
 import Events from './utils/Events';
 import Random from './utils/Random';
 import RBTree from './data-structure/RBTree/Tree';
@@ -79,7 +80,6 @@ export {
   TreeSet,
   SkipList,
 
-  // utils
   toString,
   TYPES,
   sleep,
@@ -119,6 +119,7 @@ export {
   fixed,
   getGlobalThis,
   isArrayElementsEqual,
+  KMP,
 };
 
 export default {
@@ -180,5 +181,6 @@ export default {
   gcd,
   fixed,
   getGlobalThis,
-  isArrayElementsEqual
+  isArrayElementsEqual,
+  KMP,
 };
