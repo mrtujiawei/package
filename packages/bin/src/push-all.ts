@@ -28,7 +28,7 @@ const push = async (cwd: string) => {
     await exec('git push', options);
     logger.info(`${cwd} 提交成功`);
   } catch (e) {
-    logger.error('提交终止', e);
+    logger.error('提交终止' + e);
   }
 };
 

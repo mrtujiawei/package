@@ -2,6 +2,12 @@ import { Logger } from '@mrtujiawei/utils';
 
 export const logger = Logger.getLogger('@mrtujiawei/bin');
 
+logger.setLevel(Logger.LOG_LEVEL.ALL);
+
+logger.subscribe((content) => {
+  console.log(content.getFormattedMessage());
+});
+
 class InvalidAgrumentsError extends Error {
   constructor(message = 'Invalid Arguments') {
     super(message);

@@ -41,7 +41,7 @@ const getDownloader = (domain: string, relativePrefix: string, dir: string) => {
     } catch (e) {
       logger.error(`下载失败: ${fileName}`);
       logger.error(`失败地址: ${url}`);
-      logger.error(e);
+      logger.error('' + e);
     } finally {
       lock.unlock();
     }
@@ -53,7 +53,7 @@ const getDownloader = (domain: string, relativePrefix: string, dir: string) => {
  */
 const download = async () => {
   const params = formatArgvs();
-  logger.info('调用参数', params);
+  logger.info('调用参数:' + JSON.stringify(params));
 
   const m3u8 = params.m3u8;
   const domain = getDomain(m3u8);
@@ -70,9 +70,9 @@ const download = async () => {
     params.dir || m3u8.split(/[/.]/).slice(-2, -1)[0]
   );
   await rmdir(dir);
-  logger.trace('删除目录', dir, '成功');
+  logger.trace('删除目录 ' + dir + ' 成功');
   await mkdir(dir);
-  logger.trace('创建目录', dir, '成功');
+  logger.trace('创建目录 ' + dir + ' 成功');
 
   const filePlayList = playList.map((line) => {
     const url = line;
