@@ -781,4 +781,4 @@ export const lowbit = (k: number) => {
 /**
  * 判断是否是浏览器环境
  */
-export const isBrowser = typeof void 0 == typeof window;
+export const isBrowser = typeof void 0 != typeof window;

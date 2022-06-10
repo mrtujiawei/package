@@ -28,6 +28,6 @@ server.listen(port, () => {
   const ips = getIps();
   logger.info('Server is running at:');
   ips.forEach((ip) => {
-    logger.info(`\thttp://${ip}:${port}`);
+    logger.info(`http://${ip}:${port}`);
   });
 });
