@@ -90,7 +90,7 @@ export const isLessThenIE8 = () => {
 /**
  * 异步加载js脚本
  *
- * @param url - 脚本地址
+ * @param scriptSrc - 脚本地址
  */
 export const loadScript = (scriptSrc: string) => {
   return new Promise((resolve, reject) => {
