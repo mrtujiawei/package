@@ -404,7 +404,7 @@ export const hypot = (...values: number[]) => {
 /**
  * 获取对象上的key
  * @param object - 目标对象
- * @param all - 是否获取全部的key，包括不可枚举的
+ * @param unenumerable - 是否获取全部的key，包括不可枚举的
  * @returns - 如果是null 或 undefined 或 非对象类型的 返回空字符串
  */
 export const keys = (object: Object, unenumerable?: boolean): string[] => {
@@ -777,3 +777,8 @@ export const isArrayElementsEqual = <T>(
 export const lowbit = (k: number) => {
   return k & (-k);
 };
+
+/**
+ * 判断是否是浏览器环境
+ */
+export const isBrowser = typeof void 0 == typeof window;

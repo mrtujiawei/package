@@ -58,6 +58,7 @@ import {
   fixed,
   getGlobalThis,
   isArrayElementsEqual,
+  isBrowser,
 } from './utils/utils';
 
 export {
@@ -120,6 +121,7 @@ export {
   getGlobalThis,
   isArrayElementsEqual,
   KMP,
+  isBrowser,
 };
 
 export default {
@@ -183,4 +185,5 @@ export default {
   getGlobalThis,
   isArrayElementsEqual,
   KMP,
+  isBrowser,
 };
