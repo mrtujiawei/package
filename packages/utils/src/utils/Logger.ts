@@ -1,10 +1,15 @@
 import DateTimeTool from './DateTimeTool';
-import { objectToString } from './utils';
+
+/**
+ * 允许接收的内容类型
+ * symbol 隐式转字符串会报错
+ */
+type ContentType = string | number | boolean | undefined | null;
 
 /**
  * 日志等级
  */
-export enum LOG_LEVEL {
+enum LOG_LEVEL {
   ALL,
   TRACE,
   DEBUG,
@@ -15,10 +20,59 @@ export enum LOG_LEVEL {
   OFF,
 }
 
-type Listener = (message: string) => void;
+/**
+ * 消息相关内容
+ */
+class Content {
+  /**
+   * 记录时间
+   */
+  readonly logDate: Date;
+
+  /**
+   * 日志内容
+   */
+  readonly content: ContentType;
+
+  /**
+   * 日志等级
+   */
+  readonly logLevel: LOG_LEVEL;
+
+  /**
+   * logger 标识
+   */
+  readonly identifier: string;
+
+  constructor(content: ContentType, logLevel: LOG_LEVEL, identifier: string) {
+    this.logDate = new Date();
+    this.content = content;
+    this.logLevel = logLevel;
+    this.identifier = identifier;
+  }
+
+  /**
+   * 获取经过格式化的日志时间
+   */
+  getFormattedLogTime() {
+    return DateTimeTool.dateTimeFormat(this.logDate);
+  }
+
+  /**
+   * 获取格式化后的消息
+   */
+  getFormattedMessage() {
+    const time = this.getFormattedLogTime();
+    return `${time} [${this.logLevel}] ${this.identifier} - ${this.content}`;
+  }
+}
+
+type Listener = (content: Content) => void;
 
 class Logger {
   static LOG_LEVEL = LOG_LEVEL;
+
+  static Content = Content;
 
   /**
    * logger 实例
@@ -45,7 +99,7 @@ class Logger {
   /**
    * 订阅函数
    */
-  private listenHandle: Listener[] = [];
+  private listeners = new Set<Listener>();
 
   /**
    * 私有化构造函数
@@ -70,63 +124,36 @@ class Logger {
    * @description 获取之后保存在外部的实例无法更改
    * @returns 是否移除成功
    */
-  static removeLogger(identifier: string = 'default'): boolean {
-    if (!this.instances.has(identifier)) {
+  static removeLogger(logger: Logger): boolean {
+    if (!this.instances.has(logger.identifier)) {
       return false;
     }
-    const instance = this.instances.get(identifier) as Logger;
+    const instance = this.instances.get(logger.identifier) as Logger;
     instance.setLevel(LOG_LEVEL.OFF);
     instance.unsubscribeAll();
     instance.valid = false;
-    this.instances.delete(identifier);
+    this.instances.delete(logger.identifier);
     return true;
   }
 
-  /**
-   * 格式化日志信息
-   */
-  private formatMessage(level: LOG_LEVEL, message: string): string[] {
-    const logLevel: string = LOG_LEVEL[level];
-    const time: string = DateTimeTool.dateTimeFormat(new Date());
-
-    const result: string[] = [];
-    (message || '').split('\n').forEach((line) => {
-      result.push(`${time} [${logLevel}] ${this.identifier} - ${line}`);
+  static removeLoggerAll() {
+    this.instances.forEach((logger) => {
+      this.removeLogger(logger);
     });
-
-    return result;
   }
 
-  /**
-   * 处理参数
-   * 1. 如果是字符串，直接返回
-   * 2. 如果是undefined 或者 null，改成字符串
-   * 3. 如果是Error,打印message 和 stack
-   * 4. 如果是Date类型，打印时间戳
-   * 5. 如果是对象，JSON.stringify
-   */
-  private getParameters(args: any[]): string {
-    return args.map((item) => objectToString(item)).join(' ');
-  }
-
-  private print(level: LOG_LEVEL, messages: any[]) {
+  private print(level: LOG_LEVEL, content: ContentType) {
     if (this.valid && level >= this.level) {
-      this.publish(this.formatMessage(level, this.getParameters(messages)));
+      this.publish(new Content(content, level, this.identifier));
     }
   }
 
   /**
    * 内部发布消息，给订阅的函数
    */
-  private publish(messages: string[]): void {
-    messages.forEach((message) => {
-      this.listenHandle.forEach((handle) => {
-        try {
-          handle(message);
-        } catch (e) {
-          this.error(e);
-        }
-      });
+  private publish(content: Content): void {
+    this.listeners.forEach((listener) => {
+      listener(content);
     });
   }
 
@@ -141,7 +168,7 @@ class Logger {
    * 添加订阅
    */
   subscribe(listener: Listener): void {
-    this.listenHandle.push(listener);
+    this.listeners.add(listener);
   }
 
   /**
@@ -150,46 +177,42 @@ class Logger {
    * @returns - 是否清除成功
    */
   unsubscribe(listener: Listener): boolean {
-    const index = this.listenHandle.indexOf(listener);
-    if (-1 == index) {
-      return false;
-    } else {
-      this.listenHandle.splice(index, 1);
+    if (this.listeners.has(listener)) {
+      this.listeners.delete(listener);
       return true;
     }
+    return false;
   }
 
   /**
    * 清除全部订阅
    */
-  unsubscribeAll(): number {
-    const length = this.listenHandle.length;
-    this.listenHandle.length = 0;
-    return length;
+  unsubscribeAll(): void {
+    this.listeners.clear();
   }
 
-  trace(...messages: any[]): void {
-    this.print(LOG_LEVEL.TRACE, messages);
+  trace(content: ContentType): void {
+    this.print(LOG_LEVEL.TRACE, content);
   }
 
-  debug(...messages: any[]): void {
-    this.print(LOG_LEVEL.DEBUG, messages);
+  debug(content: ContentType): void {
+    this.print(LOG_LEVEL.DEBUG, content);
   }
 
-  info(...messages: any[]): void {
-    this.print(LOG_LEVEL.INFO, messages);
+  info(content: ContentType): void {
+    this.print(LOG_LEVEL.INFO, content);
   }
 
-  warn(...messages: any[]): void {
-    this.print(LOG_LEVEL.WARN, messages);
+  warn(content: ContentType): void {
+    this.print(LOG_LEVEL.WARN, content);
   }
 
-  error(...messages: any[]): void {
-    this.print(LOG_LEVEL.ERROR, messages);
+  error(content: ContentType): void {
+    this.print(LOG_LEVEL.ERROR, content);
   }
 
-  fatal(...messages: any[]): void {
-    this.print(LOG_LEVEL.FATAL, messages);
+  fatal(content: ContentType): void {
+    this.print(LOG_LEVEL.FATAL, content);
   }
 
   isTraceEnabled(): boolean {
