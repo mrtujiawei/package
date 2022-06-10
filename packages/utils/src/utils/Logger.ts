@@ -68,7 +68,7 @@ class Content {
     if (isBrowser) {
       return `${time} [${LOG_LEVEL[this.logLevel]}] ${this.identifier} - ${this.content}`;
     }
-    return `\u001b[36m[${time}] [${LOG_LEVEL[this.logLevel]}] ${this.identifier} - \u001b[39m${this.content}`;
+    return `\u001b[34m[${time}] [${LOG_LEVEL[this.logLevel]}] ${this.identifier} - \u001b[39m${this.content}`;
   }
 }
 
