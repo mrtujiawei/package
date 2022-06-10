@@ -87,7 +87,7 @@ export default async (url: string) => {
     const data: any[] = await retry(request)(url);
     return data;
   } catch (error) {
-    logger.error('请求失败:', error);
+    logger.error('请求失败:' + error);
     throw error;
   }
 };
