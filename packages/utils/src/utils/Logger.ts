@@ -1,4 +1,5 @@
 import DateTimeTool from './DateTimeTool';
+import { isBrowser } from './utils';
 
 /**
  * 允许接收的内容类型
@@ -63,7 +64,11 @@ class Content {
    */
   getFormattedMessage() {
     const time = this.getFormattedLogTime();
-    return `${time} [${LOG_LEVEL[this.logLevel]}] ${this.identifier} - ${this.content}`;
+
+    if (isBrowser) {
+      return `${time} [${LOG_LEVEL[this.logLevel]}] ${this.identifier} - ${this.content}`;
+    }
+    return `\u001b[36m${time} [${LOG_LEVEL[this.logLevel]}] ${this.identifier} - \u001b[39m${this.content}`;
   }
 }
 
