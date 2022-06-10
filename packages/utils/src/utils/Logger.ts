@@ -63,7 +63,7 @@ class Content {
    */
   getFormattedMessage() {
     const time = this.getFormattedLogTime();
-    return `${time} [${this.logLevel}] ${this.identifier} - ${this.content}`;
+    return `${time} [${LOG_LEVEL[this.logLevel]}] ${this.identifier} - ${this.content}`;
   }
 }
 
