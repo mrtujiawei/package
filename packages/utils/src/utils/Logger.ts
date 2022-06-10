@@ -63,12 +63,13 @@ class Content {
    * 获取格式化后的消息
    */
   getFormattedMessage() {
-    const time = this.getFormattedLogTime();
+    const time = this.logDate.toISOString();
+    const level = LOG_LEVEL[this.logLevel];
 
     if (isBrowser) {
-      return `${time} [${LOG_LEVEL[this.logLevel]}] ${this.identifier} - ${this.content}`;
+      return `${time} [${level}] ${this.identifier} - ${this.content}`;
     }
-    return `\u001b[34m[${time}] [${LOG_LEVEL[this.logLevel]}] ${this.identifier} - \u001b[39m${this.content}`;
+    return `\u001b[34m[${time}] [${level}] ${this.identifier} - \u001b[39m${this.content}`;
   }
 }
 
