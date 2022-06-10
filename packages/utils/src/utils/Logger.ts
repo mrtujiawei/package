@@ -1,5 +1,5 @@
 import DateTimeTool from './DateTimeTool';
-import { isBrowser } from './utils';
+import { isBrowser, addZero } from './utils';
 
 /**
  * 允许接收的内容类型
@@ -56,14 +56,15 @@ class Content {
    * 获取经过格式化的日志时间
    */
   getFormattedLogTime() {
-    return DateTimeTool.dateTimeFormat(this.logDate);
+    const ms = addZero(this.logDate.getTime() % 1000, 3);
+    return DateTimeTool.dateTimeFormat(this.logDate) + `.${ms}`;
   }
 
   /**
    * 获取格式化后的消息
    */
   getFormattedMessage() {
-    const time = this.logDate.toISOString();
+    const time = this.getFormattedLogTime();
     const level = LOG_LEVEL[this.logLevel];
 
     if (isBrowser) {
