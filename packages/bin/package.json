@@ -1,10 +1,11 @@
 {
   "name": "@mrtujiawei/bin",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "我的命令行工具",
   "main": "",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "publishConfig": {
     "access": "public",
