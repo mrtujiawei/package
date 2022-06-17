@@ -775,7 +775,7 @@ export const isArrayElementsEqual = <T>(
  * 需要2 大于等于0
  */
 export const lowbit = (k: number) => {
-  return k & (-k);
+  return k & -k;
 };
 
 /**
