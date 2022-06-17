@@ -782,3 +782,20 @@ export const lowbit = (k: number) => {
  * 判断是否是浏览器环境
  */
 export const isBrowser = typeof void 0 != typeof window;
+
+/**
+ * 求组合数
+ *  a
+ * C
+ *  b
+ */
+export function C(m: number, n: number) {
+  let result = 1;
+  for (let i = m + 1; i <= n; i++) {
+    result *= i;
+  }
+  for (let i = 1; i <= n - m; i++) {
+    result /= i;
+  }
+  return result;
+}
