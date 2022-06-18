@@ -1,91 +1,6 @@
-const _toString = Object.prototype.toString;
+import { toString } from './topLevelUtils';
+import Types from '../Types';
 
-export const toString = (obj: unknown): string => _toString.call(obj);
-
-export class TYPES {
-  /**
-   * 原始类型
-   */
-  static readonly UNDEFINED = toString(void 0);
-  static readonly NULL = toString(null);
-  static readonly STRING = toString('');
-  static readonly NUMBER = toString(0);
-  static readonly BOOLEAN = toString(false);
-  static readonly SYMBOL =
-    typeof toString == typeof Function.prototype
-      ? toString(Symbol())
-      : '[object Symbol]';
-
-  /**
-   * 引用类型
-   */
-  static readonly FUNCTION = toString(Function.prototype);
-  static readonly OBJECT = toString({});
-  static readonly ARRAY = toString([]);
-
-  static readonly DATE = toString(new Date());
-  static readonly ERROR = toString(new Error());
-
-  /**
-   * 基本数据类型集合
-   */
-  static readonly PRIMITIVE = [
-    TYPES.UNDEFINED,
-    TYPES.NULL,
-    TYPES.STRING,
-    TYPES.NUMBER,
-    TYPES.BOOLEAN,
-    TYPES.SYMBOL,
-  ];
-
-  static isUndefined(value: unknown) {
-    return toString(value) == TYPES.UNDEFINED;
-  }
-
-  static isNull(value: unknown) {
-    return toString(value) == TYPES.NULL;
-  }
-
-  static isString(value: unknown) {
-    return toString(value) == TYPES.STRING;
-  }
-
-  static isBoolean(value: unknown) {
-    return toString(value) == TYPES.NUMBER;
-  }
-
-  static isSymbol(value: unknown) {
-    return toString(value) == TYPES.SYMBOL;
-  }
-
-  static isFunction(value: unknown) {
-    return toString(value) == TYPES.FUNCTION;
-  }
-
-  static isObject(value: unknown) {
-    return toString(value) == TYPES.OBJECT;
-  }
-
-  static isArray(value: unknown) {
-    return toString(value) == TYPES.ARRAY;
-  }
-
-  static isDate(value: unknown) {
-    return toString(value) == TYPES.DATE;
-  }
-
-  static isError(value: unknown) {
-    return toString(value) == TYPES.ERROR;
-  }
-
-  static isPrimitive(value: unknown) {
-    return TYPES.PRIMITIVE.includes(toString(value));
-  }
-
-  static isNotPrimitive(value: unknown) {
-    return !TYPES.isPrimitive(value);
-  }
-}
 
 /**
  * @description 延迟一段时间(秒)
@@ -155,7 +70,7 @@ export const urlParamsToObject = (urlParams: string) => {
  * 判断是否是对象,排除null
  */
 export const isObject = (object: unknown): boolean => {
-  if (typeof {} != typeof object || toString(object) == TYPES.NULL) {
+  if (typeof {} != typeof object || toString(object) == Types.NULL) {
     return false;
   }
   return true;
@@ -196,8 +111,8 @@ export function isPromise(val: any): boolean {
   // Promise.resolve(val) == Promise.resolve(val);
   return (
     val &&
-    TYPES.FUNCTION == toString(val.then) &&
-    TYPES.FUNCTION == toString(val.catch)
+    Types.FUNCTION == toString(val.then) &&
+    Types.FUNCTION == toString(val.catch)
   );
 }
 
@@ -317,7 +232,7 @@ export function trailing(callback: Function, timeout: number) {
  */
 export function isInteger(number: any) {
   const type = toString(number);
-  if (TYPES.NULL == type || TYPES.UNDEFINED == type) {
+  if (Types.NULL == type || Types.UNDEFINED == type) {
     return false;
   }
 
@@ -563,7 +478,7 @@ export const objectToString = (
 
   const paramType = toString(data);
 
-  const normalTypes = [TYPES.NULL, TYPES.NUMBER, TYPES.UNDEFINED, TYPES.SYMBOL];
+  const normalTypes = [Types.NULL, Types.NUMBER, Types.UNDEFINED, Types.SYMBOL];
 
   // 没必要特殊处理的类型,直接 转换成字符串
   if (normalTypes.includes(paramType)) {
@@ -571,19 +486,19 @@ export const objectToString = (
   }
 
   // 给 string 类型的加上字符串标识
-  if (TYPES.STRING == paramType) {
+  if (Types.STRING == paramType) {
     return `"${data}"`;
   }
 
-  if (TYPES.FUNCTION == paramType) {
+  if (Types.FUNCTION == paramType) {
     return `function ${data.name}() { [code] }`;
   }
 
-  if (TYPES.ERROR == paramType) {
+  if (Types.ERROR == paramType) {
     return `${data.message}: \n${data.stack}`;
   }
 
-  if (TYPES.DATE == paramType) {
+  if (Types.DATE == paramType) {
     return `Date(${data.getTime()})`;
   }
 
@@ -592,7 +507,7 @@ export const objectToString = (
   references.add(data);
 
   // 处理数组
-  if (TYPES.ARRAY == paramType) {
+  if (Types.ARRAY == paramType) {
     const result = [];
     result.push('[');
 
@@ -608,7 +523,7 @@ export const objectToString = (
   }
 
   // 处理对象
-  if (TYPES.OBJECT == paramType) {
+  if (Types.OBJECT == paramType) {
     const result = [];
     result.push('{ ');
     for (let prop in data) {

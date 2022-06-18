@@ -17,10 +17,10 @@ import RBTree from './data-structure/RBTree/Tree';
 import TreeMap from './data-structure/TreeMap';
 import TreeSet from './data-structure/TreeSet';
 import SkipList from './data-structure/SkipList';
+import { toString } from './utils/topLevelUtils';
+import Types from './Types';
 
 import {
-  TYPES,
-  toString,
   sleep,
   trim,
   addZero,
@@ -81,9 +81,9 @@ export {
   TreeMap,
   TreeSet,
   SkipList,
+  Types,
 
   toString,
-  TYPES,
   sleep,
   trim,
   addZero,
@@ -145,10 +145,10 @@ export default {
   TreeMap,
   TreeSet,
   SkipList,
+  Types,
 
   // utils
   toString,
-  TYPES,
   sleep,
   trim,
   addZero,
