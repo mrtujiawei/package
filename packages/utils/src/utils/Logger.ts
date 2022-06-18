@@ -1,5 +1,6 @@
 import DateTimeTool from './DateTimeTool';
-import { isBrowser, addZero } from './utils';
+import { isBrowser } from '../enums';
+import { addZero } from './utils';
 
 /**
  * 允许接收的内容类型
