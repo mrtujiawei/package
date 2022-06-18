@@ -67,7 +67,7 @@ class Content {
     const time = this.getFormattedLogTime();
     const level = LOG_LEVEL[this.logLevel];
 
-    if (isBrowser) {
+    if (isBrowser()) {
       return `${time} [${level}] ${this.identifier} - ${this.content}`;
     }
     return `\u001b[34m[${time}] [${level}] ${this.identifier} - \u001b[39m${this.content}`;

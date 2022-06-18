@@ -1,7 +1,6 @@
 import { toString } from './topLevelUtils';
 import Types from '../Types';
 
-
 /**
  * @description 延迟一段时间(秒)
  */
@@ -765,7 +764,9 @@ export const lowbit = (k: number) => {
 /**
  * 判断是否是浏览器环境
  */
-export const isBrowser = typeof void 0 != typeof window;
+export function isBrowser() {
+  return typeof void 0 != typeof window;
+}
 
 /**
  * 求组合数
