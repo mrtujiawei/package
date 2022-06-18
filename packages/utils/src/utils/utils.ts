@@ -1,22 +1,90 @@
 const _toString = Object.prototype.toString;
 
-export const toString = (obj: any): string => _toString.call(obj);
+export const toString = (obj: unknown): string => _toString.call(obj);
 
 export class TYPES {
+  /**
+   * 原始类型
+   */
   static readonly UNDEFINED = toString(void 0);
   static readonly NULL = toString(null);
   static readonly STRING = toString('');
   static readonly NUMBER = toString(0);
   static readonly BOOLEAN = toString(false);
-  static readonly FUNCTION = toString(Function.prototype);
+  static readonly SYMBOL =
+    typeof toString == typeof Function.prototype
+      ? toString(Symbol())
+      : '[object Symbol]';
 
-  // symbol 可能会报错，直接写死吧
-  static readonly SYMBOL = '[object Symbol]';
+  /**
+   * 引用类型
+   */
+  static readonly FUNCTION = toString(Function.prototype);
   static readonly OBJECT = toString({});
   static readonly ARRAY = toString([]);
 
   static readonly DATE = toString(new Date());
   static readonly ERROR = toString(new Error());
+
+  /**
+   * 基本数据类型集合
+   */
+  static readonly PRIMITIVE = [
+    TYPES.UNDEFINED,
+    TYPES.NULL,
+    TYPES.STRING,
+    TYPES.NUMBER,
+    TYPES.BOOLEAN,
+    TYPES.SYMBOL,
+  ];
+
+  static isUndefined(value: unknown) {
+    return toString(value) == TYPES.UNDEFINED;
+  }
+
+  static isNull(value: unknown) {
+    return toString(value) == TYPES.NULL;
+  }
+
+  static isString(value: unknown) {
+    return toString(value) == TYPES.STRING;
+  }
+
+  static isBoolean(value: unknown) {
+    return toString(value) == TYPES.NUMBER;
+  }
+
+  static isSymbol(value: unknown) {
+    return toString(value) == TYPES.SYMBOL;
+  }
+
+  static isFunction(value: unknown) {
+    return toString(value) == TYPES.FUNCTION;
+  }
+
+  static isObject(value: unknown) {
+    return toString(value) == TYPES.OBJECT;
+  }
+
+  static isArray(value: unknown) {
+    return toString(value) == TYPES.ARRAY;
+  }
+
+  static isDate(value: unknown) {
+    return toString(value) == TYPES.DATE;
+  }
+
+  static isError(value: unknown) {
+    return toString(value) == TYPES.ERROR;
+  }
+
+  static isPrimitive(value: unknown) {
+    return TYPES.PRIMITIVE.includes(toString(value));
+  }
+
+  static isNotPrimitive(value: unknown) {
+    return !TYPES.isPrimitive(value);
+  }
 }
 
 /**
@@ -800,4 +868,3 @@ export function C(m: number, n: number) {
   }
   return result;
 }
-
