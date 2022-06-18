@@ -58,8 +58,8 @@ import {
   fixed,
   getGlobalThis,
   isArrayElementsEqual,
-  C,
-  isBrowser
+  isBrowser,
+  C
 } from './utils/utils';
 
 export {
