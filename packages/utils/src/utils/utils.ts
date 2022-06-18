@@ -20,11 +20,6 @@ export class TYPES {
 }
 
 /**
- * 判断是否是浏览器环境
- */
-export const isBrowser = typeof void 0 != typeof window;
-
-/**
  * @description 延迟一段时间(秒)
  */
 export const sleep = async (timeout: number = 0) => {
@@ -785,6 +780,11 @@ export const lowbit = (k: number) => {
 };
 
 /**
+ * 判断是否是浏览器环境
+ */
+export const isBrowser = typeof void 0 != typeof window;
+
+/**
  * 求组合数
  *  a
  * C
@@ -800,3 +800,4 @@ export function C(m: number, n: number) {
   }
   return result;
 }
+
