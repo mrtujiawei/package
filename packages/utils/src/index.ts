@@ -17,9 +17,9 @@ import RBTree from './data-structure/RBTree/Tree';
 import TreeMap from './data-structure/TreeMap';
 import TreeSet from './data-structure/TreeSet';
 import SkipList from './data-structure/SkipList';
-import { TYPES, isBrowser } from './enums';
 
 import {
+  TYPES,
   toString,
   sleep,
   trim,
@@ -59,6 +59,7 @@ import {
   getGlobalThis,
   isArrayElementsEqual,
   C,
+  isBrowser
 } from './utils/utils';
 
 export {
