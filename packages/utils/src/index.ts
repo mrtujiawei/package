@@ -59,7 +59,6 @@ import {
   fixed,
   getGlobalThis,
   isArrayElementsEqual,
-  isBrowser,
   C
 } from './utils/utils';
 
@@ -123,7 +122,6 @@ export {
   getGlobalThis,
   isArrayElementsEqual,
   KMP,
-  isBrowser,
   C,
   Envs
 };
@@ -189,7 +187,6 @@ export default {
   getGlobalThis,
   isArrayElementsEqual,
   KMP,
-  isBrowser,
   C,
   Envs,
 };
