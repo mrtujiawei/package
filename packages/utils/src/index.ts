@@ -7,7 +7,7 @@ import DateTimeTool from './utils/DateTimeTool';
 import CountDown from './utils/CountDown';
 import Pagination from './utils/Pagination';
 import LinkList from './utils/LinkList';
-import Logger from './utils/Logger';
+import Logger from './Logger';
 import Heap from './utils/Heap';
 import BinarySearchTree from './utils/BinarySearchTree';
 import KMP from './utils/KMP';
@@ -19,6 +19,7 @@ import TreeSet from './data-structure/TreeSet';
 import SkipList from './data-structure/SkipList';
 import { toString } from './utils/topLevelUtils';
 import Types from './Types';
+import Envs from './Envs';
 
 import {
   sleep,
@@ -123,7 +124,8 @@ export {
   isArrayElementsEqual,
   KMP,
   isBrowser,
-  C
+  C,
+  Envs
 };
 
 export default {
@@ -188,5 +190,6 @@ export default {
   isArrayElementsEqual,
   KMP,
   isBrowser,
-  C
+  C,
+  Envs,
 };

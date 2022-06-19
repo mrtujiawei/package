@@ -1,5 +1,6 @@
-import DateTimeTool from './DateTimeTool';
-import { addZero, isBrowser } from './utils';
+import DateTimeTool from '../utils/DateTimeTool';
+import { addZero, } from '../utils/utils';
+import Envs from '../Envs';
 
 /**
  * 允许接收的内容类型
@@ -67,7 +68,7 @@ class Content {
     const time = this.getFormattedLogTime();
     const level = LOG_LEVEL[this.logLevel];
 
-    if (isBrowser()) {
+    if (Envs.isBrowser()) {
       return `${time} [${level}] ${this.identifier} - ${this.content}`;
     }
     return `\u001b[34m[${time}] [${level}] ${this.identifier} - \u001b[39m${this.content}`;
