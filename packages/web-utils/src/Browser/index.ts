@@ -63,6 +63,14 @@ class Browser {
   }
 
   /**
+   * 页面卸载前发送
+   * 不一定会成功
+   */
+  static sendBeacon(url: string | URL, data?: BodyInit | null) {
+    navigator.sendBeacon(url, data);
+  }
+
+  /**
    * 浏览器信息
    */
   static getUserAgent() {
