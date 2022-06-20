@@ -36,10 +36,18 @@ class SegmentTree {
     this.pushup(node);
   }
 
+  /**
+   * 由子节点计算父节点的信息
+   */
   pushup(node: SegmentNode) {
     node.value = node.left.value && node.right.value;
   }
 
+  /**
+   * 懒标记
+   * 涉及区间修改时需要
+   * 当前父节点的修改信息下传到子节点
+   */
   pushdown(node: SegmentNode) {
     if (!node.left) {
       node.left = new SegmentNode();
