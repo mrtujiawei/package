@@ -6,6 +6,12 @@
  */
 import copy from 'copy-to-clipboard';
 
+export const canUseDOM: boolean = !!(
+  typeof window !== 'undefined' &&
+  typeof window.document !== 'undefined' &&
+  typeof window.document.createElement !== 'undefined'
+);
+
 /**
  * 判断浏览器支不支持css属性
  *

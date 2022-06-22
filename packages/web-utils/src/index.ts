@@ -5,6 +5,8 @@ import Platform from './utils/Platform';
 import ScrollControler from './utils/ScrollControl';
 import Adaptation from './utils/Adaptation';
 import excelExport from './utils/xlsx';
+import Browser from './Browser';
+
 import {
   isCssPropertySupported,
   getElementStyle,
@@ -32,6 +34,7 @@ export {
   Platform,
   Adaptation,
   ScrollControler,
+  Browser,
   isCssPropertySupported,
   getElementStyle,
   getElementPosition,
@@ -58,6 +61,7 @@ export default {
   Platform,
   Adaptation,
   ScrollControler,
+  Browser,
   isCssPropertySupported,
   getElementStyle,
   getElementPosition,
