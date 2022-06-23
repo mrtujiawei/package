@@ -1,12 +1,13 @@
 import DateTimeTool from '../utils/DateTimeTool';
 import { addZero, } from '../utils/utils';
 import Envs from '../Envs';
+import type { Primitive } from '../types';
 
 /**
  * 允许接收的内容类型
  * symbol 隐式转字符串会报错
  */
-type ContentType = string | number | boolean | undefined | null;
+type ContentType = Exclude<Primitive, symbol>;
 
 /**
  * 日志等级

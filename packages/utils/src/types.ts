@@ -1,0 +1,12 @@
+/**
+ * 一些公共的类型
+ * @filename: /home/tujiawei/github/package/packages/utils/src/types.ts
+ * @author: Mr Prince
+ * @date: 2022-06-23 14:01:11
+ */
+
+
+/**
+ * 基础数据类型
+ */
+export type Primitive = string | number | boolean | undefined | null | symbol;
