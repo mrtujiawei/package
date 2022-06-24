@@ -1,3 +1,4 @@
+// 数据结构
 import Stack from './data-structure/Stack';
 import Queue from './data-structure/Queue';
 import Heap from './data-structure/Heap';
@@ -7,6 +8,7 @@ import TreeMap from './data-structure/TreeMap';
 import TreeSet from './data-structure/TreeSet';
 import SkipList from './data-structure/SkipList';
 
+// 应用
 import Lock from './utils/Lock';
 import TaskQueue from './utils/TaskQueue';
 import ResponsibilityChain from './utils/ResponsibilityChain';
