@@ -4,7 +4,7 @@
  * @author: Mr Prince
  * @date: 2021-09-22 15:54:48
  */
-type Compare<T> = (a: T, b: T) => number;
+import { Compare } from '../types';
 
 class TreeNode<T> {
   private value!: T;

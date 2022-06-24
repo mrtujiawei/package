@@ -10,3 +10,9 @@
  * 基础数据类型
  */
 export type Primitive = string | number | boolean | undefined | null | symbol;
+
+/**
+ * 比较器
+ * @returns a == b 返回 0, a < b => (< 0), a > b => (> 0)
+ */
+export type Compare<T> = (a: T, b: T) => number;
