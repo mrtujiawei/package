@@ -4,6 +4,9 @@
  * 除了 head 和 tail 只需要处理一个指针
  * 其他所有节点都需要处理两个
  */
+import { identity } from './utils';
+import Types from '../Types';
+
 class LinkListNode<T> {
   value: T;
   prev: LinkListNode<T>;
@@ -15,11 +18,6 @@ class LinkListNode<T> {
     this.next = <LinkListNode<T>>next;
   }
 }
-
-const funcType = typeof function () {};
-const isFunc = (value: any): boolean => funcType == typeof value;
-const identity = (value: any) => value;
-const isDef = (value: any): boolean => typeof value !== typeof void 0;
 
 /**
  * 下标错误
@@ -158,11 +156,11 @@ class LinkList<T> {
   /**
    * 根据指定分隔符连接字符串
    */
-  join(delimiter: string = '', transfer: (value: T, index: number, linkList: LinkList<T>) => string = identity): string {
-    if (!isFunc(transfer)) {
+  join(delimiter: string = '', transfer: (value: T, index: number, linkList: LinkList<T>) => T = identity): string {
+    if (!Types.isFunction(transfer)) {
       throw new TypeError('transfer is not a function');
     }
-    let result: string[] = [];
+    let result: T[] = [];
     this.forEach((value, index) => {
       result.push(transfer(value, index, this));
     });
@@ -226,12 +224,12 @@ class LinkList<T> {
    * 缩减
    */
   reduce(fn: (prev: any, currentValue: T, index: number) => any, initialValue?: any): any {
-    if (!this.size() && !isDef(initialValue)) {
+    if (!this.size() && !Types.isUndefined(initialValue)) {
       throw new TypeError('Reduce of empty array with no initial value');
     }
     this.forEach((value, index) => {
       if (index == 0) {
-        if(isDef(initialValue)){
+        if(Types.isUndefined(initialValue)){
           initialValue = fn(initialValue, <T>value, index);
         } else {
           initialValue = value;
@@ -249,7 +247,7 @@ class LinkList<T> {
   reduceRight(fn: (prev: any, currentValue: T, index: number) => any, initialValue?: any): any {
     let i = this.size() - 1;
     let node = this.tail.prev;
-    if(!isDef(initialValue)) {
+    if(!Types.isUndefined(initialValue)) {
       if(!this.size()) {
         throw new TypeError('Reduce of empty array with no initial value');
       }
@@ -332,7 +330,7 @@ class LinkList<T> {
    */
   slice(start: number = 0, end?: number): LinkList<T> {
     start = start || 0;
-    end = isDef(end) ? end : this.size();
+    end = Types.isUndefined(end) ? end : this.size();
     end = <number>end > -1 ? end : (this.size() - <number>end);
     let linkList = new LinkList<T>();
     this.forEach((value, index) => {

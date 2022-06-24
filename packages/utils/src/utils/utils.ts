@@ -103,20 +103,8 @@ export function debounce(callback: Function, timeout: number): Function {
   };
 }
 
-/**
- * 判断是否是promise
- */
-export function isPromise(val: any): boolean {
-  // Promise.resolve(val) == Promise.resolve(val);
-  return (
-    val &&
-    Types.FUNCTION == toString(val.then) &&
-    Types.FUNCTION == toString(val.catch)
-  );
-}
-
-export function identify(val: any): any {
-  return val;
+export function identity<T>(value: T): T {
+  return value;
 }
 
 /**
@@ -136,9 +124,9 @@ export function retry(callback: Function, times: number = 2): Function {
     function recursion(...args: any[]): any {
       try {
         let data = callback(...args);
-        if (isPromise(data)) {
+        if (Types.isPromise(data)) {
           return data
-            .then(identify)
+            .then(identity)
             .catch((err: Error) => catchError(err, ...args));
         } else {
           return data;

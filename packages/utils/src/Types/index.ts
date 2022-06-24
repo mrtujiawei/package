@@ -79,6 +79,15 @@ class Types {
     return toString(value) == Types.ERROR;
   }
 
+  static isPromise(value: unknown) {
+    const val = value as Promise<unknown>;
+    return (
+      Boolean(val) &&
+      Types.isFunction(val.then) &&
+      Types.isFunction(val.catch)
+    );
+  }
+
   static isPrimitive(value: unknown) {
     return Types.PRIMITIVE.includes(toString(value));
   }
