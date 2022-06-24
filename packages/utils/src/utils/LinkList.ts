@@ -133,6 +133,21 @@ class LinkList<T> {
   }
 
   /**
+   * 获取链表中的第一个值
+   */
+  getFirst() {
+    return this.get(0);
+  }
+
+  /**
+   * 获取链表中的最后一个值
+   */
+  getLast() {
+    this.checkIndex(this.length - 1);
+    return this.tail.prev.value;
+  }
+
+  /**
    * 判断是否包含某一个值
    */
   includes(value: T): boolean {
@@ -400,20 +415,21 @@ class LinkList<T> {
   [Symbol.iterator]() {
     let node = this.head.next;
     let end = this.tail;
-    return {
-      next() {
-        let done = node == end;
-        let value!: T;
-        if(!done) {
-          value = node.value;
-          node = node.next;
-        }
-        return {
-          value,
-          done
-        };
+    function next() {
+      let done = node == end;
+      let value!: T;
+      if(!done) {
+        value = node.value;
+        node = node.next;
       }
+      return {
+        value,
+        done
+      };
     }
+    return {
+      next
+    };
   }
 }
 
