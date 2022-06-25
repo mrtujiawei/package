@@ -2,6 +2,7 @@
 import Stack from './data-structure/Stack';
 import Queue from './data-structure/Queue';
 import Heap from './data-structure/Heap';
+import DoublyLinkedList from './data-structure/List/DoublyLinkedList';
 import BinarySearchTree from './data-structure/BinarySearchTree';
 import RBTree from './data-structure/RBTree/Tree';
 import TreeMap from './data-structure/TreeMap';
@@ -68,6 +69,7 @@ export {
   Lock,
   Heap,
   Stack,
+  DoublyLinkedList,
   Queue,
   Events,
   Logger,
@@ -132,6 +134,7 @@ export default {
   Heap,
   Stack,
   Queue,
+  DoublyLinkedList,
   Events,
   Logger,
   Random,

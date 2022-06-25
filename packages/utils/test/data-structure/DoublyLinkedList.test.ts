@@ -4,16 +4,16 @@
  * @author: Mr Prince
  * @date: 2021-11-05 11:01:56
  */
-import { LinkList } from '../src/index';
+import { DoublyLinkedList } from '../../src/index';
 
 test('LinkList length test', () => {
-  const list = new LinkList<number>();
+  const list = new DoublyLinkedList<number>();
   expect(list.isEmpty()).toBe(true);
   expect(list.size()).toBe(0);
 });
 
 test('LinkList push & clear test', () => {
-  const list = new LinkList<number>();
+  const list = new DoublyLinkedList<number>();
   const size = 5;
   for (let i = 0; i < size; i++) {
     list.push(i);
