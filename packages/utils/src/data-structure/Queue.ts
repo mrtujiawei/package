@@ -4,7 +4,6 @@
  * @author: Mr Prince
  * @date: 2021-05-07 15:30:21
  */
-
 class Queue<T> {
   /**
    * 队列为空时仍获取元素
