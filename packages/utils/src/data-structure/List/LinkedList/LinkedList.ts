@@ -72,7 +72,7 @@ class LinkedList<T> {
    * 清空链表
    */
   clear() {
-    this.head.setNext(null);
+    this.head.setNext(null as unknown as LinkedNode<T>);
     this.size = 0;
   }
 
@@ -133,7 +133,7 @@ class LinkedList<T> {
       p = p.getNext();
     }
     const last = p.getNext();
-    p.setNext(null);
+    p.setNext(null as unknown as LinkedNode<T>);
     this.size--;
     return last.getValue();
   }
