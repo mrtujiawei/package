@@ -1,6 +1,6 @@
 // 数据结构
 import Stack from './data-structure/Stack';
-import Queue from './data-structure/Queue';
+import Queue from './data-structure/Queue/Queue';
 import Heap from './data-structure/Heap';
 import DoublyLinkedList from './data-structure/List/DoublyLinkedList';
 import BinarySearchTree from './data-structure/BinarySearchTree';

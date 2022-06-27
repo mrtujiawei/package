@@ -4,7 +4,7 @@
  * @author: Mr Prince
  * @date: 2020-09-02 20:06:39
  */
-import Queue from '../data-structure/Queue';
+import Queue from '../data-structure/Queue/Queue';
 
 class Lock {
   /**
