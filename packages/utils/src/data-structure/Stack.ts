@@ -29,7 +29,7 @@ class Stack<T> {
    * 判断栈是否为空
    */
   public isEmpty(): boolean {
-    return 0 == this.size;
+    return this.stack.isEmpty();
   }
 
   /**
@@ -59,6 +59,10 @@ class Stack<T> {
       throw new Stack.StackEmptyError();
     }
     return this.stack.getFirst();
+  }
+
+  clear() {
+    this.stack.clear();
   }
 }
 
