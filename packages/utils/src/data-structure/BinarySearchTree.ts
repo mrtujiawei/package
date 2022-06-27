@@ -161,6 +161,24 @@ class BinarySearchTree<T> {
     return root.getValue();
   }
 
+  has(value: T) {
+    return this.hasValue(this.root, value);
+  }
+
+  private hasValue(node: TreeNode<T>, value: T): boolean {
+    if (!node) {
+      return false;
+    }
+    const cmp = this.compare(node.getValue(), value);
+    if (0 == cmp) {
+      return true;
+    }
+    if (0 < cmp) {
+      return this.hasValue(node.getLeft(), value);
+    }
+    return this.hasValue(node.getRight(), value);
+  }
+
   clear(): void {
     // @ts-ignore
     this.root = null;
