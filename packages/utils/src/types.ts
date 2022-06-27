@@ -8,8 +8,9 @@
 
 /**
  * 基础数据类型
+ * @link {https://262.ecma-international.org/13.0/#sec-overview}
  */
-export type Primitive = string | number | boolean | undefined | null | symbol;
+export type Primitive = string | number | boolean | undefined | null | symbol | BigInt;
 
 /**
  * 比较器
