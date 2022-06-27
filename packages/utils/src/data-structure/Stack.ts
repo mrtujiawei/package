@@ -4,6 +4,8 @@
  * @author: Mr Prince
  * @date: 2022-02-14 15:44:36
  */
+import LinkedList from './List/LinkedList';
+
 class Stack<T> {
   /**
    * 栈为空时仍获取元素
@@ -14,13 +16,13 @@ class Stack<T> {
     }
   };
 
-  private stack: T[] = [];
+  private stack = new LinkedList<T>();
 
   /**
    * 获取当前栈的大小
    */
   public get size(): number {
-    return this.stack.length;
+    return this.stack.getSize();
   }
 
   /**
@@ -35,7 +37,7 @@ class Stack<T> {
    */
   public push(...values: T[]): void {
     values.forEach((value) => {
-      this.stack.push(value);
+      this.stack.insertFirst(value);
     });
   }
 
@@ -46,8 +48,7 @@ class Stack<T> {
     if (this.isEmpty()) {
       throw new Stack.StackEmptyError();
     }
-
-    return <T>this.stack.pop();
+    return this.stack.removeFirst();
   }
 
   /**
@@ -57,7 +58,7 @@ class Stack<T> {
     if (this.isEmpty()) {
       throw new Stack.StackEmptyError();
     }
-    return this.stack[this.stack.length - 1];
+    return this.stack.getFirst();
   }
 }
 
