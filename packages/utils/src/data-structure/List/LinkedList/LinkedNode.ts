@@ -17,7 +17,7 @@ class LinkedListNode<T> {
 
   constructor(value: T, next?: LinkedListNode<T>) {
     this.value = value;
-    this.next = undefined === next ? null : next;
+    this.next = undefined === next ? null as unknown as LinkedListNode<T>: next;
   }
 
   getValue() {
