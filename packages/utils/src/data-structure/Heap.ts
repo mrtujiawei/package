@@ -165,6 +165,13 @@ class Heap<T> {
       this.shiftDown(0);
     }
   }
+
+  /**
+   * 获取当前heap内容
+   */
+  toArray() {
+    return this.heap.slice();
+  }
 }
 
 export default Heap;
