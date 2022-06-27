@@ -259,6 +259,14 @@ class LinkedList<T> {
   }
 
   /**
+   * 获取首个元素
+   */
+  getFirst() {
+    this.checkListIsEmpty();
+    return this.head.getNext().getValue();
+  }
+
+  /**
    * 转数组
    */
   toArray() {
