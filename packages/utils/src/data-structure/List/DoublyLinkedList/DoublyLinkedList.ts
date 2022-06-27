@@ -468,6 +468,48 @@ class DoublyLinkedList<T> {
   }
 
   /**
+   * 根据条件移除
+   */
+  removeEach(callback: (value: T, index: number, context: DoublyLinkedList<T>) => boolean) {
+    const originLength = this.length;
+    let prev = this.head;
+    for (let i = 0; prev.next; i++) {
+      if (callback(prev.next.value, i, this)) {
+        prev.next = prev.next.next;
+        this.length--;
+      } else {
+        prev = prev.next;
+      }
+    }
+    return originLength - this.length;
+  }
+
+  /**
+   * 反向遍历
+   */
+  forEachReverse(callback: (value: T, index: number, context: DoublyLinkedList<T>) => boolean) {
+    for (let i = this.length - 1, p = this.tail.prev; p != this.head; i--, p = p.prev) {
+      callback(p.value, i, this);
+    }
+  }
+  /**
+   * 反向查找
+   */
+  findReverse(
+    fn: (value: T, index: number, linkList: DoublyLinkedList<T>) => boolean
+  ): T | undefined {
+    for (
+      let i = this.length - 1, node = this.tail.prev;
+      node != this.head;
+      node = node.prev, i--
+    ) {
+      if (fn(node.value, i, this)) {
+        return node.value;
+      }
+    }
+  }
+
+  /**
    * 返回一个迭代器
    * 为了能够for..of循环
    */
