@@ -1,44 +1,11 @@
 /**
  * 二叉搜索树
- * @filename: BinarySearchTree.ts
+ * @filename: Tree/BinarySearchTree/BinarySearchTree.ts
  * @author: Mr Prince
- * @date: 2021-09-22 15:54:48
+ * @date: 2022-06-28 11:14:06
  */
-import { Compare } from '../types';
-
-class TreeNode<T> {
-  private value!: T;
-  private left!: TreeNode<T>;
-  private right!: TreeNode<T>;
-
-  constructor(value: T) {
-    this.value = value;
-  }
-
-  getValue(): T {
-    return this.value;
-  }
-
-  setValue(value: T): void {
-    this.value = value;
-  }
-
-  getLeft(): TreeNode<T> {
-    return this.left;
-  }
-
-  setLeft(left: TreeNode<T>): void {
-    this.left = left;
-  }
-
-  getRight(): TreeNode<T> {
-    return this.right;
-  }
-
-  setRight(right: TreeNode<T>): void {
-    this.right = right;
-  }
-}
+import { Compare } from '../../../types';
+import TreeNode from './TreeNode';
 
 class BinarySearchTree<T> {
   private root!: TreeNode<T>;

@@ -3,7 +3,8 @@ import Stack from './data-structure/Stack';
 import Queue from './data-structure/Queue/Queue';
 import Heap from './data-structure/Heap';
 import DoublyLinkedList from './data-structure/List/DoublyLinkedList';
-import BinarySearchTree from './data-structure/BinarySearchTree';
+import BinarySearchTree from './data-structure/Tree/BinarySearchTree';
+import BinaryIndexedTree from './data-structure/Tree/BinaryIndexedTree';
 import RBTree from './data-structure/RBTree/Tree';
 import TreeMap from './data-structure/TreeMap';
 import TreeSet from './data-structure/TreeSet';
@@ -86,6 +87,7 @@ export {
   TreeSet,
   SkipList,
   Types,
+  BinaryIndexedTree,
 
   toString,
   sleep,
@@ -150,6 +152,7 @@ export default {
   TreeSet,
   SkipList,
   Types,
+  BinaryIndexedTree,
 
   // utils
   toString,
