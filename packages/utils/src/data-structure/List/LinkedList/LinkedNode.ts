@@ -13,11 +13,15 @@ class LinkedListNode<T> {
   /**
    * 下一个节点
    */
-  private next: LinkedListNode<T>;
+  private next: LinkedListNode<T> | null;
 
-  constructor(value: T, next?: LinkedListNode<T>) {
+  /**
+   * @param value 节点值
+   * @param next 下一个节点,使用的时候更方便
+   */
+  constructor(value: T, next?: LinkedListNode<T> | null) {
     this.value = value;
-    this.next = undefined === next ? null as unknown as LinkedListNode<T>: next;
+    this.next = undefined === next ? null : next;
   }
 
   getValue() {
@@ -36,7 +40,7 @@ class LinkedListNode<T> {
     return this.next;
   }
 
-  setNext(next: LinkedListNode<T>) {
+  setNext(next: LinkedListNode<T> | null) {
     this.next = next;
   }
 }

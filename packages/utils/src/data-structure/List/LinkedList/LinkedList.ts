@@ -33,7 +33,7 @@ class LinkedList<T> {
    * 头结点，占位
    * 减少一些判断
    */
-  private head = new LinkedNode<T>(0 as unknown as T);
+  private head = this.createEmptyNode();
 
   /**
    * 节点个数
@@ -41,7 +41,7 @@ class LinkedList<T> {
   private size = 0;
 
   constructor(list?: LinkedList<T>) {
-    if (list != undefined) {
+    if (undefined != list) {
       this.head = this.deepClone(list);
       this.size = list.size;
     }
@@ -92,7 +92,7 @@ class LinkedList<T> {
     this.checkIndexIsValid(index);
     let p = this.head;
     for (let i = 0; i < index; i++) {
-      p = p.getNext();
+      p = p.getNext() as LinkedNode<T>;
     }
     p.setNext(new LinkedNode(value, p.getNext()));
     this.size++;
@@ -106,7 +106,7 @@ class LinkedList<T> {
     this.size++;
     let p = this.head;
     while (p.hasNext()) {
-      p = p.getNext();
+      p = p.getNext() as LinkedNode<T>;
     }
     p.setNext(new LinkedNode<T>(value));
     return this.size;
@@ -117,7 +117,7 @@ class LinkedList<T> {
    */
   removeFirst() {
     this.checkListIsEmpty();
-    const node = this.head.getNext();
+    const node = this.head.getNext() as LinkedNode<T>;
     this.head.setNext(node.getNext());
     this.size--;
     return node.getValue();
@@ -129,10 +129,10 @@ class LinkedList<T> {
   removeLast() {
     this.checkListIsEmpty();
     let p = this.head;
-    while (p.getNext().hasNext()) {
-      p = p.getNext();
+    while ((p.getNext() as LinkedNode<T>).hasNext()) {
+      p = p.getNext() as LinkedNode<T>;
     }
-    const last = p.getNext();
+    const last = p.getNext() as LinkedNode<T>;
     p.setNext(null as unknown as LinkedNode<T>);
     this.size--;
     return last.getValue();
@@ -147,9 +147,9 @@ class LinkedList<T> {
     this.checkIndexIsValid(index + 1);
     let p = this.head;
     for (let i = 0; i < index; i++) {
-      p = p.getNext();
+      p = p.getNext() as LinkedNode<T>;
     }
-    const node = p.getNext();
+    const node = p.getNext() as LinkedNode<T>;
     p.setNext(node.getNext());
     return node.getValue();
   }
@@ -162,11 +162,11 @@ class LinkedList<T> {
     let prev = this.head;
 
     for (let i = 0; prev.hasNext(); i++) {
-      if (callback(prev.getNext().getValue(), i, this)) {
-        prev.setNext(prev.getNext().getNext());
+      if (callback((prev.getNext() as LinkedNode<T>).getValue(), i, this)) {
+        prev.setNext((prev.getNext() as LinkedNode<T>).getNext());
         this.size--;
       } else {
-        prev = prev.getNext();
+        prev = prev.getNext() as LinkedNode<T>;
       }
     }
 
@@ -196,11 +196,11 @@ class LinkedList<T> {
    * 只克隆 LinkedList 中的节点
    */
   private deepClone(list: LinkedList<T>) {
-    const head = new LinkedNode<T>(0 as unknown as T);
+    const head = this.createEmptyNode();
     let prev = head;
     list.forEach((value) => {
       prev.setNext(new LinkedNode(value));
-      prev = prev.getNext();
+      prev = prev.getNext() as LinkedNode<T>;
     });
 
     return head;
@@ -239,7 +239,7 @@ class LinkedList<T> {
       if (callback(value, index, context)) {
         list.size++;
         p.setNext(new LinkedNode(value));
-        p = p.getNext();
+        p = p.getNext() as LinkedNode<T>;
       }
     });
     return list;
@@ -263,7 +263,7 @@ class LinkedList<T> {
    */
   getFirst() {
     this.checkListIsEmpty();
-    return this.head.getNext().getValue();
+    return (this.head.getNext() as LinkedNode<T>).getValue();
   }
 
   /**
@@ -287,7 +287,7 @@ class LinkedList<T> {
       let done = true;
       if (p.hasNext()) {
         done = false;
-        p = p.getNext();
+        p = p.getNext() as LinkedNode<T>;
         value = p.getValue();
       }
       return { value, done };
@@ -295,6 +295,13 @@ class LinkedList<T> {
     return {
       next,
     };
+  }
+
+  /**
+   * 创建空间点,比如头结点
+   */
+  private createEmptyNode() {
+    return new LinkedNode<T>(0 as unknown as T);
   }
 
   /**
