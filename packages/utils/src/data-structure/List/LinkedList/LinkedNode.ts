@@ -4,7 +4,7 @@
  * @author: Mr Prince
  * @date: 2022-06-24 21:08:25
  */
-class LinkedListNode<T> {
+class LinkedNode<T> {
   /**
    * 节点值
    */
@@ -13,13 +13,13 @@ class LinkedListNode<T> {
   /**
    * 下一个节点
    */
-  private next: LinkedListNode<T> | null;
+  private next: LinkedNode<T> | null;
 
   /**
    * @param value 节点值
    * @param next 下一个节点,使用的时候更方便
    */
-  constructor(value: T, next?: LinkedListNode<T> | null) {
+  constructor(value: T, next?: LinkedNode<T> | null) {
     this.value = value;
     this.next = undefined === next ? null : next;
   }
@@ -40,9 +40,18 @@ class LinkedListNode<T> {
     return this.next;
   }
 
-  setNext(next: LinkedListNode<T> | null) {
+  setNext(next: LinkedNode<T> | null) {
     this.next = next;
+  }
+
+  /**
+   * 获取下一个节点
+   * 调用时确定下一个节点必定存在
+   * 每次写 as LinkedNode<T> 太麻烦了
+   */
+  getNextExist() {
+    return this.getNext() as LinkedNode<T>;
   }
 }
 
-export default LinkedListNode;
+export default LinkedNode;
