@@ -1,29 +1,37 @@
-class TreeNode<T> {
-  /**
-   * 节点值
-   */
-  private value: T;
-
+class TreeNode<K, V> {
   /**
    * 父节点
    */
-  private parent: TreeNode<T> | null = null;
+  private parent: TreeNode<K, V> | null = null;
 
   /**
    * 左子节点
    */
-  private left: TreeNode<T> | null = null;
+  private left: TreeNode<K, V> | null = null;
 
   /**
    * 右子节点
    */
-  private right: TreeNode<T> | null = null;
+  private right: TreeNode<K, V> | null = null;
 
   /**
+   * @param key 节点key
    * @param value 节点值
    */
-  constructor(value: T) {
-    this.value = value;
+  constructor(private key: K, private value: V) {}
+
+  /**
+   * 获取key
+   */
+  getKey() {
+    return this.key;
+  }
+
+  /**
+   * 更改key
+   */
+  setKey(key: K) {
+    this.key = key;
   }
 
   /**
@@ -36,7 +44,7 @@ class TreeNode<T> {
   /**
    * 更改节点值
    */
-  setValue(value: T) {
+  setValue(value: V) {
     this.value = value;
   }
 
@@ -50,7 +58,7 @@ class TreeNode<T> {
   /**
    * 更改父节点
    */
-  setParent(parent: TreeNode<T> | null) {
+  setParent(parent: TreeNode<K, V> | null) {
     this.parent = parent;
   }
 
@@ -68,7 +76,7 @@ class TreeNode<T> {
   /**
    * 更改左子节点
    */
-  setLeft(left: TreeNode<T> | null) {
+  setLeft(left: TreeNode<K, V> | null) {
     this.left = left;
   }
 
@@ -89,7 +97,7 @@ class TreeNode<T> {
   /**
    * 更改右子节点
    */
-  setRight(right: TreeNode<T> | null) {
+  setRight(right: TreeNode<K, V> | null) {
     this.right = right;
   }
 

@@ -1,14 +1,14 @@
 import { BinarySearchTree, } from '../src/index';
 
 test('Insert test 1', () => {
-  let bTree = new BinarySearchTree<number>(
+  let bTree = new BinarySearchTree<number, number>(
     (a, b) => a - b,
   );
 
   for (let i = 0; i < 100; i++) {
     let value = Math.floor(Math.random() * 100000);
     try {
-      bTree.append(value);
+      bTree.append(value, value);
     } catch (e) {
       // console.log(e.message, value);
     }
@@ -21,14 +21,14 @@ test('Insert test 1', () => {
 });
 
 test('Insert test 2', () => {
-  let bTree = new BinarySearchTree<number>(
+  let bTree = new BinarySearchTree<number, number>(
     (a, b) => b - a,
   );
 
   for (let i = 0; i < 100; i++) {
     let value = Math.floor(Math.random() * 1000);
     try {
-      bTree.append(value);
+      bTree.append(value, value);
     } catch (e) {
       // console.log(e.message, value);
     }
@@ -42,53 +42,53 @@ test('Insert test 2', () => {
 });
 
 test('Remove top with no child test', () => {
-  let bTree = new BinarySearchTree<number>(
+  let bTree = new BinarySearchTree<number, number>(
     (a, b) => a -b,
   );
-  bTree.append(0);
+  bTree.append(0, 0);
   bTree.remove(0);
 
   expect(bTree.toArray()).toEqual([]);
 });
 
 test('Remove top with no right child test', () => {
-  let bTree = new BinarySearchTree<number>(
+  let bTree = new BinarySearchTree<number, number>(
     (a, b) => a -b,
   );
-  bTree.append(0);
-  bTree.append(-1);
+  bTree.append(0, 0);
+  bTree.append(-1, -1);
   bTree.remove(0);
 
-  expect(bTree.toArray()).toEqual([-1]);
+  expect(bTree.toArray()).toEqual([[-1, -1]]);
 });
 
 test('Remove top with no left child test', () => {
-  let bTree = new BinarySearchTree<number>(
+  let bTree = new BinarySearchTree<number, number>(
     (a, b) => a - b,
   );
 
-  bTree.append(0);
-  bTree.append(1);
+  bTree.append(0, 0);
+  bTree.append(1, 1);
   bTree.remove(0);
 
-  expect(bTree.toArray()).toEqual([1]);
+  expect(bTree.toArray()).toEqual([[1, 1]]);
 });
 
 test('Remove top with have both left and right child test', () => {
-  let bTree = new BinarySearchTree<number>(
+  let bTree = new BinarySearchTree<number, number>(
     (a, b) => a - b,
   );
 
-  bTree.append(0);
-  bTree.append(1);
-  bTree.append(-1);
+  bTree.append(0, 0);
+  bTree.append(1, 1);
+  bTree.append(-1, -1);
   bTree.remove(0);
 
-  expect(bTree.toArray()).toEqual([-1, 1]);
+  expect(bTree.toArray()).toEqual([[-1, -1], [1, 1]]);
 });
 
 test('Random insert', () => {
-  let bTree = new BinarySearchTree<number>(
+  let bTree = new BinarySearchTree<number, number>(
     (a, b) => a - b,
   );
 
@@ -97,7 +97,7 @@ test('Random insert', () => {
   for (let i = 0; i < testSize; i++) {
     let value = Math.floor(Math.random() * 10 * testSize);
     try {
-      bTree.append(value);
+      bTree.append(value, value);
     } catch (e) {
 
     }
@@ -111,7 +111,7 @@ test('Random insert', () => {
 });
 
 test('Random insert and remove', () => {
-  let bTree = new BinarySearchTree<number>(
+  let bTree = new BinarySearchTree<number, number>(
     (a, b) => a - b
   );
 
@@ -120,7 +120,7 @@ test('Random insert and remove', () => {
   for (let i = 0; i < testSize; i++) {
     let value = Math.floor(Math.random() * 10 * testSize);
     try {
-      bTree.append(value);
+      bTree.append(value, value);
     } catch (e) {
       bTree.remove(value);
     }
@@ -137,7 +137,7 @@ test('Random insert and remove', () => {
 });
 
 test('Get min and max', () => {
-  let bTree = new BinarySearchTree<number>(
+  let bTree = new BinarySearchTree<number, number>(
     (a, b) => a - b
   );
 
@@ -150,7 +150,7 @@ test('Get min and max', () => {
     min = Math.min(min, value);
     max = Math.max(max, value);
     try {
-      bTree.append(value);
+      bTree.append(value, value);
     } catch (e) {
 
     }
@@ -161,7 +161,7 @@ test('Get min and max', () => {
 });
 
 test('Clear binarySearchTree', () => {
-  let bTree = new BinarySearchTree<number>(
+  let bTree = new BinarySearchTree<number, number>(
     (a, b) => a - b
   );
 
@@ -170,7 +170,7 @@ test('Clear binarySearchTree', () => {
   for (let i = 0; i < testSize; i++) {
     let value = Math.floor(Math.random() * 10 * testSize);
     try {
-      bTree.append(value);
+      bTree.append(value, value);
     } catch (e) {
 
     }

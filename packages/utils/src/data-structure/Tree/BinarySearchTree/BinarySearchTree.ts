@@ -7,16 +7,16 @@
 import { Compare } from '../../../types';
 import TreeNode from './TreeNode';
 
-class BinarySearchTree<T> {
+class BinarySearchTree<K, V> {
   /**
    * 根节点
    */
-  private root: TreeNode<T> | null = null;
+  private root: TreeNode<K, V> | null = null;
 
   /**
    * 比较函数
    */
-  private compare: Compare<T>;
+  private compare: Compare<K>;
 
   /**
    * 节点个数
@@ -44,23 +44,23 @@ class BinarySearchTree<T> {
   /**
    * @param compare 比较器, 比较节点大小
    */
-  constructor(compare: Compare<T>, list: T[] = []) {
+  constructor(compare: Compare<K>, list: [K, V][] = []) {
     if (!compare) {
       throw new BinarySearchTree.CompareInvalidError();
     }
     this.compare = compare;
-    list.forEach((value) => {
-      this.append(value);
+    list.forEach(([key, value]) => {
+      this.append(key, value);
     });
   }
 
   /**
    * 添加到二叉搜索树中
    */
-  append(value: T): void {
-    const node = new TreeNode<T>(value);
+  append(key: K, value: V): void {
+    const node = new TreeNode<K, V>(key, value);
     if (null == this.root) {
-      this.root = new TreeNode<T>(value);
+      this.root = node;
       this.count = 1;
     } else {
       this.appendNode(this.root, node);
@@ -71,8 +71,8 @@ class BinarySearchTree<T> {
   /**
    * 添加节点
    */
-  private appendNode(parentNode: TreeNode<T>, childNode: TreeNode<T>) {
-    let compare = this.compare(parentNode.getValue(), childNode.getValue());
+  private appendNode(parentNode: TreeNode<K, V>, childNode: TreeNode<K, V>) {
+    let compare = this.compare(parentNode.getKey(), childNode.getKey());
     if (0 == compare) {
       // 二叉搜索树不能出现重复元素
       throw new BinarySearchTree.DuplicateValueError();
@@ -99,12 +99,12 @@ class BinarySearchTree<T> {
    * 删除节点
    * 如果要删除的是根节点
    */
-  remove(value: T): boolean {
+  remove(key: K): boolean {
     if (this.isEmpty()) {
       return false;
     }
 
-    const removeResult = this.removeNode(this.root, value);
+    const removeResult = this.removeNode(this.root, key);
     if (removeResult) {
       this.count--;
     }
@@ -115,22 +115,22 @@ class BinarySearchTree<T> {
   /**
    * 移除节点
    */
-  private removeNode(node: TreeNode<T> | null, removeValue: T): boolean {
+  private removeNode(node: TreeNode<K, V> | null, key: K): boolean {
     if (!node) {
       return false;
     }
 
-    const cmp = this.compare(node.getValue(), removeValue);
+    const cmp = this.compare(node.getKey(), key);
     if (0 > cmp) {
-      return this.removeNode(node.getRight(), removeValue);
+      return this.removeNode(node.getRight(), key);
     }
 
     if (0 < cmp) {
-      return this.removeNode(node.getLeft(), removeValue);
+      return this.removeNode(node.getLeft(), key);
     }
 
     // 删除当前节点后的根节点
-    let currentRoot: TreeNode<T> | null = null;
+    let currentRoot: TreeNode<K, V> | null = null;
 
     if (node.hasLeft() && node.hasRight()) {
       // 左右节点都存在
@@ -165,10 +165,10 @@ class BinarySearchTree<T> {
   /**
    * 获取最小值
    */
-  getMin(): T {
+  getMin(): V | undefined {
     let root = this.root;
     if (!root) {
-      return undefined as unknown as T;
+      return;
     }
     while (root) {
       let left = root.getLeft();
@@ -188,10 +188,10 @@ class BinarySearchTree<T> {
     return this.count;
   }
 
-  getMax(): T {
+  getMax(): V | undefined {
     let root = this.root;
     if (!root) {
-      return undefined as unknown as T;
+      return;
     }
     while (root) {
       let right = root.getRight();
@@ -204,22 +204,40 @@ class BinarySearchTree<T> {
     return root.getValue();
   }
 
-  has(value: T) {
-    return this.hasValue(this.root, value);
+  has(key: K) {
+    return this.hasValue(this.root, key);
   }
 
-  private hasValue(node: TreeNode<T> | null, value: T): boolean {
+  private hasValue(node: TreeNode<K, V> | null, key: K): boolean {
     if (!node) {
       return false;
     }
-    const cmp = this.compare(node.getValue(), value);
+    const cmp = this.compare(node.getKey(), key);
     if (0 == cmp) {
       return true;
     }
     if (0 < cmp) {
-      return this.hasValue(node.getLeft(), value);
+      return this.hasValue(node.getLeft(), key);
     }
-    return this.hasValue(node.getRight(), value);
+    return this.hasValue(node.getRight(), key);
+  }
+
+  find(key: K): V | undefined {
+    return this.findValue(this.root, key);
+  }
+
+  private findValue(node: TreeNode<K, V> | null, key: K): V | undefined {
+    if (!node) {
+      return;
+    }
+    const cmp = this.compare(node.getKey(), key);
+    if (0 == cmp) {
+      return node.getValue();
+    }
+    if (0 < cmp) {
+      return this.findValue(node.getLeft(), key);
+    }
+    return this.findValue(node.getRight(), key);
   }
 
   clear(): void {
@@ -240,27 +258,87 @@ class BinarySearchTree<T> {
     return !this.isEmpty();
   }
 
-  inorderTraversal(callback: (value: T) => void): void {
+  inorderTraversal(callback: (value: V, key: K) => void): void {
     this.inorderTraversalImpl(this.root, callback);
   }
 
   private inorderTraversalImpl(
-    node: TreeNode<T> | null,
-    callback: (value: T) => void
+    node: TreeNode<K, V> | null,
+    callback: (value: V, key: K) => void
   ) {
     if (!node) {
       return;
     }
     this.inorderTraversalImpl(node.getLeft(), callback);
-    callback(node.getValue());
+    callback(node.getValue(), node.getKey());
     this.inorderTraversalImpl(node.getRight(), callback);
   }
 
-  toArray(): T[] {
-    let result: T[] = [];
+  preorderTraversal(callback: (value: V, key: K) => void) {
+    this.preorderTraversalImpl(this.root, callback);
+  }
 
-    this.inorderTraversal((value) => {
-      result.push(value);
+  private preorderTraversalImpl(node: TreeNode<K, V> | null, callback: (value: V, key: K) => void) {
+    if (!node) {
+      return;
+    }
+    callback(node.getValue(), node.getKey());
+    this.inorderTraversalImpl(node.getLeft(), callback);
+    this.inorderTraversalImpl(node.getRight(), callback);
+  }
+
+  postorderTraversal(callback: (value: V, key: K) => void) {
+    this.postorderTraversalImpl(this.root, callback);
+  }
+
+  private postorderTraversalImpl(node: TreeNode<K, V> | null, callback: (value: V, key: K) => void) {
+    if (!node) {
+      return;
+    }
+    this.inorderTraversalImpl(node.getLeft(), callback);
+    this.inorderTraversalImpl(node.getRight(), callback);
+    callback(node.getValue(), node.getKey());
+  }
+
+  /**
+   * 小于或等于指定值的最大值
+   * @param includeEqual 是否包含指定值
+   */
+  lowerBound(key: K, includeEqual = true): V | undefined {
+    console.log(key, includeEqual);
+    let debug = true;
+    if (debug) {
+      throw new Error('Not implement');
+    }
+    return undefined;
+  }
+
+  /**
+   * 大于或等于指定值的最小值
+   * @param includeEqual 是否包含指定值
+   */
+  upperBound(key: K, includeEqual = true): V | undefined {
+    console.log(key, includeEqual);
+    let debug = true;
+    if (debug) {
+      throw new Error('Not implement');
+    }
+    return undefined;
+  }
+
+  floor(key: K, includeEqual = true) {
+    return this.lowerBound(key, includeEqual);
+  }
+
+  ceil(key: K, includeEqual = true) {
+    return this.upperBound(key, includeEqual);
+  }
+
+  toArray(): [K, V][] {
+    let result: [K, V][] = [];
+
+    this.inorderTraversal((value, key) => {
+      result.push([key, value]);
     });
 
     return result;
