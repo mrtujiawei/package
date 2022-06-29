@@ -305,12 +305,35 @@ class BinarySearchTree<K, V> {
    * @param includeEqual 是否包含指定值
    */
   lowerBound(key: K, includeEqual = true): V | undefined {
-    console.log(key, includeEqual);
-    let debug = true;
-    if (debug) {
-      throw new Error('Not implement');
+    return this.lowerBoundImpl(this.root, key, includeEqual);
+  }
+
+  /**
+   * 小于或等于指定值的最大值
+   */
+  private lowerBoundImpl(node: TreeNode<K, V> | null, key: K, includeEqual: boolean): V | undefined {
+    if (!node) {
+      return;
     }
-    return undefined;
+    const cmp = this.compare(node.getKey(), key);
+
+    if (0 < cmp) {
+      // 大于 key
+      return this.lowerBoundImpl(node.getLeft(), key, includeEqual);
+    }
+
+    // 相等，并且包含相等
+    if (0 == cmp) {
+      if (includeEqual) {
+        return node.getValue();
+      }
+      return this.lowerBoundImpl(node.getLeft(), key, includeEqual);
+    }
+
+    // 小于 key ,但不一定是最大的
+    if (0 > cmp) {
+      return this.lowerBoundImpl(node.getRight(), key, includeEqual) || node.getValue();
+    }
   }
 
   /**
@@ -318,20 +341,52 @@ class BinarySearchTree<K, V> {
    * @param includeEqual 是否包含指定值
    */
   upperBound(key: K, includeEqual = true): V | undefined {
-    console.log(key, includeEqual);
-    let debug = true;
-    if (debug) {
-      throw new Error('Not implement');
+    return this.upperBoundImpl(this.root, key, includeEqual);
+  }
+
+  /**
+   * 大于或等于指定值的最小值
+   * @param includeEqual 是否包含指定值
+   */
+  upperBoundImpl(node: TreeNode<K, V> | null, key: K, includeEqual = true): V | undefined {
+    if (!node) {
+      return;
     }
-    return undefined;
+    const cmp = this.compare(node.getKey(), key);
+
+    // 当前key 小于 目标key
+    if (0 > cmp) {
+      return this.upperBoundImpl(node.getRight(), key, includeEqual);
+    }
+
+    // 相等
+    if (0 == cmp) {
+      if (includeEqual) {
+        return node.getValue();
+      }
+
+      // 必须大于
+      return this.upperBoundImpl(node.getRight(), key, includeEqual);
+    }
+
+    // 小于
+    if (0 < cmp) {
+      return this.upperBoundImpl(node.getLeft(), key, includeEqual) || node.getValue();
+    }
   }
 
-  floor(key: K, includeEqual = true) {
-    return this.lowerBound(key, includeEqual);
+  /**
+   * 小于等于 key 的
+   */
+  floor(key: K) {
+    return this.lowerBound(key, true);
   }
 
-  ceil(key: K, includeEqual = true) {
-    return this.upperBound(key, includeEqual);
+  /**
+   * 大于等于 key 的
+   */
+  ceil(key: K) {
+    return this.upperBound(key, true);
   }
 
   toArray(): [K, V][] {
