@@ -1,11 +1,12 @@
 // 数据结构
 import Stack from './data-structure/Stack';
 import Queue from './data-structure/Queue/Queue';
+import Deque from './data-structure/Queue/Deque';
 import Heap from './data-structure/Heap';
 import DoublyLinkedList from './data-structure/List/DoublyLinkedList';
 import BinarySearchTree from './data-structure/Tree/BinarySearchTree';
 import BinaryIndexedTree from './data-structure/Tree/BinaryIndexedTree';
-import RBTree from './data-structure/RBTree/Tree';
+import RBTree from './data-structure/Tree/RBTree/Tree';
 import TreeMap from './data-structure/TreeMap';
 import TreeSet from './data-structure/TreeSet';
 import SkipList from './data-structure/SkipList';
@@ -88,6 +89,7 @@ export {
   SkipList,
   Types,
   BinaryIndexedTree,
+  Deque,
 
   toString,
   sleep,
@@ -153,6 +155,7 @@ export default {
   SkipList,
   Types,
   BinaryIndexedTree,
+  Deque,
 
   // utils
   toString,
