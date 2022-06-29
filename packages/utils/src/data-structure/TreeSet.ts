@@ -4,11 +4,10 @@
  * @author: Mr Prince
  * @date: 2022-02-11 16:09:19
  */
-import RBTree from './RBTree/Tree';
+import RBTree from './Tree/RBTree/Tree';
 
 class TreeMap<T> {
-  // @ts-ignore
-  private tree: RBTree<T, undefined> = null;
+  private tree: RBTree<T, undefined>;
 
   get size() {
     return this.tree.getSize();

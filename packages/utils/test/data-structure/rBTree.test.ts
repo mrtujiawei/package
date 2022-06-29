@@ -1,5 +1,5 @@
-import { NODE_COLORS } from '../../src/data-structure/RBTree/enums';
-import TreeNode from '../../src/data-structure/RBTree/TreeNode';
+import { NODE_COLORS } from '../../src/data-structure/Tree/RBTree/enums';
+import TreeNode from '../../src/data-structure/Tree/RBTree/TreeNode';
 import { Random, RBTree, toString } from '../../src/index';
 
 const size = 1000;
