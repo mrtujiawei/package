@@ -4,6 +4,8 @@
  * @author: Mr Prince
  * @date: 2022-06-28 11:14:06
  */
+
+// TODO 如果插入相同的key, 将原来的value值改为新的value
 import { Compare } from '../../../types';
 import TreeNode from './TreeNode';
 
@@ -12,11 +14,6 @@ class BinarySearchTree<K, V> {
    * 根节点
    */
   private root: TreeNode<K, V> | null = null;
-
-  /**
-   * 比较函数
-   */
-  private compare: Compare<K>;
 
   /**
    * 节点个数
@@ -43,12 +40,12 @@ class BinarySearchTree<K, V> {
 
   /**
    * @param compare 比较器, 比较节点大小
+   * @param list 初始节点
    */
-  constructor(compare: Compare<K>, list: [K, V][] = []) {
+  constructor(private compare: Compare<K>, list: [K, V][] = []) {
     if (!compare) {
       throw new BinarySearchTree.CompareInvalidError();
     }
-    this.compare = compare;
     list.forEach(([key, value]) => {
       this.append(key, value);
     });
