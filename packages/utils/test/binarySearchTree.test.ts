@@ -6,14 +6,13 @@ test('Insert test 1', () => {
   );
 
   for (let i = 0; i < 100; i++) {
-    let value = Math.floor(Math.random() * 1000);
+    let value = Math.floor(Math.random() * 100000);
     try {
       bTree.append(value);
     } catch (e) {
       // console.log(e.message, value);
     }
   }
-
   let before = Number.MIN_SAFE_INTEGER;
   bTree.inorderTraversal(value => {
     expect(before).toBeLessThan(value);
