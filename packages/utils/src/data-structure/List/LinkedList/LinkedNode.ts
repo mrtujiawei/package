@@ -1,6 +1,6 @@
 /**
  * 单向链表节点
- * @filename: /home/tujiawei/github/package/packages/utils/src/data-structure/List/LinkedList/LinkedListNode.ts
+ * @filename: packages/utils/src/data-structure/List/LinkedList/LinkedListNode.ts
  * @author: Mr Prince
  * @date: 2022-06-24 21:08:25
  */
@@ -42,15 +42,6 @@ class LinkedNode<T> {
 
   setNext(next: LinkedNode<T> | null) {
     this.next = next;
-  }
-
-  /**
-   * 获取下一个节点
-   * 调用时确定下一个节点必定存在
-   * 每次写 as LinkedNode<T> 太麻烦了
-   */
-  getNextExist() {
-    return this.getNext() as LinkedNode<T>;
   }
 }
 

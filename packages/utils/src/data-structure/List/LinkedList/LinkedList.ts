@@ -92,7 +92,7 @@ class LinkedList<T> {
     this.checkIndexIsValid(index);
     let p = this.head;
     for (let i = 0; i < index; i++) {
-      p = p.getNextExist();
+      p = p.getNext()!;
     }
     p.setNext(new LinkedNode(value, p.getNext()));
     this.size++;
@@ -106,7 +106,7 @@ class LinkedList<T> {
     this.size++;
     let p = this.head;
     while (p.hasNext()) {
-      p = p.getNextExist();
+      p = p.getNext()!;
     }
     p.setNext(new LinkedNode<T>(value));
     return this.size;
@@ -117,7 +117,7 @@ class LinkedList<T> {
    */
   removeFirst() {
     this.checkListIsEmpty();
-    const node = this.head.getNextExist();
+    const node = this.head.getNext()!;
     this.head.setNext(node.getNext());
     this.size--;
     return node.getValue();
@@ -129,10 +129,10 @@ class LinkedList<T> {
   removeLast() {
     this.checkListIsEmpty();
     let p = this.head;
-    while (p.getNextExist().hasNext()) {
+    while (p.getNext()!.hasNext()) {
       p = p.getNext() as LinkedNode<T>;
     }
-    const last = p.getNextExist();
+    const last = p.getNext()!;
     p.setNext(null);
     this.size--;
     return last.getValue();
@@ -147,9 +147,9 @@ class LinkedList<T> {
     this.checkIndexIsValid(index + 1);
     let p = this.head;
     for (let i = 0; i < index; i++) {
-      p = p.getNextExist();
+      p = p.getNext()!;
     }
-    const node = p.getNextExist();
+    const node = p.getNext()!;
     p.setNext(node.getNext());
     return node.getValue();
   }
@@ -162,11 +162,11 @@ class LinkedList<T> {
     let prev = this.head;
 
     for (let i = 0; prev.hasNext(); i++) {
-      if (callback(prev.getNextExist().getValue(), i, this)) {
-        prev.setNext(prev.getNextExist().getNext());
+      if (callback(prev.getNext()!.getValue(), i, this)) {
+        prev.setNext(prev.getNext()!.getNext());
         this.size--;
       } else {
-        prev = prev.getNextExist()
+        prev = prev.getNext()!;
       }
     }
 
@@ -200,7 +200,7 @@ class LinkedList<T> {
     let prev = head;
     list.forEach((value) => {
       prev.setNext(new LinkedNode(value));
-      prev = prev.getNextExist();
+      prev = prev.getNext()!;
     });
 
     return head;
@@ -263,7 +263,7 @@ class LinkedList<T> {
    */
   getFirst() {
     this.checkListIsEmpty();
-    return this.head.getNextExist().getValue();
+    return this.head.getNext()!.getValue();
   }
 
   /**
@@ -287,7 +287,7 @@ class LinkedList<T> {
       let done = true;
       if (p.hasNext()) {
         done = false;
-        p = p.getNextExist();
+        p = p.getNext()!;
         value = p.getValue();
       }
       return { value, done };
