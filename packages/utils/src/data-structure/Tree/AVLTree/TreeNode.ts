@@ -2,22 +2,22 @@ class TreeNode<K, V> {
   /**
    * 初始高度
    */
-  height = 1;
+  private height = 1;
 
   /**
    * 父节点
    */
-  parent: TreeNode<K, V> = null;
+  private parent: TreeNode<K, V> | null = null;
 
   /**
    * 左子节点
    */
-  left: TreeNode<K, V> = null;
+  private left: TreeNode<K, V> | null = null;
 
   /**
    * 右子节点
    */
-  right: TreeNode<K, V> = null;
+  private right: TreeNode<K, V> | null = null;
 
   constructor(private key: K, private value: V) {}
 
@@ -56,11 +56,11 @@ class TreeNode<K, V> {
     return this.right;
   }
 
-  setLeft(left: TreeNode<K, V>) {
+  setLeft(left: TreeNode<K, V> | null) {
     this.left = left;
   }
 
-  setRight(right: TreeNode<K, V>) {
+  setRight(right: TreeNode<K, V> | null) {
     this.right = right;
   }
 
@@ -160,7 +160,8 @@ class TreeNode<K, V> {
   }
 
   /**
-   * 先左旋后右旋
+   * 1. 左子节点左旋
+   * 2. 当前节点右旋
    */
   rotateLeftRight() {
     if (this.hasLeft()) {
@@ -170,7 +171,8 @@ class TreeNode<K, V> {
   }
 
   /**
-   * 先右旋后左旋
+   * 1. 右子节点右旋
+   * 2. 当前节点左旋
    */
   rotateRightLeft() {
     if (this.hasRight()) {
@@ -226,6 +228,14 @@ class TreeNode<K, V> {
   isBalanced() {
     const balance = this.getBalance();
     return Math.abs(balance) <= 1;
+  }
+
+  isLeftChild() {
+    return this.hasParent() && this.getParent().getLeft() == this;
+  }
+
+  isRightChild() {
+    return this.hasParent() && this.getParent().getRight() == this;
   }
 }
 
