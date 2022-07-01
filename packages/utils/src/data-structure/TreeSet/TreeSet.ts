@@ -4,7 +4,7 @@
  * @author: Mr Prince
  * @date: 2022-02-11 16:09:19
  */
-import RBTree from './Tree/RBTree/Tree';
+import RBTree from '../Tree/RBTree/Tree';
 
 class TreeMap<T> {
   private tree: RBTree<T, undefined>;

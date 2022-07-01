@@ -4,7 +4,7 @@
  * @author: Mr Prince
  * @date: 2022-02-14 15:44:36
  */
-import LinkedList from './List/LinkedList';
+import LinkedList from '../List/LinkedList';
 
 class Stack<T> {
   /**
