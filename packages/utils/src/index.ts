@@ -9,7 +9,7 @@ import BinaryIndexedTree from './data-structure/Tree/BinaryIndexedTree';
 import RBTree from './data-structure/Tree/RBTree/Tree';
 import TreeMap from './data-structure/TreeMap';
 import TreeSet from './data-structure/TreeSet';
-import SkipList from './data-structure/SkipList';
+import SkipList from './data-structure/List/SkipList';
 
 // 应用
 import Lock from './utils/Lock';
