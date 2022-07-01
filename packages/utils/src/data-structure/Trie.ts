@@ -1,9 +1,10 @@
 /**
  * 前缀树
- * @filename: src/utils/Trie.ts
+ * @filename: packages/utils/src/data-structure/Trie/Trie.ts
  * @author: Mr Prince
- * @date: 2021-11-21 18:08:25
+ * @date: 2022-06-29 16:49:59
  */
+
 class Trie {
   /**
    * 是否是某个单词结尾
