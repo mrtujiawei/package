@@ -10,6 +10,8 @@ import RBTree from './data-structure/Tree/RBTree/Tree';
 import TreeMap from './data-structure/TreeMap';
 import TreeSet from './data-structure/TreeSet';
 import SkipList from './data-structure/List/SkipList';
+import Graph from './data-structure/Graph/Graph';
+import DirectedGraph from './data-structure/Graph/DirectedGraph';
 
 // 应用
 import Lock from './utils/Lock';
@@ -68,6 +70,8 @@ import {
 } from './utils/utils';
 
 export {
+  Graph,
+  DirectedGraph,
   Lock,
   Heap,
   Stack,
@@ -134,6 +138,8 @@ export {
 };
 
 export default {
+  Graph,
+  DirectedGraph,
   Lock,
   Heap,
   Stack,
