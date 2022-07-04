@@ -811,15 +811,15 @@ export function hasDoubleByteWord(word: string) {
 /**
  * 是否包含中文，日文和韩文
  */
-export function isChineseChar(word: string){
-   const reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
-   return reg.test(word);
+export function isChineseChar(word: string) {
+  const reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+  return reg.test(word);
 }
 
 /**
  * 是否包含全角符号
  */
-export function isFullwidthChar(word: string){
+export function isFullwidthChar(word: string) {
   const reg = /[\uFF00-\uFFEF]/;
   return reg.test(word);
 }
