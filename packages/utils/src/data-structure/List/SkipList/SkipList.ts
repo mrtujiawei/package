@@ -80,6 +80,13 @@ class SkipList<T> {
   }
 
   /**
+   * 获取第一个元素
+   */
+  getFirst(): T {
+    return this.head.nexts[0]?.value;
+  }
+
+  /**
    * 插入模式
    * 允许重复插入的情况下
    * 多次插入相等的值, 最后插入的节点会在最前面
