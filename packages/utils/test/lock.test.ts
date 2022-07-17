@@ -67,3 +67,36 @@ test('Unlock is deprecated', () => {
     lock.unlock();
   }).toThrow(Lock.InvalidSizeError);
 });
+
+test('Lock multiple', () => {
+  const lock = new Lock();
+  const size = 10000;
+  for (let i = 0; i < size; i++) {
+    lock.lock();
+  }
+
+  const values: number[] = [];
+  const run = async (value: number) => {
+    await lock.lock();
+    values.push(value);
+    lock.unlock();
+  };
+
+  for (let i = 0; i < 100; i++) {
+    run(i);
+  }
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      for (let i = 0; i < size; i++) {
+        lock.unlock();
+      }
+    });
+    setTimeout(() => {
+      values.forEach((value, index) => {
+        expect(value).toBe(index);
+      });
+      resolve(void 0);
+    });
+  });
+});
