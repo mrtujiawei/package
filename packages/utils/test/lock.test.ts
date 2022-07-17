@@ -64,6 +64,6 @@ test('Try lock test', () => {
 test('Unlock is deprecated', () => {
   const lock = new Lock(1);
   expect(() => {
-    lock.unLock();
+    lock.unlock();
   }).toThrow(Lock.InvalidSizeError);
 });
