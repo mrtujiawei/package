@@ -7,5 +7,5 @@ coverage/
 # 打包文件
 dist/
 
-# 已经打包在dist/types
-# types/
+# 类型文件
+types/
