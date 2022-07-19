@@ -20,7 +20,6 @@ import ResponsibilityChain from './utils/ResponsibilityChain';
 import DateTimeTool from './utils/DateTimeTool';
 import CountDown from './utils/CountDown';
 import Pagination from './utils/Pagination';
-import LinkList from './utils/LinkList';
 import Logger from './Logger';
 import KMP from './utils/KMP';
 import Events from './utils/Events';
@@ -80,7 +79,6 @@ export {
   Events,
   Logger,
   Random,
-  LinkList,
   CountDown,
   TaskQueue,
   Pagination,
@@ -148,7 +146,6 @@ export default {
   Events,
   Logger,
   Random,
-  LinkList,
   CountDown,
   TaskQueue,
   Pagination,
