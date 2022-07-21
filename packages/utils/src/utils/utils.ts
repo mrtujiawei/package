@@ -1,5 +1,5 @@
 import { toString } from './topLevelUtils';
-import Types from '../Types';
+import Types from '../Types/index';
 
 /**
  * @description 延迟一段时间(秒)

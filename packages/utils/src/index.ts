@@ -25,7 +25,7 @@ import KMP from './utils/KMP';
 import Events from './utils/Events';
 import Random from './utils/Random';
 import { toString } from './utils/topLevelUtils';
-import Types from './Types';
+import Types from './Types/index';
 import Envs from './Envs';
 
 import {

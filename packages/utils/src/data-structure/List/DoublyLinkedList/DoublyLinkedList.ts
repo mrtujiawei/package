@@ -7,7 +7,7 @@
  * @date: 2022-06-25 19:34:14
  */
 import { identity } from '../../../utils/utils';
-import Types from '../../../Types';
+import Types from '../../../Types/index';
 import LinkedNode from './LinkedNode';
 
 /**
