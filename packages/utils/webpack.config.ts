@@ -52,7 +52,9 @@ const config: webpack.Configuration = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [['@babel/preset-env'], ['@babel/preset-typescript']],
+            presets: [['@babel/preset-env', {
+              forceAllTransforms: true
+            }], ['@babel/preset-typescript']],
             plugins: [['@babel/plugin-transform-runtime']],
           },
         },
