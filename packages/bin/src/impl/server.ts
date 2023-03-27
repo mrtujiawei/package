@@ -1,5 +1,4 @@
 import https from 'https';
-import fs from 'fs';
 import path from 'path';
 import Koa from 'koa';
 import Static from 'koa-static';
@@ -10,6 +9,8 @@ import multer from '@koa/multer';
 import { getIps } from '@mrtujiawei/node-utils';
 import { logger, sendRequest } from '../utils';
 import { mergeSlices, sliceDirctory, uploadSlice } from './File';
+import { Buffer } from 'buffer';
+import { CA_CERT, PRIVATE_KEY } from '../config';
 
 const upload = multer({ dest: sliceDirctory });
 
@@ -125,12 +126,10 @@ export default function server(options: Options) {
   }
 
   if (options.https) {
-    // TODO replace
     // chat socket
-    // 文件查找有点小问题，需要根据打包后的文件去找
     const httpsOptions = {
-      key: fs.readFileSync(path.resolve(__dirname, '../pem/private_key.pem')),
-      cert: fs.readFileSync(path.resolve(__dirname, '../pem/ca-cert.pem')),
+      key: Buffer.alloc(PRIVATE_KEY.length, PRIVATE_KEY),
+      cert: Buffer.alloc(CA_CERT.length, CA_CERT),
     };
 
     https
