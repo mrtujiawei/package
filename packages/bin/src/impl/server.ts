@@ -1,3 +1,4 @@
+import http from 'https';
 import https from 'https';
 import path from 'path';
 import Koa from 'koa';
@@ -11,6 +12,7 @@ import { logger, sendRequest } from '../utils';
 import { mergeSlices, sliceDirctory, uploadSlice } from './File';
 import { Buffer } from 'buffer';
 import { CA_CERT, PRIVATE_KEY } from '../config';
+import { WebSocket, WebSocketServer } from 'ws';
 
 const upload = multer({ dest: sliceDirctory });
 
@@ -125,29 +127,35 @@ export default function server(options: Options) {
     });
   }
 
+  let server: http.Server | https.Server;
+
   if (options.https) {
-    // chat socket
     const httpsOptions = {
       key: Buffer.alloc(PRIVATE_KEY.length, PRIVATE_KEY),
       cert: Buffer.alloc(CA_CERT.length, CA_CERT),
     };
 
-    https
-      .createServer(httpsOptions, app.callback())
-      .listen(options.port, () => {
-        const ips = getIps();
-        logger.info('Server is running at:');
-        ips.forEach((ip) => {
-          logger.info(`https://${ip}:${options.port}`);
-        });
-      });
+    server = https.createServer(httpsOptions, app.callback());
   } else {
-    app.listen(options.port, () => {
-      const ips = getIps();
-      logger.info('Server is running at:');
-      ips.forEach((ip) => {
-        logger.info(`http://${ip}:${options.port}`);
+    server = http.createServer(app.callback());
+  }
+
+  const ws = new WebSocketServer({ server });
+  ws.addListener('connection', (client) => {
+    client.on('message', (data) => {
+      ws.clients.forEach((client) => {
+        if (client.readyState == WebSocket.OPEN) {
+          client.send(data.toString());
+        }
       });
     });
-  }
+  });
+
+  server.listen(options.port, () => {
+    const ips = getIps();
+    logger.info('Server is running at:');
+    ips.forEach((ip) => {
+      logger.info(`https://${ip}:${options.port}`);
+    });
+  });
 }

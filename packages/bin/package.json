@@ -26,11 +26,13 @@
     "koa-router": "7.4.0",
     "koa-static": "5.0.0",
     "multer": "1.4.5-lts.1",
-    "utf8": "3.0.0"
+    "utf8": "3.0.0",
+    "ws": "8.13.0"
   },
   "devDependencies": {
     "@types/base-64": "1.0.0",
     "@types/koa__multer": "2.0.4",
-    "@types/utf8": "3.0.1"
+    "@types/utf8": "3.0.1",
+    "@types/ws": "8.5.4"
   }
 }
