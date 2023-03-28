@@ -11,7 +11,7 @@ import { getIps } from '@mrtujiawei/node-utils';
 import { logger, sendRequest } from '../utils';
 import { mergeSlices, sliceDirctory, uploadSlice } from './File';
 import { Buffer } from 'buffer';
-import { CA_CERT, PRIVATE_KEY } from '../config';
+import { CA_CERT, PRIVATE_KEY, socketTemplate } from '../config';
 import { WebSocket, WebSocketServer } from 'ws';
 
 const upload = multer({ dest: sliceDirctory });
@@ -57,6 +57,10 @@ export default function server(options: Options) {
       message: '',
       data: null,
     });
+  });
+
+  router.get('/socket', async (ctx) => {
+    ctx.body = socketTemplate;
   });
 
   options.dir.forEach((dir) => {
