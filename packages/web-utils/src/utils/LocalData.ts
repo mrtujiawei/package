@@ -24,7 +24,22 @@
  * 需要将函数装换成字符串再保存
  */
 
-// TODO 添加过期
+interface Options {
+  /**
+   * 过期时间
+   * <= 0 表示永不过期
+   */
+  expiration: number;
+}
+
+const defaultOption: Options = {
+  expiration: 0
+};
+
+/**
+ * 保存100年
+ */
+const MAX_TIME_OUT = 100 * 365 * 24 * 60 * 60 * 1000;
 
 class LocalData {
   /**
@@ -33,10 +48,16 @@ class LocalData {
   prefix: string;
 
   /**
+   * 过期时间 <= 0 表示永不过期
+   */
+  expiration: number;
+
+  /**
    * @param prefix - key前缀
    */
-  constructor(prefix = 'tujiawei') {
+  constructor(prefix = 'tujiawei', option?: Options) {
     this.prefix = prefix;
+    this.expiration = (option || defaultOption).expiration;
   }
 
   /**
@@ -53,21 +74,32 @@ class LocalData {
    *
    */
   get(key: string) {
-    let res = this.getString(key);
-    try {
-      return JSON.parse(res as string);
-    } catch (e) {
-      console.warn('无法转换');
+    const value = this.getString(key);
+    if (value === null) {
+      return null;
     }
-    return res;
+    const result: { value: unknown, timeout: number } = JSON.parse(value);
+    if (result.timeout < new Date().getTime()) {
+      return null;
+    }
+    return result.value;
   }
 
   /**
    * @param key
    * @param value
    */
-  set(key: string, value: Object) {
-    localStorage.setItem(this.prefix + key, JSON.stringify(value));
+  set(key: string, value: Object, options?: Options) {
+    let expiration = this.expiration;
+
+    if (options) {
+      expiration = options.expiration;
+    }
+
+    localStorage.setItem(this.prefix + key, JSON.stringify({
+      value,
+      timeout: new Date().getTime() + (expiration > 0 ? expiration : MAX_TIME_OUT)
+    }));
   }
 
   /**
