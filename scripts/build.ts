@@ -2,6 +2,7 @@
  * 预览: playground 的devServer
  */
 import webpack from 'webpack';
+import fs from 'fs/promises';
 import { Command } from 'commander';
 import buildTs from './compilers/ts';
 import buildUmd from './compilers/umd';
@@ -23,6 +24,15 @@ program
     const packageName = options.name;
     if (packageName == 'bin') {
       buildCjs(packageName);
+
+      const dir = `dist/packages/bin/src`;
+      try {
+        await fs.stat(dir);
+        await fs.rmdir(dir);
+      } catch (e) {
+        fs.mkdir(dir, { recursive: true });
+      }
+      await fs.cp('packages/bin/shell', `dist/packages/bin/src/shell`, { recursive: true });
       return;
     }
 

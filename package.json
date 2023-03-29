@@ -15,7 +15,7 @@
     "build:css": "ts-node scripts/compilers/css/index.ts",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "release": "ts-node scripts/publish.ts"
+    "release": "ts-node scripts/release.ts"
   },
   "license": "MIT",
   "devDependencies": {

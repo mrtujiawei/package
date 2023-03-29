@@ -1,9 +1,9 @@
 {
   "name": "@mrtujiawei/bin",
-  "version": "1.3.12",
+  "version": "1.3.13",
   "description": "我的命令行工具",
   "bin": {
-    "t": "dist/index.cjs.js",
+    "t": "index.cjs.js",
     "combine-m3u8": "shell/combine.sh",
     "split-m3u8": "shell/split.sh",
     "check-command": "shell/check-command.sh",

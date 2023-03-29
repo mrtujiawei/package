@@ -8,13 +8,14 @@ import getConfig from './webpack.config';
 import { absolutePath } from '../../utils';
 import { webpack } from 'webpack';
 import ShebangWebpackPlugin from './ShebangWebpackPlugin';
+import { getPaths } from '../../config';
 
 const build = (packageName: string) => {
   const config = getConfig();
   config.entry = absolutePath(packageName, 'src/index');
   config.output = {
     ...config.output!,
-    path: absolutePath(packageName, 'dist/'),
+    path: getPaths(packageName).destination.dir,
   };
 
   if (packageName == 'bin') {
