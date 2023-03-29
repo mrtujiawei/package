@@ -30,7 +30,7 @@ yuc=
 -----END CERTIFICATE-----
 `;
 
-export const socketTemplate = `
+export const socketTemplate = (ip: string, port: string) => `
 <!DOCTYPE html>
 <html>
   <head>
@@ -99,7 +99,7 @@ export const socketTemplate = `
     </div>
     <script>
       const messages = document.querySelector('.messages');
-      const socket = new WebSocket('ws://192.168.3.87:9999');
+      const socket = new WebSocket('ws://${ip}:${port}');
       const input = document.querySelector('.input');
 
       const sendMessage = () => {

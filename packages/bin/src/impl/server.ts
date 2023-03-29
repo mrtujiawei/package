@@ -1,4 +1,4 @@
-import http from 'https';
+import http from 'http';
 import https from 'https';
 import path from 'path';
 import Koa from 'koa';
@@ -60,7 +60,8 @@ export default function server(options: Options) {
   });
 
   router.get('/socket', async (ctx) => {
-    ctx.body = socketTemplate;
+    const ips = getIps().filter((ip) => ip != '127.0.0.1');
+    ctx.body = socketTemplate(ips[0], `${options.port}`);
   });
 
   options.dir.forEach((dir) => {
@@ -156,8 +157,8 @@ export default function server(options: Options) {
   });
 
   server.listen(options.port, () => {
-    const ips = getIps();
     logger.info('Server is running at:');
+    const ips = getIps();
     ips.forEach((ip) => {
       logger.info(`https://${ip}:${options.port}`);
     });
