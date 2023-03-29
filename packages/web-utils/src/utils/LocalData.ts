@@ -65,7 +65,7 @@ class LocalData {
    *
    * @param key - 属性
    */
-  getString(key: string) {
+  private getString(key: string) {
     return localStorage.getItem(this.prefix + key);
   }
 
@@ -80,6 +80,7 @@ class LocalData {
     }
     const result: { value: unknown, timeout: number } = JSON.parse(value);
     if (result.timeout < new Date().getTime()) {
+      this.remove(key);
       return null;
     }
     return result.value;
