@@ -60,8 +60,7 @@ export default function server(options: Options) {
   });
 
   router.get('/socket', async (ctx) => {
-    const ips = getIps().filter((ip) => ip != '127.0.0.1');
-    ctx.body = socketTemplate(ips[0], `${options.port}`);
+    ctx.body = socketTemplate;
   });
 
   options.dir.forEach((dir) => {
