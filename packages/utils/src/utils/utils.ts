@@ -1236,7 +1236,7 @@ export function bitCount(n: number) {
 
 /**
  * split arr to chunks
- * every chunk's size is less then size
+ * every chunk's size is equal or less then size
  */
 export const chunk = <T>(arr: T[], size: number): T[][] => {
   const result: T[][] = [];
