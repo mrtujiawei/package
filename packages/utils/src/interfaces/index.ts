@@ -6,3 +6,8 @@
  */
 
 export type { default as Comparable } from './Comparable';
+
+/**
+ * 嵌套数组
+ */
+export type NestedArray<T> = (T | NestedArray<T>)[];
