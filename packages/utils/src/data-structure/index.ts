@@ -21,6 +21,7 @@ export { default as Graph } from './Graph/Graph';
 export { default as DirectedGraph } from './Graph/DirectedGraph';
 export { default as floyd } from './Graph/floyd';
 export { default as kruskal } from './Graph/kruskal';
+export { default as dijkstra } from './Graph/dijkstra';
 export { default as UnionFind } from './UnionFind';
 export { default as SetEnhancer } from './SetEnhancer';
 export { default as MapEnhancer } from './MapEnhancer';
