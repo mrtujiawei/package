@@ -1275,3 +1275,19 @@ export const requestTimeout = <T>(
     timeoutFlag && timeoutCallback(value);
   });
 };
+
+/**
+ * 遍历自己的属性
+ */
+export const forEachOwnProperties = <T extends Object>(
+  obj: T,
+  callback: (value: T[keyof T], key: keyof T, context: T) => void
+) => {
+  // Object.keys 同理
+  for (const key in obj) {
+    if (!obj.hasOwnProperty(key)) {
+      return;
+    }
+    callback(obj[key], key, obj);
+  }
+};
