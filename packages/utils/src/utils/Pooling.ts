@@ -5,7 +5,7 @@
  * @date 2023-03-24 10:03:49
  */
 import Lock from './Lock';
-import { requestTimeout } from './utils';
+import { requestTimeout } from './asyncUtils';
 
 export const createPool = <T>(options: {
   minSize: number;

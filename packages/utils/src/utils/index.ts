@@ -6,6 +6,8 @@
  */
 export * from './topLevelUtils';
 export * from './utils';
+export * from './asyncUtils';
+export * from './arrayUtils';
 export * from './MathUtils';
 export * from './StringUtils';
 export { default as Lock } from './Lock';

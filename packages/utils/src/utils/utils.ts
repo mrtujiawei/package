@@ -1,16 +1,15 @@
-import { isNaturalNumber } from './MathUtils';
-import Random from './Random';
+/**
+ * 一些不好分类的工具函数
+ *
+ * @filename packages/utils/src/utils/utils.ts
+ * @author Mr Prince
+ * @date 2023-04-20 09:50:23
+ */
+
+import { swap } from './arrayUtils';
+import { isObject } from './objectUtils';
 import { toString } from './topLevelUtils';
 import Types from './Types';
-
-/**
- * @description 延迟一段时间(秒)
- */
-export const sleep = async (timeout: number = 0) => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, timeout * 1000);
-  });
-};
 
 /**
  * 处理url请求参数
@@ -46,29 +45,6 @@ export const urlParamsToObject = (urlParams: string) => {
 };
 
 /**
- * 判断是否是对象,排除null
- */
-export const isObject = (object: unknown): boolean => {
-  if (typeof {} != typeof object || toString(object) == Types.NULL) {
-    return false;
-  }
-  return true;
-};
-
-/**
- * 判断是不是一个没有任何属性的对象
- */
-export function isPlainObject(obj: any): boolean {
-  if (!isObject(obj)) {
-    return false;
-  }
-  for (const _ in obj) {
-    return false;
-  }
-  return true;
-}
-
-/**
  * 防抖
  */
 export function debounce(callback: Function, timeout: number): Function {
@@ -88,39 +64,6 @@ export function debounce(callback: Function, timeout: number): Function {
  */
 export function identity<T>(value: T): T {
   return value;
-}
-
-/**
- * 重试函数
- */
-export function retry(callback: Function, times: number = 2): Function {
-  return function (...args: any[]): any {
-    let cnt = 0;
-
-    function catchError(err: any, ...args: any[]) {
-      if (cnt++ < times) {
-        return recursion(...args);
-      }
-      throw new Error(err.message);
-    }
-
-    function recursion(...args: any[]): any {
-      try {
-        let data = callback(...args);
-        if (Types.isPromise(data)) {
-          return data
-            .then(identity)
-            .catch((err: Error) => catchError(err, ...args));
-        } else {
-          return data;
-        }
-      } catch (err) {
-        return catchError(err, ...args);
-      }
-    }
-
-    return recursion(...args);
-  };
 }
 
 type Options = {
@@ -208,113 +151,6 @@ export function isInteger(number: any) {
 
   return /^-?[0-9]+$/.test(number.toString());
 }
-
-/**
- * 反转数组中的某一段(不包括end)
- */
-export function reverseRange(arr: unknown[], start: number, end: number): void {
-  let middle = ((end - start) >> 1) + start;
-  for (let i = start; i < middle; i++) {
-    swap(arr, i, end - i - 1 + start);
-  }
-}
-
-/**
- * 交换数组中的两个元素
- */
-export function swap(arr: any[], index1: number, index2: number): void {
-  if (!isNaturalNumber(index1)) {
-    throw new RangeError(`index1: ${index1} is not a valid index`);
-  }
-  if (!isNaturalNumber(index2)) {
-    throw new RangeError(`index2: ${index2} is not a valid index`);
-  }
-  const length = arr.length;
-  if (index1 >= length) {
-    throw new RangeError(
-      `index1: ${index1} is large than arr.length: ${length}`
-    );
-  }
-  if (index2 >= length) {
-    throw new RangeError(
-      `index2: ${index2} is large than arr.length: ${length}`
-    );
-  }
-  let value = arr[index1];
-  arr[index1] = arr[index2];
-  arr[index2] = value;
-}
-
-/**
- * 重入函数,不绑定 this
- * 和实际的重入函数可能不太一样
- * 我要做的是:
- * 1. 多次调用函数，
- * 2. 后一次调用时，前一次的调用未结束
- * 3. 丢弃前一次的调用结果
- *
- * 对js来说，同步的函数是不太可能会被中断的
- * 所以我做的其实只能中断异步函数
- */
-export const reentrant = (callback: (...args: any[]) => Promise<any>) => {
-  let id = 0;
-  return async (...args: any[]) => {
-    id++;
-    const currentId = id;
-    const result = await callback.apply(null, args);
-    if (id == currentId) {
-      return result;
-    }
-    return new Promise(() => {});
-  };
-};
-
-/**
- * 二分搜索
- * 找到第一个满足条件的下标
- * @param values - 有序数组
- * @param target - 目标值
- * @param compare - 比较函数: 返回 <0(a < b), 0(a == b), >0(a > b)
- */
-export const findFirstIndex = <T>(
-  values: T[],
-  target: T,
-  compare?: (a: T, b: T) => number
-) => {
-  if (!compare) {
-    compare = (a, b) => {
-      // @ts-ignore
-      return a - b;
-    };
-  }
-
-  // 左闭右开
-  let left = 0;
-  let right = values.length;
-
-  while (left < right) {
-    let middle = ((right - left) >> 1) + left;
-    let cmp = compare(values[middle], target);
-
-    // 中点小于目标值
-    if (0 > cmp) {
-      left = middle + 1;
-      // 找到满足要求的下标
-    } else if (0 <= cmp) {
-      if (
-        // 只有一个数可选
-        left == middle ||
-        // 左边没有大于等于目标值的下标
-        (0 < middle && 0 > compare(values[middle - 1], target))
-      ) {
-        return middle;
-      }
-      right = middle;
-    }
-  }
-
-  return -1;
-};
 
 /**
  * 判断两个值是否相同
@@ -548,21 +384,6 @@ export const getGlobalThis = (() => {
 })();
 
 /**
- * 判断两个数组中的元素是否完全相同
- */
-export const isArrayElementsEqual = <T>(
-  values0: T[],
-  values1: T[],
-  comparator = (value0: T, value1: T) => value0 == value1
-) => {
-  return (
-    values0 == values1 ||
-    (values0.length == values1.length &&
-      values0.every((value0, index) => comparator(value0, values1[index])))
-  );
-};
-
-/**
  * 深层比较两个值是否相等
  */
 export function deepEqual(a: unknown, b: unknown): boolean {
@@ -638,53 +459,6 @@ export function isShortPath(path: string) {
  */
 export function compact(arr: unknown[]) {
   return arr.filter((value) => Boolean(value));
-}
-
-/**
- * 数组去重
- */
-export function distinct(arr: unknown[]) {
-  const set = new Set<unknown>();
-  return arr.filter((value) => {
-    if (set.has(value)) {
-      return false;
-    }
-    set.add(value);
-    return true;
-  });
-}
-
-type CA<T> = T extends (infer Item)[] ? Item[] : T[];
-
-/**
- * 转化成数组
- * 原来是数组的不做任何处理
- */
-export function castArray<T>(value: T): CA<T> {
-  if (Types.isArray(value)) {
-    return value as unknown as CA<T>;
-  }
-
-  return [value] as CA<T>;
-}
-
-/**
- * 数组浅拷贝 [start, end)
- * @param src 源数组
- * @param dest 目标数组
- * @param start 开始位置
- * @param end 结束位置 结束位置不能大于arr.length
- */
-export function copyArray<T>(
-  src: T[],
-  dest: T[],
-  start: number = 0,
-  end: number = src.length
-) {
-  end = Math.min(src.length, end);
-  for (let i = start; i < end; i++) {
-    dest[i] = src[i];
-  }
 }
 
 /**
@@ -814,18 +588,6 @@ export function parseURI(uri: string) {
     href: uri,
     origin,
   };
-}
-
-/**
- * 打乱数组，或称洗牌算法
- *
- * Knuth-Durstenfeld Shuffle
- */
-export function shuffle<T>(values: T[]) {
-  for (let i = values.length; i > 0; i--) {
-    const index = Random.getRandomNumber(0, i);
-    swap(values, i - 1, index);
-  }
 }
 
 /**
@@ -1233,61 +995,3 @@ export function bitCount(n: number) {
 
   return count;
 }
-
-/**
- * split arr to chunks
- * every chunk's size is equal or less then size
- */
-export const chunk = <T>(arr: T[], size: number): T[][] => {
-  const result: T[][] = [];
-
-  if (arr.length > 0) {
-    for (let i = 0; true; i++) {
-      const start = i * size;
-      const chunk = arr.slice(start, start + size);
-      result.push(chunk);
-      if (chunk.length < size) {
-        break;
-      }
-    }
-  }
-
-  return result;
-};
-
-/**
- * throw Exception when timeout
- */
-export const requestTimeout = <T>(
-  callback: () => T | Promise<T>,
-  timeout: number,
-  timeoutCallback: (value: T) => void
-): Promise<T> => {
-  return new Promise(async (resolve, reject) => {
-    let timeoutFlag = false;
-    const timer = setTimeout(() => {
-      timeoutFlag = true;
-      reject(new Error('Timeout'));
-    }, timeout);
-    const value = await callback();
-    clearTimeout(timer);
-    resolve(value);
-    timeoutFlag && timeoutCallback(value);
-  });
-};
-
-/**
- * 遍历自己的属性
- */
-export const forEachOwnProperties = <T extends Object>(
-  obj: T,
-  callback: (value: T[keyof T], key: keyof T, context: T) => void
-) => {
-  // Object.keys 同理
-  for (const key in obj) {
-    if (!obj.hasOwnProperty(key)) {
-      return;
-    }
-    callback(obj[key], key, obj);
-  }
-};
