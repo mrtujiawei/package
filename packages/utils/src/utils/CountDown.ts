@@ -1,4 +1,4 @@
-import { sleep } from './utils';
+import { sleep } from './asyncUtils';
 
 /**
  * 消息内容: 倒计时时间 或 结束内容
