@@ -195,3 +195,94 @@ export function isEqual(a: string, b: string, options: {
   return a == b;
 }
 
+/**
+ * 字符串预处理
+ */
+const manacherPreprocess = (str: string, prefix: string, padding: string) => {
+  const n = str.length;
+  const result: string[] = new Array(n * 2 + 2);
+
+  result[0] = prefix;
+  for (let i = 0; i < n; i++) {
+    const index = i << 1;
+    result[index + 1] = padding;
+    result[index + 2] = str[i];
+  }
+  result[n * 2 + 1] = padding;
+
+  return result;
+};
+
+/**
+ * manacher 马拉车算法
+ *
+ * @param str 字符串
+ * @param prefix 前缀字符，不存在str中
+ * @param padding 填充字符，不存在str中
+ *
+ * @returns 最长回文子串的长度
+ */
+export const manacher = (
+  str: string,
+  prefix: string = '^',
+  padding: string = '#'
+) => {
+  const chars = manacherPreprocess(str, prefix, padding);
+
+  // 解决重复计算问题
+  const radius = new Array(chars.length).fill(0);
+
+  let center = 0;
+  let right = 0;
+
+  let maxLen = 1;
+  let maxCenter = 0;
+
+  for (let i = 1; i < chars.length; i++) {
+    // mirror 是 i 关于 center 的对称点
+    // 有: (i + mirror) / 2 = center
+    let mirror = 2 * center - i;
+
+    // 如果在回文范围外， 需要从 1 开始计算
+    // 否则 根据和对称点相同
+    // 对称点可能超出当前回文串的范围，需要根据 right - i 来判断
+    radius[i] = i >= right ? 1 : Math.min(right - i, radius[mirror]);
+    while (chars[i + radius[i]] == chars[i - radius[i]]) {
+      radius[i]++;
+    }
+    if (radius[i] + i > right) {
+      right = radius[i] + i;
+      center = i;
+    }
+    if (maxLen < radius[i]) {
+      maxLen = radius[i];
+      maxCenter = i;
+    }
+  }
+
+  // TODO 返回值可以更通用一点
+  let start = (maxCenter - radius[maxCenter]) >> 1;
+
+  return str.substring(start, start + maxLen - 1);
+};
+
+/**
+ * 是否含有重复字符
+ */
+export function hasRepeatChar(str: string | string[]) {
+  const set = new Set<string>();
+
+  for (const ch of str) {
+    // 内循环是为了处理字符数组中每一项有多个字符的情况
+    for (const c of ch) {
+      if (set.has(c)) {
+        return true;
+      } else {
+        set.add(c);
+      }
+    }
+  }
+
+  return false;
+}
+
