@@ -9,7 +9,7 @@
  */
 
 import Types from './Types';
-import { identity } from './utils';
+import { identity } from './pureFunction';
 
 /**
  * @description 延迟一段时间(秒)

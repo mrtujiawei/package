@@ -6,7 +6,7 @@
  * @author: Mr Prince
  * @date: 2022-06-25 19:34:14
  */
-import { identity } from '../../../utils/utils';
+import { identity } from '../../../utils/pureFunction';
 import Types from '../../../utils/Types';
 import LinkedNode from './LinkedNode';
 
@@ -297,7 +297,12 @@ class DoublyLinkedList<T> {
    * 缩减
    */
   reduce(
-    fn: (prev: any, currentValue: T, index: number, context: DoublyLinkedList<T>) => any,
+    fn: (
+      prev: any,
+      currentValue: T,
+      index: number,
+      context: DoublyLinkedList<T>
+    ) => any,
     initialValue?: any
   ): any {
     if (!this.size() && Types.isUndefined(initialValue)) {
@@ -430,7 +435,9 @@ class DoublyLinkedList<T> {
   /**
    * 遍历其中的一部分, 和findIndex逻辑几乎一样
    */
-  some(fn: (value: T, index: number, context: DoublyLinkedList<T>) => boolean): boolean {
+  some(
+    fn: (value: T, index: number, context: DoublyLinkedList<T>) => boolean
+  ): boolean {
     return this.findIndex(fn) != -1;
   }
 
