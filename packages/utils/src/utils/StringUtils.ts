@@ -184,9 +184,13 @@ export const upperCamelCase = (str: string) => {
 /**
  * 判断字符串是否相等
  */
-export function isEqual(a: string, b: string, options: {
-  ignoreCase?: boolean
-}) {
+export function isEqual(
+  a: string,
+  b: string,
+  options: {
+    ignoreCase?: boolean;
+  }
+) {
   a = a || '';
   b = b || '';
   if (options.ignoreCase) {
@@ -285,4 +289,3 @@ export function hasRepeatChar(str: string | string[]) {
 
   return false;
 }
-
