@@ -1,8 +1,6 @@
 import DateTimeTool from '../utils/DateTimeTool';
 import { addZero } from '../utils/StringUtils';
 import type { Primitive } from '../types';
-// 这个库 jest 使用过程中会报错
-// import chalk from 'chalk';
 
 /**
  * 允许接收的内容类型
@@ -85,9 +83,6 @@ class Content {
     const level = LOG_LEVEL[this.logLevel];
 
     const content = `${time} [${level}] ${this.identifier} - ${this.content}`;
-    // const content = `${chalk.blue(`${time} [${level}] ${this.identifier} -`)} ${
-    //   this.content
-    // }`;
 
     return content;
   }
@@ -168,6 +163,9 @@ class Logger {
     });
   }
 
+  /**
+   * 统一处理日志内容
+   */
   private print(level: LOG_LEVEL, content: ContentType) {
     if (this.valid && level >= this.level) {
       this.publish(new Content(content, level, this.identifier));
@@ -258,50 +256,86 @@ class Logger {
     }
   }
 
+  /**
+   * trace 日志
+   */
   trace(content: ContentType): void {
     this.print(LOG_LEVEL.TRACE, content);
   }
 
+  /**
+   * debug 日志
+   */
   debug(content: ContentType): void {
     this.print(LOG_LEVEL.DEBUG, content);
   }
 
+  /**
+   * info 日志
+   */
   info(content: ContentType): void {
     this.print(LOG_LEVEL.INFO, content);
   }
 
+  /**
+   * warn 日志
+   */
   warn(content: ContentType): void {
     this.print(LOG_LEVEL.WARN, content);
   }
 
+  /**
+   * error 日志
+   */
   error(content: ContentType): void {
     this.print(LOG_LEVEL.ERROR, content);
   }
 
+  /**
+   * fatal 日志
+   */
   fatal(content: ContentType): void {
     this.print(LOG_LEVEL.FATAL, content);
   }
 
+  /**
+   * 是否打印 trace 级别的日志
+   */
   isTraceEnabled(): boolean {
     return LOG_LEVEL.TRACE >= this.level;
   }
 
+  /**
+   * 是否打印 debug 级别的日志
+   */
   isDebugEnabled(): boolean {
     return LOG_LEVEL.DEBUG >= this.level;
   }
 
+  /**
+   * 是否打印 info 级别的日志
+   */
   isInfoEnabled(): boolean {
     return LOG_LEVEL.INFO >= this.level;
   }
 
+  /**
+   * 是否打印 warn 级别的日志
+   */
   isWarnEnabled(): boolean {
     return LOG_LEVEL.WARN >= this.level;
   }
 
+  /**
+   * 是否打印 error 级别的日志
+   */
   isErrorEnabled(): boolean {
     return LOG_LEVEL.ERROR >= this.level;
   }
 
+  /**
+   * 是否打印 fatal 级别的日志
+   */
   isFatalEnabled(): boolean {
     return LOG_LEVEL.FATAL >= this.level;
   }
