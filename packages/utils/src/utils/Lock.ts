@@ -6,6 +6,9 @@
  */
 import Queue from '../data-structure/Queue/Queue';
 
+/**
+ * @public
+ */
 class Lock {
   /**
    * size大小不合理
