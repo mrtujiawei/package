@@ -15,6 +15,8 @@ import Types from './Types';
 /**
  * 处理url请求参数
  * 需要手动加?
+ *
+ * @public
  */
 export const objectToUrlParams = (params: object): string => {
   return Object.entries(params)
@@ -25,6 +27,8 @@ export const objectToUrlParams = (params: object): string => {
 
 /**
  * 请求参数转对象
+ *
+ * @public
  */
 export const urlParamsToObject = (urlParams: string) => {
   if (urlParams.startsWith('?')) {
@@ -47,6 +51,8 @@ export const urlParamsToObject = (urlParams: string) => {
 
 /**
  * 防抖
+ *
+ * @public
  */
 export function debounce(callback: Function, timeout: number): Function {
   let timer: any;
@@ -65,6 +71,9 @@ type Options = {
   timeout: number;
 };
 
+/**
+ * @private
+ */
 const DEFAULT_THROTTLE_OPTIONS = {
   timeout: 500,
   leading: false,
@@ -72,6 +81,8 @@ const DEFAULT_THROTTLE_OPTIONS = {
 
 /**
  * 节流
+ *
+ * @public
  */
 export function throttle(
   callback: Function,
@@ -84,6 +95,8 @@ export function throttle(
 
 /**
  * 立即执行节流
+ *
+ * @public
  */
 export function leading(callback: Function, timeout: number) {
   let timer: any = null;
@@ -118,6 +131,8 @@ export function leading(callback: Function, timeout: number) {
 
 /**
  * 延迟节流
+ *
+ * @public
  */
 export function trailing(callback: Function, timeout: number) {
   let timer: any = null;
@@ -136,6 +151,8 @@ export function trailing(callback: Function, timeout: number) {
 
 /**
  * 是否是整数
+ *
+ * @public
  */
 export function isInteger(number: any) {
   const type = toString(number);
@@ -148,6 +165,8 @@ export function isInteger(number: any) {
 
 /**
  * 获取对象上的key
+ *
+ * @public
  * @param object - 目标对象
  * @param unenumerable - 是否获取全部的key，包括不可枚举的
  * @returns - 如果是null 或 undefined 或 非对象类型的 返回空字符串
@@ -166,6 +185,8 @@ export const keys = (object: Object, unenumerable?: boolean): string[] => {
 
 /**
  * 获取对象的所有 symbol 属性
+ *
+ * @public
  */
 export const symbols = (object: Object) => {
   if (!isObject(object)) {
@@ -176,6 +197,8 @@ export const symbols = (object: Object) => {
 
 /**
  * 矩阵转置 不需要行列相等
+ *
+ * @public
  */
 export const matrixTransposition = <T>(arr: T[][]) => {
   return arr.reduce(
@@ -191,6 +214,8 @@ export const matrixTransposition = <T>(arr: T[][]) => {
 
 /**
  * rgb 转 hex
+ *
+ * @public
  */
 export const rgbToHex = (r: number, g: number, b: number) => {
   const rangeCheck = (value: number) => {
@@ -209,6 +234,8 @@ export const rgbToHex = (r: number, g: number, b: number) => {
 /**
  * 尾递归优化
  * 需要传入的函数最后返回一个新的函数或非函数的结果
+ *
+ * @public
  */
 export const trampoline = <T extends Function>(fn: T) => {
   // @ts-ignore
@@ -226,6 +253,8 @@ export const trampoline = <T extends Function>(fn: T) => {
 /**
  * 精度转换
  * 超过 Number.MAX_SAFE_INTEGER 后无法处理
+ *
+ * @public
  * @description 如果 fractionDigits 为小数，向下取整,不支持 BigInt
  * @param number 要转换的数值
  * @param fractionDigits 小数点后位数, 负数会将整数部分改成0
@@ -247,6 +276,8 @@ export const fixed = (number: number, fractionDigits: number) => {
 
 /**
  * 获取全局对象
+ *
+ * @public
  */
 export const getGlobalThis = (() => {
   let _globalThis: any;
@@ -274,6 +305,8 @@ export const getGlobalThis = (() => {
 
 /**
  * 深层比较两个值是否相等
+ *
+ * @public
  */
 export function deepEqual(a: unknown, b: unknown): boolean {
   if (isSame(a, b)) {
@@ -309,6 +342,8 @@ export function deepEqual(a: unknown, b: unknown): boolean {
 
 /**
  * 获取嵌套对象或数组中的值
+ *
+ * @public
  */
 export function getNestValue<T>(
   values: unknown,
@@ -338,6 +373,8 @@ export function getNestValue<T>(
  * 判断是否是短路径
  *
  * 不以 http|https|// 开头的路径
+ *
+ * @public
  */
 export function isShortPath(path: string) {
   return !/^(https?|\/\/)/.test(path);
@@ -345,6 +382,8 @@ export function isShortPath(path: string) {
 
 /**
  * 尝试调用
+ *
+ * @public
  */
 export function attempt<T extends (...args: any[]) => any>(
   fn: T,
@@ -366,6 +405,8 @@ export function attempt<T extends (...args: any[]) => any>(
  * host需要加上对应的端口号, 否则不用
  *
  * [] 内部不能出现 [@:/?#] 等字符，否则解析可能会出现问题
+ *
+ * @public
  */
 export function parseURI(uri: string) {
   let value = (uri || '').trim();
@@ -463,6 +504,8 @@ export function parseURI(uri: string) {
 /**
  * 全排列
  * 要求输入数据各不相同
+ *
+ * @public
  */
 export function permute<T>(values: T[]): T[][] {
   const result: T[][] = [];
@@ -470,6 +513,9 @@ export function permute<T>(values: T[]): T[][] {
   return result;
 }
 
+/**
+ * @private
+ */
 function permuteBacktrack<T>(values: T[], result: T[][], index: number) {
   if (index == values.length) {
     result.push(values.slice());
