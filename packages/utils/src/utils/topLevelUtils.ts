@@ -13,6 +13,8 @@
 
 /**
  * 返回 [Object, {type}]
+ *
+ * @public
  */
 export const toString = (() => {
   const _toString = Object.prototype.toString;

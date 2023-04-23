@@ -1,3 +1,9 @@
+/**
+ * 任务队列封装, 同一时间只能处理一件事
+ * @filename: TaskQueue.js
+ * @author: Mr Prince
+ * @date: 2020-09-02 17:12:29
+ */
 import Lock from './Lock';
 
 interface Options {
@@ -13,10 +19,7 @@ interface Options {
 };
 
 /**
- * 任务队列封装, 同一时间只能处理一件事
- * @filename: TaskQueue.js
- * @author: Mr Prince
- * @date: 2020-09-02 17:12:29
+ * @public
  */
 class TaskQueue {
   access: Lock = new Lock(1);

@@ -12,6 +12,8 @@ import { toString } from './topLevelUtils';
 /**
  * 遍历对象所有属性
  * 移除左右两边空格
+ *
+ * @public
  */
 export function trim<T>(data: T): T {
   if (Types.isString(data)) {
@@ -26,6 +28,8 @@ export function trim<T>(data: T): T {
 
 /**
  * 不足位补0
+ *
+ * @public
  */
 export function addZero(num: string | number, length: number = 2): string {
   return String(num).padStart(length, '0');
@@ -33,6 +37,8 @@ export function addZero(num: string | number, length: number = 2): string {
 
 /**
  * 隐藏部分手机号
+ *
+ * @public
  */
 export const hiddenMobile = (mobile: string, hidden = '*'): string => {
   mobile = mobile || '';
@@ -44,6 +50,8 @@ export const hiddenMobile = (mobile: string, hidden = '*'): string => {
 /**
  * 数字格式化
  * 1234 => 1,234
+ *
+ * @public
  */
 export const numFormat = (num: number, delimiter: string = ','): string => {
   const result = num.toString().replace(/\B(?=(\d{3})+$)/g, delimiter);
@@ -62,6 +70,8 @@ export const numFormat = (num: number, delimiter: string = ','): string => {
  * 4. 如果是Date类型，返回标识和时间戳
  * 5. 如果是数组，加上标识,遍历下标,加上length
  * 6. 如果是对象, 加上标识,遍历属性
+ *
+ * @public
  */
 export const objectToString = (
   data: any,
@@ -145,6 +155,8 @@ export const objectToString = (
 
 /**
  * 是否包含双字节字符
+ *
+ * @public
  */
 export function hasDoubleByteWord(word: string) {
   return /[^\u0000-\u00FF]/.test(word);
@@ -152,6 +164,8 @@ export function hasDoubleByteWord(word: string) {
 
 /**
  * 是否包含中文，日文和韩文
+ *
+ * @public
  */
 export function isChineseChar(word: string) {
   const reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
@@ -160,6 +174,8 @@ export function isChineseChar(word: string) {
 
 /**
  * 是否包含全角符号
+ *
+ * @public
  */
 export function isFullwidthChar(word: string) {
   const reg = /[\uFF00-\uFFEF]/;
@@ -168,6 +184,8 @@ export function isFullwidthChar(word: string) {
 
 /**
  * -xx-xx- 转为 大驼峰命名
+ *
+ * @public
  */
 export const upperCamelCase = (str: string) => {
   return str
@@ -183,6 +201,8 @@ export const upperCamelCase = (str: string) => {
 
 /**
  * 判断字符串是否相等
+ *
+ * @public
  */
 export function isEqual(
   a: string,
@@ -201,6 +221,8 @@ export function isEqual(
 
 /**
  * 字符串预处理
+ *
+ * @private
  */
 const manacherPreprocess = (str: string, prefix: string, padding: string) => {
   const n = str.length;
@@ -220,6 +242,7 @@ const manacherPreprocess = (str: string, prefix: string, padding: string) => {
 /**
  * manacher 马拉车算法
  *
+ * @public
  * @param str 字符串
  * @param prefix 前缀字符，不存在str中
  * @param padding 填充字符，不存在str中
@@ -272,6 +295,8 @@ export const manacher = (
 
 /**
  * 是否含有重复字符
+ *
+ * @public
  */
 export function hasRepeatChar(str: string | string[]) {
   const set = new Set<string>();

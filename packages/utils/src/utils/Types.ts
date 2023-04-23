@@ -3,6 +3,9 @@
  */
 import { toString } from '../utils/topLevelUtils';
 
+/**
+ * @public
+ */
 class Types {
   /**
    * 原始类型
