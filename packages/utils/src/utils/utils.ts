@@ -526,3 +526,47 @@ function permuteBacktrack<T>(values: T[], result: T[][], index: number) {
     swap(values, index, i);
   }
 }
+
+/**
+ * json转化
+ *
+ * @public
+ */
+export function jsonStringify<T>(object: T): string {
+  // null
+  if (object === null) {
+    return 'null';
+  }
+
+  // boolean
+  if (typeof object == 'boolean') {
+    return object.toString();
+  }
+
+  // number
+  if (typeof object == 'number') {
+    return object + '';
+  }
+
+  // string
+  if (typeof object == 'string') {
+    return `"${object}"`;
+  }
+
+  // array
+  if (Array.isArray(object)) {
+    return `[${object.map(jsonStringify).join(',')}]`;
+  }
+
+  // object
+  if (typeof object == 'object') {
+    const result: string[] = [];
+    for (const key in object) {
+      result.push(`"${key}":${jsonStringify(object[key])}`);
+    }
+    return `{${result.join(',')}}`;
+  }
+
+  // default
+  return object + '';
+}
