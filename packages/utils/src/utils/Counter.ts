@@ -12,6 +12,16 @@ class Counter {
    */
   constructor(private start: number = 0, private step: number = 1) {}
 
+  /**
+   * 当前值
+   */
+  getCurrent() {
+    return this.start;
+  }
+
+  /**
+   * 获取下一个值
+   */
   next() {
     this.start += this.step;
     return this.start;
