@@ -98,3 +98,78 @@ export const requestTimeout = <T>(
   });
 };
 
+/**
+ * 生成器迭代
+ */
+function cancellable<T>(
+  generator: Generator<Promise<any>, T, unknown>
+): [() => void, Promise<T>] {
+  let counter = 0;
+  let canceled = false;
+  let resolve: (value: T | PromiseLike<T>) => void;
+  let reject: (reason?: unknown) => void;
+
+  const promise = new Promise<T>((_resolve, _reject) => {
+    resolve = _resolve;
+    reject = _reject;
+  });
+
+  const parsePromise = (iterator: IteratorResult<Promise<any>, T>) => {
+    const current = counter;
+    const isValid = () => current == counter;
+    const promiseLike = iterator.value;
+
+    if (promiseLike instanceof Promise) {
+      promiseLike
+        .then((value) => {
+          if (!isValid()) {
+            return;
+          }
+          iterator.done ? resolve(value) : runTask({ value });
+        })
+        .catch((reason) => {
+          if (!isValid()) {
+            return;
+          }
+          if (iterator.done) {
+            reject(reason);
+          } else {
+            runTask({ reason, next: 'throw' });
+          }
+        });
+    } else {
+      iterator.done ? resolve(promiseLike) : runTask({ value: promiseLike });
+    }
+  };
+
+  const cancel = () => {
+    if (canceled) {
+      return;
+    }
+    canceled = true;
+    runTask({ reason: 'Cancelled', next: 'throw' });
+  };
+
+  const runTask = ({
+    value,
+    reason,
+    next,
+  }: {
+    value?: T;
+    reason?: any;
+    next?: 'next' | 'throw';
+  }) => {
+    counter++;
+    try {
+      const it = generator[next || 'next'](value ?? reason);
+      parsePromise(it);
+    } catch (reason) {
+      reject(reason);
+    }
+  };
+
+  runTask({});
+
+  return [cancel, promise];
+}
+
