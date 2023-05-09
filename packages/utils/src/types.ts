@@ -23,3 +23,13 @@ export type Primitive =
  * @returns a == b 返回 0, a < b => (< 0), a > b => (> 0)
  */
 export type Compare<T> = (a: T, b: T) => number;
+
+/**
+ * Promise 相关类型
+ */
+export type PromiseResolve<T> = (value: T | PromiseLike<T>) => void;
+export type PromiseReject = (reason?: any) => void;
+export type PromiseExecutor<T> = (
+  resolve: PromiseResolve<T>,
+  reject: PromiseReject
+) => void;

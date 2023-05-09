@@ -10,6 +10,8 @@
 
 import Types from './Types';
 import { identity } from './pureFunction';
+import Counter from './Counter';
+import { PromiseExecutor, PromiseReject, PromiseResolve } from '../types';
 
 /**
  * @description 延迟一段时间(秒)
@@ -101,68 +103,69 @@ export const requestTimeout = <T>(
 /**
  * 生成器迭代
  */
-function cancellable<T>(
+export function cancellable<T>(
   generator: Generator<Promise<any>, T, unknown>
 ): [() => void, Promise<T>] {
-  let counter = 0;
+  // 用来标记当前执行的任务
+  // 新任务执行时，taskId 更新并保存
+  // 异步任务执行后需要判断和之前获取到的taskId 是否相同
+  // 如果不同，表示当前任务被取消了
+  // 不要继续执行下去
+  const task = new Counter();
   let canceled = false;
-  let resolve: (value: T | PromiseLike<T>) => void;
-  let reject: (reason?: unknown) => void;
+  let resolve: PromiseResolve<T>;
+  let reject: PromiseReject;
 
   const promise = new Promise<T>((_resolve, _reject) => {
     resolve = _resolve;
     reject = _reject;
   });
 
-  const parsePromise = (iterator: IteratorResult<Promise<any>, T>) => {
-    const current = counter;
-    const isValid = () => current == counter;
-    const promiseLike = iterator.value;
+  // 执行代码时，不管是同步还是异步都需要 try ... catch
+  // 同步任务的异常处理: 直接 reject (generator.next 或 generator.throw 时出现)
+  // 异步任务的异常处理: generator.throw (yield promise 时出现)
+  // 处理异步任务时，finally阶段 需要判断当前这个异步任务有没有被取消
+  // 被取消时: 不做任何处理
 
-    if (promiseLike instanceof Promise) {
-      promiseLike
-        .then((value) => {
-          if (!isValid()) {
-            return;
-          }
-          iterator.done ? resolve(value) : runTask({ value });
-        })
-        .catch((reason) => {
-          if (!isValid()) {
-            return;
-          }
-          if (iterator.done) {
-            reject(reason);
-          } else {
-            runTask({ reason, next: 'throw' });
-          }
-        });
-    } else {
-      iterator.done ? resolve(promiseLike) : runTask({ value: promiseLike });
+  /**
+   * generator.next 或 generator.throw 后
+   * 返回的迭代器的值是一个 promise 时调用
+   */
+  const runAsyncTask = async (promise: Promise<T>, done?: boolean) => {
+    const taskId = task.next();
+    let value: any;
+    let callback = resolve;
+    try {
+      value = await promise;
+    } catch (e) {
+      callback = reject;
+      value = e;
     }
-  };
-
-  const cancel = () => {
-    if (canceled) {
+    if (taskId != task.getCurrent()) {
       return;
     }
-    canceled = true;
-    runTask({ reason: 'Cancelled', next: 'throw' });
+    const method = callback == resolve ? 'next' : 'throw';
+    done ? callback(value) : runTask({ value, method });
   };
 
+  // generator.next 或 generator.throw
+  // 如果出现异常，直接 reject，结束函数执行
   const runTask = ({
     value,
-    reason,
-    next,
+    method = 'next',
   }: {
-    value?: T;
-    reason?: any;
-    next?: 'next' | 'throw';
+    value?: T | string;
+    method?: 'next' | 'throw';
   }) => {
-    counter++;
+    task.next();
     try {
-      const it = generator[next || 'next'](value ?? reason);
-      parsePromise(it);
+      // 同步抛出错误
+      const it = generator[method](value);
+      if (it.value instanceof Promise) {
+        runAsyncTask(it.value, it.done);
+      } else {
+        it.done ? resolve(it.value) : runTask({ value: it.value });
+      }
     } catch (reason) {
       reject(reason);
     }
@@ -170,6 +173,34 @@ function cancellable<T>(
 
   runTask({});
 
-  return [cancel, promise];
+  return [
+    (reason: string = 'Cancelled') => {
+      if (canceled) {
+        return;
+      }
+      canceled = true;
+      runTask({ value: reason, method: 'throw' });
+    },
+    promise,
+  ];
 }
 
+/**
+ * 取消 promise
+ */
+export const cancelPromise = <T>(func: PromiseExecutor<T>) => {
+  let resolve: PromiseResolve<T>;
+  let reject: PromiseReject;
+
+  const promise = new Promise<T>((_resolve, _reject) => {
+    resolve = _resolve;
+    reject = _reject;
+    func(resolve, reject);
+  });
+
+  const cancel = (reason?: any) => {
+    reject(reason);
+  };
+
+  return [cancel, promise];
+};
