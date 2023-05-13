@@ -24,7 +24,7 @@ export const chunk = <T>(arr: T[], size: number): T[][] => {
       const start = i * size;
       const chunk = arr.slice(start, start + size);
       result.push(chunk);
-      if (chunk.length < size) {
+      if (start + size >= arr.length) {
         break;
       }
     }
