@@ -8,6 +8,12 @@
     "packages/react-components",
     "packages/vue-components"
   ],
+  "keywords": ["npm package"],
+  "author": {
+    "name": "tujiawei",
+    "url": "https://github.com/mrtujiawei",
+    "email": "m15988803646@163.com"
+  },
   "scripts": {
     "clean": "rm packages/*/dist -rf",
     "start": "ts-node scripts/start.ts",
