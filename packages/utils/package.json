@@ -1,6 +1,6 @@
 {
   "name": "@mrtujiawei/utils",
-  "version": "2.5.30",
+  "version": "2.5.31",
   "description": "工具：常用数据类型、算法",
   "#source": "src/index.ts",
   "keywords": [
