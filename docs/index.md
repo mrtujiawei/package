@@ -16,11 +16,11 @@ JS 相关工具包
 
 在线工具
 
-|  名称  |     地址      |
-| :----: | :-----------: |
-| 计时器 | [使用][timer] |
-|Service Worker test|[查看][ServiceWorker]|
-|HLS播放器|[使用][video-player]|
+|        名称         |         地址          |
+| :-----------------: | :-------------------: |
+|       计时器        |     [使用][timer]     |
+| Service Worker test | [查看][serviceworker] |
+|     HLS 播放器      | [使用][video-player]  |
 
 <!-- 链接 -->
 
@@ -41,5 +41,5 @@ JS 相关工具包
 [@mrtujiawei/web-utils]: https://github.com/mrtujiawei/package/tree/main/packages/web-utils#mrtujiaweiweb-utils
 [@mrtujiawei/bin]: https://github.com/mrtujiawei/package/tree/main/packages/bin#mrtujiaweibin
 [timer]: https://mrtujiawei.github.io/package/timer.html
-[ServiceWorker]: https://mrtujiawei.github.io/package/sw.html
+[serviceworker]: https://mrtujiawei.github.io/package/sw.html
 [video-player]: https://mrtujiawei.github.io/package/video-player.html
