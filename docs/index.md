@@ -42,4 +42,4 @@ JS 相关工具包
 [@mrtujiawei/bin]: https://github.com/mrtujiawei/package/tree/main/packages/bin#mrtujiaweibin
 [timer]: https://mrtujiawei.github.io/package/timer.html
 [serviceworker]: https://mrtujiawei.github.io/package/sw.html
-[video-player]: https://mrtujiawei.github.io/package/video-player.html
+[video-player]: https://mrtujiawei.github.io/package/video-player/index.html
