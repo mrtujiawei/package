@@ -20,6 +20,7 @@ JS 相关工具包
 | :----: | :-----------: |
 | 计时器 | [使用][timer] |
 |Service Worker test|[查看][ServiceWorker]|
+|HLS播放器|[使用][video-player]|
 
 <!-- 链接 -->
 
@@ -41,3 +42,4 @@ JS 相关工具包
 [@mrtujiawei/bin]: https://github.com/mrtujiawei/package/tree/main/packages/bin#mrtujiaweibin
 [timer]: https://mrtujiawei.github.io/package/timer.html
 [ServiceWorker]: https://mrtujiawei.github.io/package/sw.html
+[video-player]: https://mrtujiawei.github.io/package/video-player.html
