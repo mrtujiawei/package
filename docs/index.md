@@ -19,8 +19,9 @@ JS 相关工具包
 |        名称         |         地址          |
 | :-----------------: | :-------------------: |
 |       计时器        |     [使用][timer]     |
-| Service Worker test | [查看][serviceworker] |
 |     HLS 播放器      | [使用][video-player]  |
+| Service Worker test | [查看][serviceworker] |
+|边框动画|[查看][border-animation]|
 
 <!-- 链接 -->
 
@@ -43,3 +44,5 @@ JS 相关工具包
 [timer]: https://mrtujiawei.github.io/package/timer.html
 [serviceworker]: https://mrtujiawei.github.io/package/sw.html
 [video-player]: https://mrtujiawei.github.io/package/video-player/index.html
+[border-animation]: https://mrtujiawei.github.io/package/border-animation.html
+
