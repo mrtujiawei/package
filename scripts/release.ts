@@ -6,7 +6,7 @@
  */
 import fs from 'fs/promises';
 import { Command } from 'commander';
-import { spawn } from 'child_process';
+import { spawn, spawnSync } from 'child_process';
 import { preparePublish, updateVersion } from './utils';
 import path from 'path';
 
@@ -32,9 +32,16 @@ program
           reject();
           return;
         }
-        const json = await fs.readFile(`dist/packages/${pkg}/src/package.json`);
+        const packageJSON = `dist/packages/${pkg}/src/package.json`;
+        const json = await fs.readFile(packageJSON);
         const version = JSON.parse(json.toString()).version;
         await updateVersion(pkg, version);
+        spawnSync(`git add ${packageJSON}`, {
+          stdio: 'inherit',
+        });
+        spawnSync(`git commmit -m feat(${pkg}): v${version}`, {
+          stdio: 'inherit',
+        });
         resolve();
       });
     });
