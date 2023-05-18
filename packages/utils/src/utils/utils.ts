@@ -570,3 +570,55 @@ export function jsonStringify<T>(object: T): string {
   // default
   return object + '';
 }
+
+
+/**
+ * 缓存函数
+ */
+export function memoize<T extends (...params: unknown[]) => any>(fn: T): T {
+  const cache = [new Map()];
+
+  const memoized = (...params: unknown[]): unknown => {
+    let currentCache = cache;
+    for (let i = 0; i < params.length; i++) {
+      if (!currentCache[0].has(params[i])) {
+        currentCache[0].set(params[i], [new Map()]);
+      }
+      currentCache = currentCache[0].get(params[i]);
+    }
+
+    if (currentCache.length < 2) {
+      currentCache.push(fn(...params));
+    }
+
+    return currentCache[1];
+  };
+
+  return memoized as T;
+}
+
+/**
+ * 比上面更高效的缓存函数
+ */
+export function linearMemoize<T extends (...params: unknown[]) => any>(fn: T): T {
+  const paramMap = new Map<unknown, number>();
+  const cache = new Map<string, unknown>();
+
+  const memoized = (...params: unknown[]): unknown => {
+    const key = params
+      .map((value) => {
+        if (!paramMap.has(value)) {
+          paramMap.set(value, paramMap.size);
+        }
+        return paramMap.get(value);
+      })
+      .join('.');
+    if (!cache.has(key)) {
+      const value = fn(...params);
+      cache.set(key, value);
+    }
+    return cache.get(key);
+  };
+
+  return memoized as T;
+}
