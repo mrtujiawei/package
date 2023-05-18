@@ -7,7 +7,6 @@ import ToastDemo from './demos/ToastDemo';
 import Particle from './demos/Particle';
 import ImageRotateRecover from './demos/ImageRotateRecover';
 import Fishs from './demos/Fishs';
-// import BorderAnimationDemo from './demos/BorderAnimationDemo';
 // import ChristmasTree from './demos/ChristmasTree';
 import '@mrtujiawei/react-components/dist/styles/index.css';
 import MediaQuery from './demos/MediaQuery';
