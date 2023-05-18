@@ -23,6 +23,9 @@ JS 相关工具包
 | Service Worker test |   [查看][serviceworker]    |
 |      边框动画       |  [查看][border-animation]  |
 |      粒子动画       | [查看][particle-animation] |
+|     圣诞树动画      |   [查看][christmas-tree]   |
+|       鱼动画        |        [查看][fish]        |
+|    滑动显示菜单     |       [查看][swipe]        |
 
 <!-- 链接 -->
 
@@ -47,3 +50,6 @@ JS 相关工具包
 [video-player]: https://mrtujiawei.github.io/package/video-player/index.html
 [border-animation]: https://mrtujiawei.github.io/package/border-animation.html
 [particle-animation]: https://mrtujiawei.github.io/package/particle.html
+[christmas-tree]: https://mrtujiawei.github.io/package/christmas-tree.html
+[fish]: https://mrtujiawei.github.io/package/fish.html
+[swipe]: https://mrtujiawei.github.io/package/swipe.html

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>移动端左滑显示菜单</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .swipe {
+        height: 100px;
+        overflow: hidden;
+      }
+      .scroller {
+        display: flex;
+        flex-wrap: nowrap;
+      }
+      .swipe-content {
+        flex-shrink: 0;
+        width: 375px;
+        background: #f40;
+        height: 100px;
+      }
+      .swipe-ops {
+        flex-shrink: 0;
+        width: 60px;
+        height: 100px;
+        display: flex;
+        flex-wrap: nowrap;
+      }
+      .swipe-ops div {
+        width: 20px;
+        height: 100px;
+      }
+      .swipe-ops :nth-child(2n + 1) {
+        width: 20px;
+        background: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="swipe">
+      <div class="scroller">
+        <div class="swipe-content"></div>
+        <div class="swipe-ops">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/@mrtujiawei/web-utils"></script>
+    <script>
+      const container = document.getElementsByClassName('swipe')[0];
+      const scroller = document.getElementsByClassName('scroller')[0];
+      const swipe = new TWebUtils.Swipe((translateX) => {
+        scroller.style.transform = `translateX(${translateX}px) translateZ(0)`;
+      });
+      swipe.setLimit(60);
+
+      const touchStart = (event) => {
+        const x = event.changedTouches[0].pageX;
+        const y = event.changedTouches[0].pageY;
+        swipe.touchStart(x, y);
+      };
+
+      const touchMove = (event) => {
+        const x = event.changedTouches[0].pageX;
+        const y = event.changedTouches[0].pageY;
+        swipe.touchMove(x, y);
+      };
+
+      const touchEnd = (event) => {
+        const x = event.changedTouches[0].pageX;
+        const y = event.changedTouches[0].pageY;
+        swipe.touchEnd(x, y);
+      };
+
+      container.addEventListener('touchstart', touchStart);
+      container.addEventListener('touchmove', touchMove);
+      container.addEventListener('touchend', touchEnd);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>鱼 - 动画</title>
+  </head>
+  <body>
+    <div style="width: 132px; height: 106px">
+      <img class="img" src="./imgs/bwy1.png" alt="" />
+    </div>
+
+    <script src="https://unpkg.com/@mrtujiawei/web-utils"></script>
+    <script>
+      const requestAnimFrame = TWebUtils.requestAnimFrame;
+      const img = document.getElementsByClassName('img')[0];
+
+      const fishs = [
+        './imgs/bwy1.png',
+        './imgs/bwy2.png',
+        './imgs/bwy3.png',
+        './imgs/bwy4.png',
+        './imgs/bwy5.png',
+        './imgs/bwy6.png',
+        './imgs/bwy7.png',
+        './imgs/bwy8.png',
+        './imgs/bwy9.png',
+        './imgs/bwy10.png',
+      ];
+      let index = 0;
+      const empty = () => {
+        requestAnimFrame(animate);
+      };
+
+      const animate = () => {
+        img.src = fishs[index];
+        index = (index + 1) % fishs.length;
+        requestAnimFrame(() => {
+          requestAnimFrame(empty);
+        });
+      };
+
+      animate();
+    </script>
+  </body>
+</html>
