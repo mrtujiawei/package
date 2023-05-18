@@ -8,6 +8,7 @@ import path from 'path';
 import { cp } from 'fs/promises';
 import { readFile, writeFile } from 'fs/promises';
 import defaultConfig, { getPaths } from '../config';
+import { spawnSync } from 'child_process';
 
 const cwd = process.cwd();
 
@@ -35,10 +36,7 @@ export const preparePublish = async (pkg: string) => {
   await cp(paths.source.readme, paths.destination.readme, { force: true });
   const json = JSON.parse((await readFile(paths.source.pkgJSON)).toString());
   Object.assign(json, defaultConfig);
-  await writeFile(
-    paths.destination.pkgJSON,
-    JSON.stringify(json, null, 2)
-  );
+  await writeFile(paths.destination.pkgJSON, JSON.stringify(json, null, 2));
 };
 
 export const updateVersion = async (pkg: string, version: string) => {
@@ -47,4 +45,14 @@ export const updateVersion = async (pkg: string, version: string) => {
   const config = JSON.parse(json.toString());
   config.version = version;
   await writeFile(paths.source.pkgJSON, JSON.stringify(config, null, 2));
+};
+
+export const commitVersionUpdate = async (pkg: string, version: string) => {
+  const packageJSON = getPaths(pkg).source.pkgJSON;
+  spawnSync(`git add ${packageJSON}`, {
+    stdio: 'inherit',
+  });
+  spawnSync(`git commmit -m feat(${pkg}): v${version}`, {
+    stdio: 'inherit',
+  });
 };
