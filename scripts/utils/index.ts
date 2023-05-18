@@ -8,7 +8,7 @@ import path from 'path';
 import { cp } from 'fs/promises';
 import { readFile, writeFile } from 'fs/promises';
 import defaultConfig, { getPaths } from '../config';
-import { spawnSync } from 'child_process';
+import { spawn } from 'child_process';
 
 const cwd = process.cwd();
 
@@ -49,10 +49,17 @@ export const updateVersion = async (pkg: string, version: string) => {
 
 export const commitVersionUpdate = async (pkg: string, version: string) => {
   const packageJSON = getPaths(pkg).source.pkgJSON;
-  spawnSync(`git add ${packageJSON}`, {
+  spawn('git', ['add', packageJSON], {
     stdio: 'inherit',
-  });
-  spawnSync(`git commmit -m feat(${pkg}): v${version}`, {
-    stdio: 'inherit',
-  });
+  })
+    .on('close', () => {
+      spawn('git', ['commit', '-m', `'feat(${pkg}): v${version}'`], {
+        stdio: 'inherit',
+      }).on('error', (err) => {
+        console.log(err);
+      });
+    })
+    .on('error', (err) => {
+      console.log(err);
+    });
 };
