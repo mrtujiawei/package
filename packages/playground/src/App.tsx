@@ -4,7 +4,6 @@ import { urlParamsToObject } from '@mrtujiawei/utils';
 // import NavBarDemo from './demos/NavBarDemo';
 import OverlayDemo from './demos/OverlayDemo';
 // import ToastDemo from './demos/ToastDemo';
-// import ImageRotateRecover from './demos/ImageRotateRecover';
 import '@mrtujiawei/react-components/dist/styles/index.css';
 // import Downloader from './demos/DownloaderDemo';
 
@@ -14,7 +13,6 @@ const demos: Record<string, () => JSX.Element | null> = {
   // NavBarDemo,
   OverlayDemo,
   // ToastDemo,
-  // ImageRotateRecover,
   // Downloader,
 };
 

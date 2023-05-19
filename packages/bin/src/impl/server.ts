@@ -6,15 +6,11 @@ import Static from 'koa-static';
 import Router from 'koa-router';
 import cors from '@koa/cors';
 import bodyParser from 'koa-bodyparser';
-import multer from '@koa/multer';
 import { getIps } from '@mrtujiawei/node-utils';
 import { logger, sendRequest } from '../utils';
-import { mergeSlices, sliceDirctory, uploadSlice } from './File';
 import { Buffer } from 'buffer';
 import { CA_CERT, PRIVATE_KEY, socketTemplate } from '../config';
 import { WebSocket, WebSocketServer } from 'ws';
-
-const upload = multer({ dest: sliceDirctory });
 
 interface Options {
   https: boolean;
@@ -28,36 +24,6 @@ interface Options {
 export default function server(options: Options) {
   const app = new Koa();
   const router = new Router();
-
-  router.post('/file/upload', upload.single('file'), async (ctx) => {
-    const file = ctx.request.file;
-    const index: number = ctx.request.body.index;
-    const hash: string = ctx.request.body.hash;
-    await uploadSlice({
-      index,
-      hash,
-      currentPath: file.path,
-    });
-    ctx.body = JSON.stringify({
-      code: 200,
-      message: '',
-      data: null,
-    });
-  });
-
-  router.post('/file/merge_chunks', async (ctx) => {
-    const { name, total, hash } = ctx.request.body;
-    mergeSlices({
-      name,
-      hash,
-      total,
-    });
-    ctx.body = JSON.stringify({
-      code: 200,
-      message: '',
-      data: null,
-    });
-  });
 
   router.get('/socket', async (ctx) => {
     ctx.body = socketTemplate;
@@ -159,7 +125,7 @@ export default function server(options: Options) {
     logger.info('Server is running at:');
     const ips = getIps();
     ips.forEach((ip) => {
-      logger.info(`https://${ip}:${options.port}`);
+      logger.info(`http${options.https ? 's' : ''}://${ip}:${options.port}`);
     });
   });
 }

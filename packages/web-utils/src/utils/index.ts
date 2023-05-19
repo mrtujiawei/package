@@ -4,10 +4,7 @@
  * @author: Mr Prince
  * @date: 2022-02-28 14:24:52
  */
-import { Types } from '@mrtujiawei/utils';
 import copy from 'copy-to-clipboard';
-import EXIF from 'exif-js';
-import SparkMD5 from 'spark-md5';
 
 export const canUseDOM: boolean = !!(
   typeof window !== 'undefined' &&
@@ -420,49 +417,19 @@ export const loadImage = (src: string) => {
 };
 
 /**
- * 获取图片的朝向
- * 0 | undefined: 未获取到
- * 1: 不翻转
- * 2: 左右翻转
- * 3: 180度翻转
- * 4: 上下翻转
- * 5: 顺时针翻转90度后，左右翻转
- * 6: 顺时针翻转90度
- * 7: 逆时针翻转90度后，左右翻转
- * 8: 逆时针翻转90度
- */
-export const getOrientation = async (srcOrImage: string | HTMLImageElement) => {
-  let image: HTMLImageElement;
-  if (Types.isString(srcOrImage)) {
-    image = await loadImage(srcOrImage);
-  } else {
-    image = srcOrImage;
-  }
-
-  let orientation = 1;
-  EXIF.getData(image as unknown as string, () => {
-    console.log({ before: orientation });
-    orientation = EXIF.getTag(image, 'Orientation');
-    console.log({ after: orientation });
-    console.log(EXIF.getAllTags(image));
-  });
-
-  return orientation;
-};
-
-/**
  * 图片翻转恢复
  * 如果没有翻转，则保持不变
  * 翻转的效果并不是特别好
  *
  * 需要图片上传之前调用
  *
+ *
  * @returns 经过反转后的图片 dataURL
  */
-export const rotateRecover = async (file: File) => {
+export const rotateRecover = async (file: File, orientation: number) => {
   const dataUrl = await readBlobAsDataURL(file);
   const image = await loadImage(dataUrl);
-  const orientation = await getOrientation(image);
+  // const orientation = await getOrientation(image);
   // 不需要真的放到页面上去
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
@@ -640,53 +607,6 @@ export const longPress = (
     cancelEvents.forEach((event) => {
       el.removeEventListener(event, cancelHandler);
     });
-  };
-};
-
-/**
- * 计算文件的hash: 名字和内容
- */
-export const hashFile = async (
-  file: File,
-  { chunkSize } = { chunkSize: 1 * 1024 * 1024 }
-) => {
-  const chunks = Math.ceil(file.size / chunkSize);
-  const spark = new SparkMD5.ArrayBuffer();
-  for (let i = 0; i < chunks; i++) {
-    const start = i * chunkSize;
-    const end = Math.min(start + chunkSize, file.size);
-    const buffer = await blobToArrayBuffer(file.slice(start, end));
-    spark.append(buffer);
-  }
-  const result = spark.end();
-  const hexHash = new SparkMD5().append(result).append(file.name).end();
-  return hexHash;
-};
-
-/**
- * 上传处理
- * 切割 file, 并生成 FormData 数组
- * content-type: multipart/form-data
- */
-export const sliceFile = async (
-  file: File,
-  { chunkSize } = { chunkSize: 1 * 1024 * 1024 }
-) => {
-  const chunks = Math.ceil(file.size / chunkSize);
-  const hash = await hashFile(file);
-  const forms: FormData[] = new Array(chunks);
-  for (let i = 0; i < chunks; i++) {
-    const start = i * chunkSize;
-    const end = Math.min(file.size, start + chunkSize);
-    const form = new FormData();
-    form.append('file', file.slice(start, end));
-    form.append('index', `${i}`);
-    form.append('hash', hash);
-    forms[i] = form;
-  }
-  return {
-    hash,
-    forms,
   };
 };
 
