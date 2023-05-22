@@ -61,6 +61,7 @@ export const socketTemplate = `
 
       .message {
         padding: 10px;
+        word-break: break-all;
       }
 
       .message-system {
