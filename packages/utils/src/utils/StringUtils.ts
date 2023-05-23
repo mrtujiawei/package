@@ -60,6 +60,16 @@ export const numFormat = (num: number, delimiter: string = ','): string => {
 };
 
 /**
+ * 首字母大写
+ */
+export const capitalize = <T extends string>(str: T): Capitalize<T> => {
+  if (!str) {
+    return str as Capitalize<T>;
+  }
+  return (str[0].toUpperCase() + str.slice(1)) as Capitalize<T>;
+};
+
+/**
  * 对象转字符串
  * 不是为了格式化成json,只是为了可读,可保存
  * 会忽略循环引用的属性
@@ -191,10 +201,7 @@ export const upperCamelCase = (str: string) => {
   return str
     .split('-')
     .map((word) => {
-      if (0 == word.length) {
-        return '';
-      }
-      return word[0].toUpperCase() + word.slice(1);
+      return capitalize(word);
     })
     .join('');
 };
