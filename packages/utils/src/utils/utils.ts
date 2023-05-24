@@ -622,3 +622,52 @@ export function linearMemoize<T extends (...params: unknown[]) => any>(fn: T): T
 
   return memoized as T;
 }
+
+/**
+ * 对象diff
+ */
+function objDiff(obj1: any, obj2: any): any {
+  // Array diff
+  if (Array.isArray(obj1) && Array.isArray(obj2)) {
+    const result: Record<string, any> = {};
+    const length = Math.min(obj1.length, obj2.length);
+    for (let i = 0; i < length; i++) {
+      const value1 = obj1[i];
+      const value2 = obj2[i];
+      console.log({ value1, value2 });
+    }
+    return result;
+  } else if (Array.isArray(obj1) || Array.isArray(obj2)) {
+    return [obj1, obj2];
+  }
+
+  if (typeof obj1 == 'object' && typeof obj2 == 'object') {
+    // Object Diff
+    if (obj1 == null && obj2 == null) {
+      return [];
+    }
+
+    if (obj1 == null || obj2 == null) {
+      return [obj1, obj2];
+    }
+
+    const result: Record<string, any> = {};
+    Object.keys(obj1).forEach((key) => {
+      if (!obj2.hasOwnProperty(key)) {
+        return;
+      }
+      const diff = objDiff(obj1[key], obj2[key]);
+      if (diff.length > 0) {
+        result[key] = diff;
+      }
+    });
+
+    return result;
+  }
+
+  if (obj1 == obj2) {
+    return [];
+  }
+
+  return [obj1, obj2];
+}
