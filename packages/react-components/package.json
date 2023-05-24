@@ -3,6 +3,10 @@
   "version": "0.0.9",
   "description": "react 组件库",
   "#source": "src/index.ts",
+  "#buildConfig": {
+    "libName": "TReactComponents",
+    "outputPath": "../../dist/packages/react-components/src/"
+  },
   "keywords": [
     "react",
     "component"

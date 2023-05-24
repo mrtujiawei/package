@@ -3,6 +3,10 @@
   "version": "1.2.14",
   "description": "web相关工具函数，只能在网页上使用的工具函数",
   "#source": "src/index.ts",
+  "#buildConfig": {
+    "libName": "TWebUtils",
+    "outputPath": "../../dist/packages/web-utils/src/"
+  },
   "keywords": [
     "web",
     "utils",

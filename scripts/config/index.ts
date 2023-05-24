@@ -2,7 +2,8 @@ import path from 'path';
 
 const defaultConfig = {
   ['#source']: undefined,
-  main: 'index.min.js',
+  ['#buildConfig']: undefined,
+  main: 'index.production.js',
   module: 'index.js',
   types: 'index.d.ts',
   files: ['*'],

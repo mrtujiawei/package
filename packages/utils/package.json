@@ -3,6 +3,10 @@
   "version": "2.5.44",
   "description": "工具：常用数据类型、算法",
   "#source": "src/index.ts",
+  "#buildConfig": {
+    "libName": "TUtils",
+    "outputPath": "../../dist/packages/utils/src/"
+  },
   "keywords": [
     "util",
     "tool"

@@ -5,7 +5,6 @@ import webpack from 'webpack';
 import fs from 'fs/promises';
 import { Command } from 'commander';
 import buildTs from './compilers/ts';
-import buildUmd from './compilers/umd';
 import buildLess from './compilers/less';
 import buildCjs from './compilers/cjs';
 import { absolutePath } from './utils';
@@ -45,19 +44,16 @@ program
     if (packageName == 'react-components') {
       buildTs();
       buildLess(absolutePath(options.name));
-      await buildUmd(packageName);
       return;
     }
 
     if (packageName == 'utils') {
       buildTs();
-      await buildUmd(packageName);
       return;
     }
 
     if (packageName == 'web-utils') {
       buildTs();
-      await buildUmd(packageName);
       return;
     }
 
