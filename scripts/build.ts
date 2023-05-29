@@ -1,18 +1,15 @@
 /**
  * 预览: playground 的devServer
  */
-import webpack from 'webpack';
 import fs from 'fs/promises';
 import { Command } from 'commander';
 import buildTs from './compilers/ts';
 import buildLess from './compilers/less';
-import buildCjs from './compilers/cjs';
 import { absolutePath } from './utils';
 
 const program = new Command('build');
 
 interface Options {
-  mode: webpack.Configuration['mode'];
   name: string;
 }
 
@@ -22,7 +19,7 @@ program
   .action(async (options: Options) => {
     const packageName = options.name;
     if (packageName == 'bin') {
-      buildCjs(packageName);
+      // buildCjs(packageName);
 
       const dir = `dist/packages/bin/src`;
       try {
@@ -37,7 +34,7 @@ program
 
     if (packageName == 'node-utils') {
       buildTs();
-      await buildCjs(packageName);
+      // await buildCjs(packageName);
       return;
     }
 

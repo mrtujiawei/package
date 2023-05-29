@@ -624,9 +624,9 @@ export function linearMemoize<T extends (...params: unknown[]) => any>(fn: T): T
 }
 
 /**
- * 对象diff
+ * 对象 diff
  */
-function objDiff(obj1: any, obj2: any): any {
+export function objDiff(obj1: any, obj2: any): any {
   // Array diff
   if (Array.isArray(obj1) && Array.isArray(obj2)) {
     const result: Record<string, any> = {};

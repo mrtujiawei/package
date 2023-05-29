@@ -4,6 +4,7 @@ import './index.less';
 
 const OverlayDemo = () => {
   const [visible, setVisible] = useState(false);
+  console.log({ visible });
 
   const toggle = () => {
     setVisible((visible) => !visible);
@@ -11,10 +12,10 @@ const OverlayDemo = () => {
 
   return (
     <div className="overlay-demo">
-      <button onClick={toggle}>toggle</button>
+      <button onClick={toggle} style={{fontSize: 20}}>toggle</button>
       <Overlay visible={visible} onClick={toggle}>
         <div className="wrapper">
-          <div className="block">内容区</div>
+          <div className="block" style={{fontSize: 15}}>内容区</div>
         </div>
       </Overlay>
     </div>

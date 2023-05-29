@@ -127,5 +127,12 @@ export default function server(options: Options) {
     ips.forEach((ip) => {
       logger.info(`http${options.https ? 's' : ''}://${ip}:${options.port}`);
     });
+
+    logger.info('Socket page is serving at:');
+    ips.forEach((ip) => {
+      logger.info(
+        `http${options.https ? 's' : ''}://${ip}:${options.port}/socket`
+      );
+    });
   });
 }
