@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "incremental": true,
+    "outDir": "dist",
+    "target": "ES6",
+    "module": "CommonJS",
+    "preserveWatchOutput": true,
+    "pretty": true,
+    "strict": true,
+    "inlineSources": true,
+    "inlineSourceMap": true,
+    "skipLibCheck": true,
+    "noImplicitAny": true,
+    "removeComments": false,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "declarationMap": false
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
+}

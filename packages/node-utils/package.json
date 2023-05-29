@@ -2,14 +2,36 @@
   "name": "@mrtujiawei/node-utils",
   "version": "0.1.12",
   "description": "node.js 相关的工具函数",
-  "#source": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "keywords": [
     "util",
     "tool",
     "node",
     "node.js"
   ],
+  "files": [
+    "dist/*"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrtujiawei/package.git"
+  },
+  "author": {
+    "name": "屠佳伟",
+    "email": "tujiawei0512@sina.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mrtujiawei/package/issues",
+    "email": "tujiawei0512@sina.com"
+  },
+  "homepage": "https://github.com/mrtujiawei/package#readme",
   "dependencies": {
-    "@mrtujiawei/utils": "2.4.81"
+    "@mrtujiawei/utils": "2.5.44"
   }
 }
