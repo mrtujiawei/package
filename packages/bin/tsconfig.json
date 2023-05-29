@@ -1,15 +1,11 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "rootDir": ".",
     "incremental": true,
     "outDir": "dist",
     "target": "ES6",
-    "module": "ES6",
-    "jsx": "react-jsx",
+    "module": "CommonJS",
     "preserveWatchOutput": true,
     "pretty": true,
-    "noEmit": false,
     "strict": true,
     "inlineSources": true,
     "inlineSourceMap": true,
@@ -21,19 +17,8 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
-    "declarationMap": false,
-    "paths": {
-      "@mrtujiawei/*": ["./packages/*/src"]
-    }
+    "declarationMap": false
   },
-  "include": ["packages/*/src"],
-  "exclude": [
-    "*node_modules*",
-    "**/*.test.ts",
-    "packages/vue-components/**/*",
-    "packages/bin/**/*",
-    "packages/node-utils/**/*"
-  ],
   "ts-node": {
     "compilerOptions": {
       "module": "CommonJS"

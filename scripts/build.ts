@@ -3,7 +3,6 @@
  */
 import fs from 'fs/promises';
 import { Command } from 'commander';
-import buildTs from './compilers/ts';
 import buildLess from './compilers/less';
 import { absolutePath } from './utils';
 
@@ -33,24 +32,20 @@ program
     }
 
     if (packageName == 'node-utils') {
-      buildTs();
       // await buildCjs(packageName);
       return;
     }
 
     if (packageName == 'react-components') {
-      buildTs();
       buildLess(absolutePath(options.name));
       return;
     }
 
     if (packageName == 'utils') {
-      buildTs();
       return;
     }
 
     if (packageName == 'web-utils') {
-      buildTs();
       return;
     }
 
