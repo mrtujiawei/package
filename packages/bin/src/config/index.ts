@@ -1,175 +1,30 @@
 export const CA_CERT = `-----BEGIN CERTIFICATE-----
-MIICDjCCAXcCFBq2Md6NYqkhz41rzBaSEUdOdYPbMA0GCSqGSIb3DQEBCwUAMEUx
+MIICDjCCAXcCFGOaBuI36HbAC8AclcOt1qxzQg2ZMA0GCSqGSIb3DQEBCwUAMEUx
 CzAJBgNVBAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVQQKDBhJbnRl
-cm5ldCBXaWRnaXRzIFB0eSBMdGQwIBcNMjIwNzI3MDcyOTI0WhgPMjEyMjA3MDMw
-NzI5MjRaMEUxCzAJBgNVBAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYD
+cm5ldCBXaWRnaXRzIFB0eSBMdGQwIBcNMjMwNTMwMDYzNDQ3WhgPMjEyMzA1MDYw
+NjM0NDdaMEUxCzAJBgNVBAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYD
 VQQKDBhJbnRlcm5ldCBXaWRnaXRzIFB0eSBMdGQwgZ8wDQYJKoZIhvcNAQEBBQAD
-gY0AMIGJAoGBAMqE8Gb4whrXMyENbd5ejLPmkw+W9MgFXJWPD3AzXMQZ7BNWZU/H
-10mSpXnmRPDUqHzuwR8S1LlgsPuttMP0LpmqZWd/cj6ZPboiT0JM8ZEy/k5dcFTz
-e5YKdtxiMlk6pIjIl8A6GJg0h0wYLmBH9Ig5Ow/CE4htW0/WZG5mPS3BAgMBAAEw
-DQYJKoZIhvcNAQELBQADgYEAQEYDJLj0TG1xRAOWaXm4th5r5LY0jtHw3onT9fBF
-XJ0ufniXWK/cXxKm1z1Z7fTCieiVWDNdtpjje+iHBkXWlDl/L59Rr+R9e7h6DVYD
-im8FkD/FWx64KDsxqNWIa2OA/D4JSNEHiK12EW16i5WO1ueDiDsu/a/NcLwsJIEt
-yuc=
------END CERTIFICATE-----
-`;
+gY0AMIGJAoGBAKtaYiQ0tdUmNLkuBp350KCHc6/kRCU83ncMLXc8HwJIHBBgDOty
+dNehdbcf4ouXWtO25udp8QOJH2D3Mq70xVFD1CsbKEjg+/8lxOjS+m/L5FkZcSto
+wPR7GGI1oC/Jdk4xdrOm1ZWn9ejCbx+jYhx7bhbDcAAP/RRrrhkIDdbJAgMBAAEw
+DQYJKoZIhvcNAQELBQADgYEAdxTME4GK05fVqUZTVIo4BTiIVa0AobmnhUjK5WTF
+ANeu+wPnhKqUY+UfpvxLGD8LBgKjNz+26tsY3XpegWpiWgkeCilW1IkfyTJm8W9O
+d/wBm6IvQa/60RHe/zsv41RmyRVRjhBUBz8wUvnAyZPQVmU46r9wc8oWgYOTwmWU
+PYE=
+-----END CERTIFICATE-----`;
 
-export const PRIVATE_KEY = `-----BEGIN CERTIFICATE-----
-MIICDjCCAXcCFBq2Md6NYqkhz41rzBaSEUdOdYPbMA0GCSqGSIb3DQEBCwUAMEUx
-CzAJBgNVBAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVQQKDBhJbnRl
-cm5ldCBXaWRnaXRzIFB0eSBMdGQwIBcNMjIwNzI3MDcyOTI0WhgPMjEyMjA3MDMw
-NzI5MjRaMEUxCzAJBgNVBAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYD
-VQQKDBhJbnRlcm5ldCBXaWRnaXRzIFB0eSBMdGQwgZ8wDQYJKoZIhvcNAQEBBQAD
-gY0AMIGJAoGBAMqE8Gb4whrXMyENbd5ejLPmkw+W9MgFXJWPD3AzXMQZ7BNWZU/H
-10mSpXnmRPDUqHzuwR8S1LlgsPuttMP0LpmqZWd/cj6ZPboiT0JM8ZEy/k5dcFTz
-e5YKdtxiMlk6pIjIl8A6GJg0h0wYLmBH9Ig5Ow/CE4htW0/WZG5mPS3BAgMBAAEw
-DQYJKoZIhvcNAQELBQADgYEAQEYDJLj0TG1xRAOWaXm4th5r5LY0jtHw3onT9fBF
-XJ0ufniXWK/cXxKm1z1Z7fTCieiVWDNdtpjje+iHBkXWlDl/L59Rr+R9e7h6DVYD
-im8FkD/FWx64KDsxqNWIa2OA/D4JSNEHiK12EW16i5WO1ueDiDsu/a/NcLwsJIEt
-yuc=
------END CERTIFICATE-----
-`;
-
-export const socketTemplate = `
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width,minimum-scale=1,maximum-scale=1,user-scalable=no"
-    />
-    <title>SOCKET</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-      }
-
-      #app {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        overflow: hidden;
-      }
-
-      .messages {
-        height: 100%;
-        overflow: auto;
-      }
-
-      .message {
-        padding: 10px;
-        word-break: break-all;
-      }
-
-      .message-system {
-        background: #ddd;
-      }
-
-      .message-user {
-        background: #fff;
-      }
-
-      .toolbar {
-        display: flex;
-        flex-shrink: 0;
-        height: 40px;
-        background: #008c8c;
-      }
-      .input {
-        display: block;
-        flex-grow: 1;
-        width: 100%;
-        font-size: 20px;
-      }
-      .send-btn {
-        flex-shrink: 0;
-        width: 80px;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="app">
-      <ul class="messages"></ul>
-      <div class="toolbar">
-        <input type="text" class="input" />
-        <button class="send-btn">发送</button>
-      </div>
-    </div>
-    <script>
-      const messages = document.querySelector('.messages');
-      const socket = new WebSocket('ws://' + window.location.host);
-      const input = document.querySelector('.input');
-
-      const sendMessage = () => {
-        if (!input.value) {
-          return;
-        }
-        socket.send(input.value);
-        input.value = '';
-      };
-
-      document
-        .querySelector('.send-btn')
-        .addEventListener('click', sendMessage);
-
-      input.addEventListener('keyup', (event) => {
-        if (event.key == 'Enter') {
-          sendMessage();
-        }
-      });
-
-      class Message {
-        type;
-        content;
-        constructor(type, content) {
-          this.type = type;
-          this.content = content;
-        }
-
-        toElement() {
-          const li = document.createElement('li');
-          li.innerHTML = this.content;
-          if (0 == this.type) {
-            li.className = 'message message-system';
-          } else {
-            li.className = 'message message-user';
-          }
-          return li;
-        }
-      }
-
-      const onMessage = (message) => {
-        const element = message.toElement();
-        messages.appendChild(element);
-        const rect = element.getBoundingClientRect();
-        const delta = 30;
-        if (rect.top < messages.clientHeight + delta) {
-          messages.scrollBy({
-            top: element.clientHeight,
-            behavior: 'smooth',
-          });
-        }
-      };
-
-      socket.addEventListener('open', () => {
-        onMessage(new Message(0, '连接成功'));
-      });
-
-      socket.addEventListener('error', (event) => {
-        onMessage(new Message(0, '连接错误'));
-      });
-
-      socket.addEventListener('message', (event) => {
-        onMessage(new Message(1, event.data));
-      });
-
-      socket.addEventListener('close', () => {
-        onMessage(new Message(0, '连接已关闭'));
-      });
-    </script>
-  </body>
-</html>
-`;
+export const PRIVATE_KEY = `-----BEGIN RSA PRIVATE KEY-----
+MIICXAIBAAKBgQCrWmIkNLXVJjS5Lgad+dCgh3Ov5EQlPN53DC13PB8CSBwQYAzr
+cnTXoXW3H+KLl1rTtubnafEDiR9g9zKu9MVRQ9QrGyhI4Pv/JcTo0vpvy+RZGXEr
+aMD0exhiNaAvyXZOMXazptWVp/Xowm8fo2Ice24Ww3AAD/0Ua64ZCA3WyQIDAQAB
+AoGAFmo7Xlsa0iguS28O5IlyVh2B76dflrNwsogARpGxyL2gFjBKYF5XlIGFgZAF
+NZd2BS3u5KTCJ2E/npKXqbVRPkoymOZJWiSLdN24tc4qdt9LPngPFElkPGyO+Fb6
+cdKbgMRg1/UFaZiw4YNIc60g5vJaV1AonhLYGMuVcZHtypECQQDjdpWiPR0cbvVV
+2RWZgBxtNGc7ivuxkLzEcVu1lpGUWd/ovhBc69TN/NV6a63iJD7Ui19qW+NFCz2I
+BdOZWi2VAkEAwNm2xWK47LnoTXhlVsshAFKLys0uqAh6VwZvWCZCxVxaOIxQVp94
+WGu8eEzQhFZhLs4fOFpPJ6D0yjVcWs2vZQJAYzOGktkgZxQlPymL+AQdYasnEprM
+pmY/TVU67/kYyKBhvLmXnU7k4mlQGTH5BdVU6ZFXLaWheq0qSrZv0EO5+QJADoob
+goQv5wEZJ4YVNdb4tPqEOZUAmICTIK6GhIHV9OVClBLYF7/MJfZxbix0aBXPG+VE
+a047u4QiEIC3Zs0tFQJBAJbKWBTln1AdgAno2VgvJ5PycMCElBcCf1Vqr9CPqdZr
+R3iPJocrJsXyaVPB2JvSwquKodvmMrnjIgpfzcUc+Wg=
+-----END RSA PRIVATE KEY-----`;

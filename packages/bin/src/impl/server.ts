@@ -9,7 +9,7 @@ import bodyParser from 'koa-bodyparser';
 import { getIps } from '@mrtujiawei/node-utils';
 import { logger, sendRequest } from '../utils';
 import { Buffer } from 'buffer';
-import { CA_CERT, PRIVATE_KEY, socketTemplate } from '../config';
+import { CA_CERT, PRIVATE_KEY } from '../config';
 import { WebSocket, WebSocketServer } from 'ws';
 
 interface Options {
@@ -25,14 +25,13 @@ export default function server(options: Options) {
   const app = new Koa();
   const router = new Router();
 
-  router.get('/socket', async (ctx) => {
-    ctx.body = socketTemplate;
-  });
-
   options.dir.forEach((dir) => {
     logger.info(`static dir: ${dir}`);
     app.use(Static(dir));
   });
+
+  // 默认的静态页面
+  app.use(Static(path.resolve(__dirname, '../../public/')));
 
   app
     .use(cors())
@@ -128,10 +127,11 @@ export default function server(options: Options) {
       logger.info(`http${options.https ? 's' : ''}://${ip}:${options.port}`);
     });
 
-    logger.info('Socket page is serving at:');
+    logger.info('');
+    logger.info('Default socket page is serving at:');
     ips.forEach((ip) => {
       logger.info(
-        `http${options.https ? 's' : ''}://${ip}:${options.port}/socket`
+        `http${options.https ? 's' : ''}://${ip}:${options.port}/socket.html`
       );
     });
   });
