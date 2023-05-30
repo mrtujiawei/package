@@ -18,6 +18,7 @@ const defaultConfig = {
   author: {
     name: '屠佳伟',
     email: 'tujiawei0512@sina.com',
+    url: 'https://github.com/mrtujiawei',
   },
   license: 'MIT',
   bugs: {
