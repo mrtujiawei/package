@@ -5,6 +5,7 @@
  * @date: 2022-02-28 14:24:52
  */
 import copy from 'copy-to-clipboard';
+import { readAsArrayBuffer, readAsDataURL } from './fileReader';
 
 export const canUseDOM: boolean = !!(
   typeof window !== 'undefined' &&
@@ -264,21 +265,7 @@ export const copyToClipboard = (text: string) => {
  * file 也是一个Blob对象
  * 转base64
  */
-export const readBlobAsDataURL = async (blob: Blob) => {
-  return new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onabort = () => {
-      reject(reader.error);
-    };
-    reader.onerror = () => {
-      reject(reader.error);
-    };
-    reader.onload = () => {
-      resolve(reader.result as string);
-    };
-    reader.readAsDataURL(blob);
-  });
-};
+export const readBlobAsDataURL = readAsDataURL;
 
 /**
  * 获取元素
@@ -322,21 +309,7 @@ export const arrayBufferToBlob = (buffer: ArrayBuffer, mime: string) => {
   return new Blob([buffer], { type: mime });
 };
 
-export const blobToArrayBuffer = (blob: Blob) => {
-  return new Promise<ArrayBuffer>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onabort = () => {
-      reject(reader.error);
-    };
-    reader.onerror = () => {
-      reject(reader.error);
-    };
-    reader.onload = () => {
-      resolve(reader.result as ArrayBuffer);
-    };
-    reader.readAsArrayBuffer(blob);
-  });
-};
+export const blobToArrayBuffer = readAsArrayBuffer;
 
 export const blobToFile = (blob: Blob, filename: string, mime: string) => {
   const file = new File([blob], filename, { type: mime });

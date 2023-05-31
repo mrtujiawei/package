@@ -10,3 +10,4 @@ export { default as NotificationUtil } from './utils/NotificationUtil';
 
 export * from './utils/xlsx';
 export * from './utils/index';
+export * from './utils/fileReader';
