@@ -14,5 +14,8 @@
     "playground",
     "组件预览",
     "组件测试"
-  ]
+  ],
+  "scripts": {
+    "start": "t-scripts start"
+  }
 }

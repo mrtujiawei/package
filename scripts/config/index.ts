@@ -3,6 +3,7 @@ import path from 'path';
 const defaultConfig = {
   ['#source']: undefined,
   ['#buildConfig']: undefined,
+  ['scripts']: undefined,
   main: 'index.production.js',
   module: 'index.js',
   types: 'index.d.ts',
