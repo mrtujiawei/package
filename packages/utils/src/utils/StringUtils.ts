@@ -301,6 +301,26 @@ export const manacher = (
 };
 
 /**
+ * @public
+ *
+ * 判断字符串是否是回文
+ */
+export const isPalindrome = (str: string) => {
+  let left = 0;
+  let right = str.length - 1;
+
+  while (left < right) {
+    if (str[left] != str[right]) {
+      return false;
+    }
+    left++;
+    right--;
+  }
+
+  return true;
+};
+
+/**
  * 是否含有重复字符
  *
  * @public
