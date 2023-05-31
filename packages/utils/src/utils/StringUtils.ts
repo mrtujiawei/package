@@ -17,7 +17,7 @@ import { toString } from './topLevelUtils';
  */
 export function trim<T>(data: T): T {
   if (Types.isString(data)) {
-    data = data.trim() as T;
+    data = data.trim() as unknown as T;
   } else {
     for (let prop in data) {
       data[prop] = trim(data[prop]);
