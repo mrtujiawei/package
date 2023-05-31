@@ -33,7 +33,7 @@ interface Options {
 }
 
 const defaultOption: Options = {
-  expiration: 0
+  expiration: 0,
 };
 
 /**
@@ -78,7 +78,7 @@ class LocalData {
     if (value === null) {
       return null;
     }
-    const result: { value: unknown, timeout: number } = JSON.parse(value);
+    const result: { value: unknown; timeout: number } = JSON.parse(value);
     if (result.timeout < new Date().getTime()) {
       this.remove(key);
       return null;
@@ -97,10 +97,14 @@ class LocalData {
       expiration = options.expiration;
     }
 
-    localStorage.setItem(this.prefix + key, JSON.stringify({
-      value,
-      timeout: new Date().getTime() + (expiration > 0 ? expiration : MAX_TIME_OUT)
-    }));
+    localStorage.setItem(
+      this.prefix + key,
+      JSON.stringify({
+        value,
+        timeout:
+          new Date().getTime() + (expiration > 0 ? expiration : MAX_TIME_OUT),
+      })
+    );
   }
 
   /**

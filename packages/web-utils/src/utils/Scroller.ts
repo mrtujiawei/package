@@ -205,12 +205,7 @@ class Scroller {
       if (back) {
         this.translate = Tween.Back.easeOut(i++, start, change, intervals);
       } else {
-        this.translate = Tween.Quadratic.easeOut(
-          i++,
-          start,
-          change,
-          intervals
-        );
+        this.translate = Tween.Quadratic.easeOut(i++, start, change, intervals);
       }
       this.callback(this.translate);
       // 下一个运动是否还需要继续执行

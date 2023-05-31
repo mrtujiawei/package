@@ -99,12 +99,12 @@ export function exportExcel(
  *
  * 一般情况下直接取下标 0 就可以
  */
-export async function readExcel(file: File) {
+export async function readExcel<T extends Record<string, any>>(file: File) {
   const workBook = XLSX.read(await blobToArrayBuffer(file), {
     type: 'array',
   });
   const data = workBook.SheetNames.map((sheetName) =>
-    XLSX.utils.sheet_to_json(workBook.Sheets[sheetName])
+    XLSX.utils.sheet_to_json<T>(workBook.Sheets[sheetName])
   );
   return data;
 }
