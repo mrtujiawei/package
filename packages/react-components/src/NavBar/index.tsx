@@ -19,9 +19,9 @@ const NavBar: FC<NavBarProps> = (props) => {
       <div
         style={{ zIndex: props.zIndex }}
         className={classNames([
+          bem(),
+          bem('text'),
           {
-            [bem()]: true,
-            [bem('text')]: true,
             [bem('', 'fixed')]: props.fixed,
             ['safe-area-inset-top']: props.safeAreaInsetTop,
           },
