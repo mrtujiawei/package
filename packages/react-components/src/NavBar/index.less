@@ -6,32 +6,31 @@
   background-color: #fff;
   user-select: none;
 
-  &--fixed {
+  &-fixed {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
   }
 
-  &--safe-area-inset-top {
-    padding-top: constant(safe-area-inset-top);
-    padding-top: env(safe-area-inset-top);
+  &_placeholder {
+    height: 46px;
   }
 
-  &__content {
+  &_content {
     position: relative;
     display: flex;
     align-items: center;
     height: 46px;
   }
 
-  &__arrow {
+  &_arrow {
     display: flex;
     margin-right: 4px;
     font-size: 16px;
   }
 
-  &__title {
+  &_title {
     max-width: 60%;
     margin: 0 auto;
     color: #323233;
@@ -39,8 +38,8 @@
     font-size: 16px;
   }
 
-  &__left,
-  &__right {
+  &_left,
+  &_right {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -54,15 +53,15 @@
     }
   }
 
-  &__left {
+  &_left {
     left: 0;
   }
 
-  &__right {
+  &_right {
     right: 0;
   }
 
-  &__text {
+  &_text {
     color: #1989fa;
     fill: #1989fa;
   }
