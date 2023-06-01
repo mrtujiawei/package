@@ -571,7 +571,6 @@ export function jsonStringify<T>(object: T): string {
   return object + '';
 }
 
-
 /**
  * 缓存函数
  */
@@ -600,7 +599,9 @@ export function memoize<T extends (...params: unknown[]) => any>(fn: T): T {
 /**
  * 比上面更高效的缓存函数
  */
-export function linearMemoize<T extends (...params: unknown[]) => any>(fn: T): T {
+export function linearMemoize<T extends (...params: unknown[]) => any>(
+  fn: T
+): T {
   const paramMap = new Map<unknown, number>();
   const cache = new Map<string, unknown>();
 
@@ -671,3 +672,14 @@ export function objDiff(obj1: any, obj2: any): any {
 
   return [obj1, obj2];
 }
+
+/**
+ * bem 模块名工具
+ */
+export const createBEM = (block: string) => {
+  return (element?: string, modifier?: string) => {
+    return `${block}${element ? '_' + element : ''}${
+      modifier ? '--' + modifier : ''
+    }`;
+  };
+};
