@@ -14,8 +14,17 @@ import { NavBarProps } from './types';
 const NavBar: FC<NavBarProps> = (props) => {
   const bem = createBEM('nav-bar');
 
+  const safeAreaInsetTop = props.safeAreaInsetTop ?? true;
+  const border = props.border ?? true;
+  const leftArrow = props.leftArrow ?? true;
+
   return (
-    <div className={props.placeholder ? bem('placeholder') : ''}>
+    <div
+      className={classNames({
+        ['safe-area-inset-top']: safeAreaInsetTop,
+        [bem('placeholder')]: props.placeholder,
+      })}
+    >
       <div
         style={{ zIndex: props.zIndex }}
         className={classNames([
@@ -23,18 +32,19 @@ const NavBar: FC<NavBarProps> = (props) => {
           bem('text'),
           {
             [bem('', 'fixed')]: props.fixed,
-            ['safe-area-inset-top']: props.safeAreaInsetTop,
+            ['safe-area-inset-top']: safeAreaInsetTop,
+            [bem('', 'border')]: border,
           },
         ])}
       >
         <div className={bem('content')}>
-          {!!(props.leftArrow || props.left) && (
+          {!!(leftArrow || props.left) && (
             <div
               className={classNames(bem('left'))}
               onClick={props.onClickLeft}
             >
               {[
-                props.leftArrow && (
+                leftArrow && (
                   <div key={0} className={bem('', 'arrow')}>
                     <Arrow></Arrow>
                   </div>
@@ -43,7 +53,12 @@ const NavBar: FC<NavBarProps> = (props) => {
               ]}
             </div>
           )}
-          <div className={classNames([bem('title')])}>{props.title}</div>
+          <div
+            className={classNames([bem('title')])}
+            onClick={props.onClickCenter}
+          >
+            {props.children}
+          </div>
           <div
             className={classNames(bem('right'))}
             onClick={props.onClickRight}

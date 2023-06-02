@@ -1,13 +1,10 @@
-import { MouseEventHandler, ReactNode } from 'react';
+import { MouseEventHandler, ReactNode, PropsWithChildren } from 'react';
 
-export interface NavBarProps {
-  /**
-   * 中间的标题
-   */
-  title?: ReactNode;
-
+export type NavBarProps = PropsWithChildren<{
   /**
    * 是否固定在顶部
+   *
+   * @default false
    */
   fixed?: boolean;
 
@@ -28,6 +25,8 @@ export interface NavBarProps {
 
   /**
    * 是否显示左箭头
+   *
+   * @default true
    */
   leftArrow?: boolean;
 
@@ -37,7 +36,16 @@ export interface NavBarProps {
   placeholder?: boolean;
 
   /**
+   * 是否显示下边框
+   *
+   * @default true
+   */
+  border?: boolean;
+
+  /**
    * 是否留安全顶部距离
+   *
+   * @default true
    */
   safeAreaInsetTop?: boolean;
 
@@ -47,7 +55,12 @@ export interface NavBarProps {
   onClickLeft?: MouseEventHandler<HTMLDivElement>;
 
   /**
+   * 中间点击事件
+   */
+  onClickCenter?: MouseEventHandler<HTMLDivElement>;
+
+  /**
    * 右侧点击事件
    */
   onClickRight?: MouseEventHandler<HTMLDivElement>;
-}
+}>;
