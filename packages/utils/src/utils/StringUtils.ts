@@ -341,3 +341,11 @@ export function hasRepeatChar(str: string | string[]) {
 
   return false;
 }
+
+/**
+ * 判断是否是元音字符
+ * 字符串必须是 'a' | 'e' | 'i' | 'o' | 'u' | 'A' | 'E' | 'I' | 'O' | 'U'
+ */
+export const isVowel = (ch: string) => {
+  return /^(a|e|i|o|u)$/i.test(ch);
+};
