@@ -4,7 +4,8 @@
     "packages/utils",
     "packages/web-utils",
     "packages/react-components",
-    "packages/vue-components"
+    "packages/vue-components",
+    "packages/playground"
   ],
   "scripts": {
     "clean": "rm packages/*/dist -rf",
