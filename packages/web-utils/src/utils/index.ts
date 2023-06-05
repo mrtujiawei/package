@@ -405,7 +405,7 @@ export const loadImage = (src: string) => {
  * @returns 经过反转后的图片 dataURL
  */
 export const rotateRecover = async (file: File, orientation: number) => {
-  const dataUrl = await readBlobAsDataURL(file);
+  const dataUrl = await readAsDataURL(file);
   const image = await loadImage(dataUrl);
   // const orientation = await getOrientation(image);
   // 不需要真的放到页面上去
