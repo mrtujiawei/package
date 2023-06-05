@@ -683,3 +683,138 @@ export const createBEM = (block: string) => {
     }`;
   };
 };
+
+/**
+ * @param 播放 a
+ */
+export const a = () => {
+  console.log('a');
+};
+
+export const b = () => {
+  console.log('b');
+};
+
+export const c = () => {
+  console.log('c');
+};
+
+export const d = () => {
+  console.log('d');
+};
+
+export const e = () => {
+  console.log('e');
+};
+
+export const f = () => {
+  console.log('f');
+};
+
+export const g = () => {
+  console.log('g');
+};
+
+export const h = () => {
+  console.log('h');
+};
+
+export const i = () => {
+  console.log('i');
+};
+
+export const j = () => {
+  console.log('j');
+};
+
+export const k = () => {
+  console.log('k');
+};
+
+export const l = () => {
+  console.log('l');
+};
+
+export const m = () => {
+  console.log('m');
+};
+
+export const n = () => {
+  console.log('n');
+};
+
+export const o = () => {
+  console.log('o');
+};
+
+export const p = () => {
+  console.log('p');
+};
+
+export const q = () => {
+  console.log('q');
+};
+
+export const r = () => {
+  console.log('r');
+};
+
+export const s = () => {
+  console.log('s');
+};
+
+export const t = () => {
+  console.log('t');
+};
+
+export const u = () => {
+  console.log('u');
+};
+
+export const v = () => {
+  console.log('v');
+};
+
+export const w = () => {
+  console.log('w');
+};
+
+export const x = () => {
+  console.log('x');
+};
+
+export const y = () => {
+  console.log('y');
+};
+
+export const z = () => {
+  console.log('z');
+};
+
+export const aa = () => {
+  console.log('aa');
+};
+
+export const ab = () => {
+  console.log('ab');
+};
+
+export const ac = () => {
+  console.log('ac');
+};
+
+export const ad = () => {
+  console.log('ad');
+};
+
+export const ae = () => {
+  console.log('ae');
+};
+
+export const af = () => {
+  console.log('af');
+};
+
+export const ag = () => {
+  console.log('ag');
+};

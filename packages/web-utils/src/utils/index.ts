@@ -261,6 +261,8 @@ export const copyToClipboard = (text: string) => {
 };
 
 /**
+ * @deprecated replace with readAsDataURL
+ *
  * 转dataurl
  * file 也是一个Blob对象
  * 转base64
@@ -309,6 +311,9 @@ export const arrayBufferToBlob = (buffer: ArrayBuffer, mime: string) => {
   return new Blob([buffer], { type: mime });
 };
 
+/**
+ * @deprecated replace with readAsArrayBuffer
+ */
 export const blobToArrayBuffer = readAsArrayBuffer;
 
 export const blobToFile = (blob: Blob, filename: string, mime: string) => {
