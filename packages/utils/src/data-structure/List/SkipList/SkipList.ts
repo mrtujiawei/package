@@ -60,6 +60,9 @@ class SkipList<T> {
     return this.size;
   }
 
+  /**
+   * 判断是否有完全相同的元素
+   */
   search(target: T): boolean {
     let node = this.head;
     for (let i = this.currentLevel - 1; i >= 0; i--) {
@@ -77,6 +80,33 @@ class SkipList<T> {
       }
     }
     return false;
+  }
+
+  /**
+   * 满足 compareFn(value) >= 0 的第一个元素
+   */
+  lowerBound(compareFn: (value: T) => number): T {
+    let node = this.head;
+
+    for (let i = this.currentLevel - 1; i >= 0; i--) {
+      while (null != node.nexts[i] && compareFn(node.nexts[i].value) < 0) {
+        node = node.nexts[i];
+      }
+    }
+
+    return node.nexts[0] && node.nexts[0].value;
+  }
+
+  upperBound(compareFn: (value: T) => number): T {
+    let node = this.head;
+
+    for (let i = this.currentLevel - 1; i >= 0; i--) {
+      while (null != node.nexts[i] && compareFn(node.nexts[i].value) <= 0) {
+        node = node.nexts[i];
+      }
+    }
+
+    return node.nexts[0] && node.nexts[0].value;
   }
 
   /**

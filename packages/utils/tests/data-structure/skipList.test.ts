@@ -47,4 +47,30 @@ describe('Skiplist test', () => {
     });
     expect(list.search(size + 1)).toBeFalsy();
   });
+
+  test('lowerBound test', () => {
+    const list = new SkipList<number>((a, b) => a - b);
+    for (let i = 0; i < size; i++) {
+      list.insert(i);
+    }
+
+    expect(list.lowerBound((value) => value - -1)).toBe(0);
+    expect(list.lowerBound((value) => value - 0)).toBe(0);
+    expect(list.lowerBound((value) => value - 49.5)).toBe(50);
+    expect(list.lowerBound((value) => value - 50)).toBe(50);
+    expect(list.lowerBound((value) => value - 101)).toBe(null);
+  });
+
+  test('upperBound test', () => {
+    const list = new SkipList<number>((a, b) => a - b);
+    for (let i = 0; i < size; i++) {
+      list.insert(i);
+    }
+
+    expect(list.upperBound((value) => value - -1)).toBe(0);
+    expect(list.upperBound((value) => value - 0)).toBe(1);
+    expect(list.upperBound((value) => value - 49.5)).toBe(50);
+    expect(list.upperBound((value) => value - 50)).toBe(51);
+    expect(list.upperBound((value) => value - 101)).toBe(null);
+  });
 });
