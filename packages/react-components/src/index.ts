@@ -10,8 +10,6 @@ export * from './Overlay';
 export * from './Toast';
 export * from './Toast/utils';
 
-// TODO
-
 export { Position } from './enum';
 
 export { default as List } from './List';
