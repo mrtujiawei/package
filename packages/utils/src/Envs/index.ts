@@ -6,27 +6,26 @@
  */
 
 /**
+ * @private
+ *
  * 判断是否是浏览器环境
  */
 const browser = typeof void 0 != typeof window;
 
 /**
  * @public
+ *
+ * 判断是否是浏览器环境
  */
-class Envs {
-  /**
-   * 是否是浏览器环境
-   */
-  static isBrowser() {
-    return browser;
-  }
+export const isBrowser = () => {
+  return browser;
+};
 
-  /**
-   * 是否是node环境
-   */
-  static isNodejs() {
-    return !browser;
-  }
-}
-
-export default Envs;
+/**
+ * @public
+ *
+ * 判断是否是 Node.js 环境
+ */
+export const isNodejs = () => {
+  return !isBrowser();
+};

@@ -11,3 +11,17 @@ export type { default as Comparable } from './Comparable';
  * 嵌套数组
  */
 export type NestedArray<T> = (T | NestedArray<T>)[];
+
+/**
+ * 嵌套对象
+ *
+ * 没什么意义的类型
+ */
+export type NestedObject<T> = {
+  [key: string]: T | NestedObject<T>;
+};
+
+/**
+ * 通用函数类型
+ */
+export type GeneralFunction = (...args: any[]) => any;

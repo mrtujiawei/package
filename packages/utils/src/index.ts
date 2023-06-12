@@ -3,7 +3,7 @@ export * from './data-structure';
 
 // 应用
 export * from './interfaces';
-export { default as Envs } from './Envs';
+export * from './Envs';
 export { default as Logger } from './Logger';
 export { default as Tween } from './Tween';
 

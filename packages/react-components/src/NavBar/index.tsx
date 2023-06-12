@@ -14,15 +14,17 @@ import { NavBarProps } from './types';
 const NavBar: FC<NavBarProps> = (props) => {
   const bem = createBEM('nav-bar');
 
+  const fixed = props.fixed ?? true;
   const safeAreaInsetTop = props.safeAreaInsetTop ?? true;
   const border = props.border ?? true;
   const leftArrow = props.leftArrow ?? true;
+  const placeholder = props.placeholder ?? true;
 
   return (
     <div
       className={classNames({
         ['safe-area-inset-top']: safeAreaInsetTop,
-        [bem('placeholder')]: props.placeholder,
+        [bem('placeholder')]: placeholder,
       })}
     >
       <div
@@ -31,7 +33,7 @@ const NavBar: FC<NavBarProps> = (props) => {
           bem(),
           bem('text'),
           {
-            [bem('', 'fixed')]: props.fixed,
+            [bem('', 'fixed')]: fixed,
             ['safe-area-inset-top']: safeAreaInsetTop,
             [bem('', 'border')]: border,
           },

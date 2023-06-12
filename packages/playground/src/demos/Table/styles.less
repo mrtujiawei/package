@@ -1,0 +1,29 @@
+/** 模板代码 */
+.table-demo {
+  padding: 20px;
+  .t-table {
+    border: 1px solid #000;
+    border-spacing: 0;
+    &_th {
+      border: 1px solid #000;
+      border-top-width: 0;
+      border-left-width: 0;
+    }
+    &_td {
+      border: 1px solid #000;
+      border-top-width: 0;
+      border-left-width: 0;
+    }
+
+    &_th:last-child,
+    &_td:last-child {
+      border-right-width: 0;
+    }
+
+    &_body--row:last-child {
+      .t-table_td {
+        border-bottom-width: 0;
+      }
+    }
+  }
+}

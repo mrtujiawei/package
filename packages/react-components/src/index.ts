@@ -22,3 +22,5 @@ export { default as Toast } from './Toast';
 export { default as toast } from './Toast/utils';
 export type { IToastProps } from './Toast';
 export type { Options } from './Toast/utils';
+
+export { default as Table } from './Table';

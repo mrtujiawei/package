@@ -4,7 +4,7 @@ export type NavBarProps = PropsWithChildren<{
   /**
    * 是否固定在顶部
    *
-   * @default false
+   * @default true
    */
   fixed?: boolean;
 
@@ -31,6 +31,7 @@ export type NavBarProps = PropsWithChildren<{
   leftArrow?: boolean;
 
   /**
+   * @default true
    * 是否在标签位置生成一个同样高度的容器占位
    */
   placeholder?: boolean;

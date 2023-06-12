@@ -6,10 +6,6 @@ const NavBarDemo = () => {
     <div className={styles.demo}>
       <div>被覆盖</div>
       <NavBar
-        fixed
-        placeholder
-        leftArrow
-        safeAreaInsetTop
         left={'返回'}
         onClickLeft={(event) => {
           console.log('left clicked', event);

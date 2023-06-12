@@ -161,6 +161,20 @@ class Random {
     }
     return `${head}-${range.join('-')}-${tail}`;
   };
+
+  /**
+   * 生成随机的一个 #rrggbb 的颜色
+   */
+  static getRandomRGB = (): string => {
+    let color = '#';
+
+    for (let i = 0; i < 3; i++) {
+      const value = Random.getRandomNumber(0, 1 << 8);
+      color += value.toString(16).padStart(2, '0');
+    }
+
+    return color;
+  };
 }
 
 export default Random;

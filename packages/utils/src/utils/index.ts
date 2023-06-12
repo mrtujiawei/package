@@ -13,6 +13,7 @@ export * from './StringUtils';
 export * from './bitUtils';
 export * from './partialSumUtils';
 export * from './pureFunction';
+export * from './regexpUtils';
 export { default as Lock } from './Lock';
 export { default as TaskQueue } from './TaskQueue';
 export { default as ResponsibilityChain } from './ResponsibilityChain';

@@ -6,6 +6,7 @@
  * @date 2023-04-20 09:50:23
  */
 
+import { GeneralFunction } from '../interfaces';
 import { swap } from './arrayUtils';
 import { isObject } from './objectUtils';
 import { isSame } from './pureFunction';
@@ -685,14 +686,22 @@ export const createBEM = (block: string) => {
 };
 
 /**
- * @param 播放 a
+ * 能够重复调用的函数
  */
-export const a = () => {
-  console.log('a');
-};
+export const reuse = <T extends GeneralFunction>(func: T) => {
+  const result: unknown[] = [];
 
-export const b = () => {
-  console.log('b');
+  // 内部类型需要更通用
+  const newFunc: GeneralFunction = (...args) => {
+    if (result.length == 0) {
+      result.push(func(...args));
+    }
+
+    return result[0];
+  };
+
+  // 外部的类型需要更精确
+  return newFunc as T;
 };
 
 export const c = () => {
@@ -817,4 +826,80 @@ export const af = () => {
 
 export const ag = () => {
   console.log('ag');
+};
+
+export const ah = () => {
+  console.log('ah');
+};
+
+export const ai = () => {
+  console.log('ai');
+};
+
+export const aj = () => {
+  console.log('aj');
+};
+
+export const ak = () => {
+  console.log('ak');
+};
+
+export const al = () => {
+  console.log('al');
+};
+
+export const am = () => {
+  console.log('am');
+};
+
+export const an = () => {
+  console.log('an');
+};
+
+export const ao = () => {
+  console.log('ao');
+};
+
+export const ap = () => {
+  console.log('ap');
+};
+
+export const aq = () => {
+  console.log('aq');
+};
+
+export const ar = () => {
+  console.log('ar');
+};
+
+export const as1 = () => {
+  console.log('as1');
+};
+
+export const at1 = () => {
+  console.log('at');
+};
+
+export const au = () => {
+  console.log('au');
+};
+
+export const av = () => {
+  console.log('av');
+};
+
+export const aw = () => {
+  console.log('aw');
+};
+
+export const ax = () => {
+  console.log('ax');
+};
+
+export const ay = () => {
+  console.log('ay');
+};
+
+export const az = () => {
+  console.log('az');
 };

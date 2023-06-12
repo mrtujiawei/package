@@ -63,10 +63,20 @@ export const numFormat = (num: number, delimiter: string = ','): string => {
  * 首字母大写
  */
 export const capitalize = <T extends string>(str: T): Capitalize<T> => {
-  if (!str) {
+  if (!str || str[0].toUpperCase() == str[0]) {
     return str as Capitalize<T>;
   }
   return (str[0].toUpperCase() + str.slice(1)) as Capitalize<T>;
+};
+
+/**
+ * 首字母小写
+ */
+export const uncapitalize = <T extends string>(str: T): Uncapitalize<T> => {
+  if (!str || str[0].toLowerCase() == str[0]) {
+    return str as Uncapitalize<T>;
+  }
+  return (str[0].toLowerCase() + str.slice(1)) as Uncapitalize<T>;
 };
 
 /**
@@ -348,4 +358,20 @@ export function hasRepeatChar(str: string | string[]) {
  */
 export const isVowel = (ch: string) => {
   return /^(a|e|i|o|u)$/i.test(ch);
+};
+
+/**
+ * 字符串 转 union
+ */
+export const unicode = (str: string) => {
+  return Object.values(str).map((ch) =>
+    ch.charCodeAt(0).toString(16).padStart(4, '0')
+  );
+};
+
+/**
+ * unicode 转字符数组
+ */
+export const ununicode = (code: number[]) => {
+  return code.map((value) => String.fromCharCode(value));
 };
