@@ -1,6 +1,6 @@
-import { CSSProperties, MouseEventHandler } from 'react';
+import { CSSProperties, MouseEventHandler, PropsWithChildren } from 'react';
 
-export interface IOverlayProps {
+export type OverlayProps = PropsWithChildren<{
   /**
    * 是否显示遮罩层
    */
@@ -37,4 +37,4 @@ export interface IOverlayProps {
    * 如果需要点击遮罩层关闭，需要阻止内容区事件冒泡
    */
   onClick?: MouseEventHandler<HTMLDivElement>;
-}
+}>;

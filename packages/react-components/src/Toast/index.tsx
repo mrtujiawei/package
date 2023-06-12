@@ -4,77 +4,15 @@
  * @author: Mr Prince
  * @date: 2022-10-03 20:16:03
  */
-import { Types } from '@mrtujiawei/utils';
-import { preventDefault } from '@mrtujiawei/web-utils';
+import { createBEM, Types } from '@mrtujiawei/utils';
 import classNames from 'classnames';
-import {
-  CSSProperties,
-  FC,
-  MouseEventHandler,
-  ReactNode,
-  useEffect,
-  useRef,
-} from 'react';
+import { CSSProperties, FC, useEffect, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { Position } from '../enum';
+import { useLockScroll } from '../hooks';
+import { ToastProps } from './types';
 
-export interface IToastProps {
-  /**
-   * 是否显示
-   */
-  visible: boolean;
-
-  /**
-   * 调整定位层级
-   */
-  zIndex: number;
-
-  /**
-   * 动画时间 ms
-   * @default 300
-   */
-  duration?: number;
-
-  /**
-   * 显示的位置
-   */
-  position?: Position;
-
-  /**
-   * 自定义类名
-   */
-  className?: string;
-
-  /**
-   * 自定义样式
-   */
-  customStyle?: CSSProperties;
-
-  /**
-   * @default false
-   */
-  lockScroll?: boolean;
-
-  /**
-   * 内部绑定事件
-   */
-  onClick?: MouseEventHandler<HTMLDivElement>;
-
-  /**
-   * 内容
-   */
-  children?: ReactNode;
-
-  onEntered?: () => void;
-
-  onExited?: () => void;
-
-  /**
-   * @default false
-   * 禁止点击
-   */
-  forbidClick?: boolean;
-}
+export * from './types';
 
 let lockCount = 0;
 
@@ -94,14 +32,12 @@ function lockClick(lock: boolean) {
   }
 }
 
-const Toast: FC<IToastProps> = (props) => {
+const Toast: FC<ToastProps> = (props) => {
+  const bem = createBEM('toast');
   const toast = useRef<HTMLDivElement>(null);
   const clickable = useRef<boolean>(false);
 
-  const {
-    duration = 300,
-    position = Position.middle,
-  } = props;
+  const { duration = 300, position = Position.middle } = props;
 
   const style: CSSProperties = {
     ...props.customStyle,
@@ -112,22 +48,10 @@ const Toast: FC<IToastProps> = (props) => {
     style.animationDuration = `${duration}ms`;
   }
 
-  useEffect(() => {
-    // react 不支持阻止默认事件
-    const dom = toast.current;
-
-    // visible 存在时 dom 才不为null
-    if (props.lockScroll && props.visible && dom) {
-      const onTouchMove = (event: TouchEvent) => {
-        preventDefault(event, true);
-      };
-
-      dom.addEventListener('touchmove', onTouchMove);
-      return () => {
-        dom.removeEventListener('touchmove', onTouchMove);
-      };
-    }
-  }, [props.lockScroll, props.visible]);
+  useLockScroll({
+    dom: toast,
+    lock: props.visible && props.lockScroll,
+  });
 
   useEffect(() => {
     const toggleClickable = () => {
@@ -156,8 +80,9 @@ const Toast: FC<IToastProps> = (props) => {
       unmountOnExit
     >
       <div
+        ref={toast}
         style={style}
-        className={classNames(['toast', `toast--${position}`, props.className])}
+        className={classNames([bem(), bem('', position), props.className])}
         onClick={props.onClick}
       >
         {props.children}

@@ -11,14 +11,17 @@ import { FC } from 'react';
 import Arrow from '../icons/Arrow';
 import { NavBarProps } from './types';
 
-const NavBar: FC<NavBarProps> = (props) => {
-  const bem = createBEM('nav-bar');
+export * from './types';
 
-  const fixed = props.fixed ?? true;
-  const safeAreaInsetTop = props.safeAreaInsetTop ?? true;
-  const border = props.border ?? true;
-  const leftArrow = props.leftArrow ?? true;
-  const placeholder = props.placeholder ?? true;
+export const NavBar: FC<NavBarProps> = (props) => {
+  const bem = createBEM('nav-bar');
+  const {
+    fixed = true,
+    safeAreaInsetTop = true,
+    border = true,
+    leftArrow = true,
+    placeholder = true,
+  } = props;
 
   return (
     <div
@@ -72,5 +75,3 @@ const NavBar: FC<NavBarProps> = (props) => {
     </div>
   );
 };
-
-export default NavBar;

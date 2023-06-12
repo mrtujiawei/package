@@ -5,64 +5,21 @@
  * @date: 2022-10-02 23:32:05
  */
 
-import { Types } from '@mrtujiawei/utils';
+import { createBEM, Types } from '@mrtujiawei/utils';
 import { preventDefault } from '@mrtujiawei/web-utils';
 import classNames from 'classnames';
-import {
-  CSSProperties,
-  FC,
-  MouseEventHandler,
-  ReactElement,
-  useEffect,
-  useRef,
-} from 'react';
+import { CSSProperties, FC, useEffect, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
+import { useLockScroll } from '../hooks';
+import { OverlayProps } from './tyles';
+export * from './tyles';
 
-export interface IOverlayProps {
-  children: ReactElement;
+export const Overlay: FC<OverlayProps> = (props) => {
+  const bem = createBEM('overlay');
 
-  /**
-   * 是否显示遮罩层
-   */
-  visible: boolean;
-
-  /**
-   * 手动调整 zIndex
-   */
-  zIndex?: number | string;
-
-  /**
-   * 显示时间(秒)
-   */
-  duration?: number;
-
-  /**
-   * 类名
-   */
-  className?: any;
-
-  /**
-   * 是否不能滚动
-   * @default true
-   */
-  lockScroll?: boolean;
-
-  /**
-   * 自定义样式
-   */
-  style?: CSSProperties;
-
-  /**
-   * 点击事件
-   * 如果需要点击遮罩层关闭，需要阻止内容区事件冒泡
-   */
-  onClick?: MouseEventHandler<HTMLDivElement>;
-}
-
-const Overlay: FC<IOverlayProps> = (props) => {
   const overlay = useRef<HTMLDivElement>(null);
   const { lockScroll = true } = props;
-  const style = {
+  const style: CSSProperties = {
     ...props.style,
     zIndex: props.zIndex,
   };
@@ -71,22 +28,27 @@ const Overlay: FC<IOverlayProps> = (props) => {
     style.animationDuration = `${props.duration}s`;
   }
 
-  useEffect(() => {
-    // react 不支持阻止默认事件
-    const dom = overlay.current;
+  useLockScroll({
+    dom: overlay,
+    lock: props.visible && lockScroll,
+  });
 
-    // visible 存在时 dom 才不为null
-    if (lockScroll && props.visible && dom) {
-      const onTouchMove = (event: TouchEvent) => {
-        preventDefault(event, true);
-      };
-
-      dom.addEventListener('touchmove', onTouchMove);
-      return () => {
-        dom.removeEventListener('touchmove', onTouchMove);
-      };
-    }
-  }, [lockScroll, props.visible]);
+  // useEffect(() => {
+  //   // react 不支持阻止默认事件
+  //   const dom = overlay.current;
+  //
+  //   // visible 存在时 dom 才不为null
+  //   if (lockScroll && props.visible && dom) {
+  //     const onTouchMove = (event: TouchEvent) => {
+  //       preventDefault(event, true);
+  //     };
+  //
+  //     dom.addEventListener('touchmove', onTouchMove);
+  //     return () => {
+  //       dom.removeEventListener('touchmove', onTouchMove);
+  //     };
+  //   }
+  // }, [lockScroll, props.visible]);
 
   return (
     <CSSTransition
@@ -98,13 +60,17 @@ const Overlay: FC<IOverlayProps> = (props) => {
       <div
         ref={overlay}
         style={style}
-        className={classNames('overlay', props.className)}
+        className={classNames(bem(), props.className)}
         onClick={props.onClick}
       >
-        {props.children}
+        <div
+          onClick={(event) => {
+            event.stopPropagation();
+          }}
+        >
+          {props.children}
+        </div>
       </div>
     </CSSTransition>
   );
 };
-
-export default Overlay;

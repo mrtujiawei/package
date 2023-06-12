@@ -1,7 +1,8 @@
 import { createBrowserRouter, RouteObject } from 'react-router-dom';
 // import ListDemo from '../demos/List';
-// import NavBarDemo from '../demos/NavBar';
-// import OverlayDemo from '../demos/Overlay';
+import NavBarDemo from '../demos/NavBar';
+import OverlayDemo from '../demos/Overlay';
+import ToastDemo from '../demos/Toast';
 // import TableDemo from '../demos/Table';
 import Home from '../pages/Home';
 
@@ -15,16 +16,21 @@ export const routes: Route[] = [
     name: '',
     element: <Home />,
   },
-  // {
-  //   path: '/nav-bar',
-  //   name: '导航栏',
-  //   element: <NavBarDemo></NavBarDemo>,
-  // },
-  // {
-  //   path: '/overlay',
-  //   name: '遮罩层',
-  //   element: <OverlayDemo />,
-  // },
+  {
+    path: '/nav-bar',
+    name: '导航栏',
+    element: <NavBarDemo></NavBarDemo>,
+  },
+  {
+    path: '/overlay',
+    name: '遮罩层',
+    element: <OverlayDemo />,
+  },
+  {
+    path: '/toast',
+    name: '轻提示',
+    element: <ToastDemo />,
+  },
   // {
   //   path: '/table',
   //   name: '表格',

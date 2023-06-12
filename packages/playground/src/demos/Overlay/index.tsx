@@ -1,10 +1,18 @@
 import { Overlay } from '@mrtujiawei/react-components';
 import { useState } from 'react';
+import styles from './styles.module.less';
 
 const Content = () => {
-  console.log('content render');
-
-  return <div>内容区</div>;
+  return (
+    <div
+      className={styles.content}
+      onClick={() => {
+        console.log('点击事件');
+      }}
+    >
+      <div>内容区</div>
+    </div>
+  );
 };
 
 const OverlayDemo = () => {
@@ -15,7 +23,7 @@ const OverlayDemo = () => {
   };
 
   return (
-    <div>
+    <div className={styles.demo}>
       <button onClick={toggle}>切换</button>
       <Overlay visible={visible} onClick={toggle}>
         <Content></Content>

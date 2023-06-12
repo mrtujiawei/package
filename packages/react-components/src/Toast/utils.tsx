@@ -1,9 +1,9 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { createRoot, Root } from 'react-dom/client';
-import Toast, { IToastProps } from '.';
+import Toast, { ToastProps } from '.';
 import { Counter, Types } from '@mrtujiawei/utils';
 
-export type Options = Partial<Omit<IToastProps, 'visible'>>;
+export type ToastOptions = Partial<Omit<ToastProps, 'visible'>>;
 
 type QueueItem = {
   element: JSX.Element;
@@ -47,7 +47,7 @@ const createInstance = () => {
   return root!;
 };
 
-const toast = (children: ReactNode, options: Options = {}) => {
+export const toast = (children: ReactNode, options: ToastOptions = {}) => {
   createInstance();
   const zIndex = options.zIndex || zIndexCounter.next();
   const props = {
@@ -122,5 +122,3 @@ toast.clear = (key?: number) => {
     }
   }
 };
-
-export default toast;
