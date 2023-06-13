@@ -171,6 +171,13 @@ class Heap<T> {
   }
 
   /**
+   * 清空堆
+   */
+  clear(): void {
+    this.heap = [];
+  }
+
+  /**
    * 获取当前heap内容
    */
   toArray() {
