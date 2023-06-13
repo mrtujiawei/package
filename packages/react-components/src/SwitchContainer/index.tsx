@@ -4,7 +4,6 @@ import { createBEM } from '@mrtujiawei/utils';
 import classNames from 'classnames';
 import { CSSProperties, FC, PropsWithChildren, useRef } from 'react';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
-import './index.less';
 
 type SwitchContainerProps = PropsWithChildren<{
   /**
