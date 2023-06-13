@@ -1,6 +1,6 @@
 {
   "name": "@mrtujiawei/react-components",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "react 组件库",
   "#source": "src/index.ts",
   "#buildConfig": {
