@@ -19,3 +19,4 @@ export { default as PullRefresh } from './PullRefresh';
 export type { Props as PullRefreshProps } from './PullRefresh';
 
 export { default as Table } from './Table';
+export * from './SwitchContainer';

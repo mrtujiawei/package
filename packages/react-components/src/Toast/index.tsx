@@ -72,6 +72,7 @@ const Toast: FC<ToastProps> = (props) => {
 
   return (
     <CSSTransition
+      nodeRef={toast}
       in={props.visible}
       timeout={duration}
       classNames="fade"

@@ -6,9 +6,8 @@
  */
 
 import { createBEM, Types } from '@mrtujiawei/utils';
-import { preventDefault } from '@mrtujiawei/web-utils';
 import classNames from 'classnames';
-import { CSSProperties, FC, useEffect, useRef } from 'react';
+import { CSSProperties, FC, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { useLockScroll } from '../hooks';
 import { OverlayProps } from './tyles';
@@ -33,25 +32,9 @@ export const Overlay: FC<OverlayProps> = (props) => {
     lock: props.visible && lockScroll,
   });
 
-  // useEffect(() => {
-  //   // react 不支持阻止默认事件
-  //   const dom = overlay.current;
-  //
-  //   // visible 存在时 dom 才不为null
-  //   if (lockScroll && props.visible && dom) {
-  //     const onTouchMove = (event: TouchEvent) => {
-  //       preventDefault(event, true);
-  //     };
-  //
-  //     dom.addEventListener('touchmove', onTouchMove);
-  //     return () => {
-  //       dom.removeEventListener('touchmove', onTouchMove);
-  //     };
-  //   }
-  // }, [lockScroll, props.visible]);
-
   return (
     <CSSTransition
+      nodeRef={overlay}
       in={props.visible}
       classNames="fade"
       timeout={300}

@@ -1,0 +1,17 @@
+.switch-container {
+  position: relative;
+  overflow: hidden;
+  &_item {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .switch-enter {
+    transform: translateX(100%);
+  }
+
+  .switch-enter-active {
+    transform: translateX(0);
+    transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+}

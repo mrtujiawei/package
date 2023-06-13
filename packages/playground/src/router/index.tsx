@@ -1,9 +1,12 @@
 import { createBrowserRouter, RouteObject } from 'react-router-dom';
-// import ListDemo from '../demos/List';
+import ListDemo from '../demos/List';
 import NavBarDemo from '../demos/NavBar';
 import OverlayDemo from '../demos/Overlay';
 import ToastDemo from '../demos/Toast';
-// import TableDemo from '../demos/Table';
+import TableDemo from '../demos/Table';
+import SwitchDemo from '../demos/Switch';
+import SwitchContainerDemo from '../demos/SwitchContainer';
+import SwitchBackContainerDemo from '../demos/SwitchBackContainer';
 import Home from '../pages/Home';
 
 type Route = RouteObject & {
@@ -31,16 +34,31 @@ export const routes: Route[] = [
     name: '轻提示',
     element: <ToastDemo />,
   },
-  // {
-  //   path: '/table',
-  //   name: '表格',
-  //   element: <TableDemo />,
-  // },
-  // {
-  //   path: '/list',
-  //   name: '列表',
-  //   element: <ListDemo></ListDemo>,
-  // },
+  {
+    path: '/list',
+    name: '列表',
+    element: <ListDemo></ListDemo>,
+  },
+  {
+    path: '/table',
+    name: '表格',
+    element: <TableDemo />,
+  },
+  {
+    path: '/switch-container',
+    name: '过渡',
+    element: <SwitchContainerDemo />,
+  },
+  {
+    path: '/switch-back-container',
+    name: '返回过渡',
+    element: <SwitchBackContainerDemo />,
+  },
+  {
+    path: '/switch',
+    name: '切换过渡',
+    element: <SwitchDemo />,
+  },
 ];
 
 const router = createBrowserRouter(routes);
