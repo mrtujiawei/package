@@ -74,4 +74,8 @@ describe('Random test', () => {
     expect(value).toBeGreaterThanOrEqual(min);
     expect(value).toBeLessThan(max);
   });
+
+  test('Random rgb', () => {
+
+  });
 });

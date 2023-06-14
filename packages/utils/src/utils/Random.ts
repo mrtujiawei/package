@@ -175,6 +175,20 @@ class Random {
 
     return color;
   };
+
+  /**
+   * 生成随机带 alpha 的颜色
+   */
+  static getRandomRGBA = () => {
+    const rgba: number[] = [];
+    for (let i = 0; i < 4; i++) {
+      rgba.push(Random.getRandomNumber(0, 1 << 8));
+    }
+
+    rgba[3] /= 1 << 8;
+
+    return `rgba(${rgba.join(',')})`;
+  };
 }
 
 export default Random;
