@@ -1,4 +1,4 @@
-import { fastPow, getPrimeList } from '../src/index';
+import { fastPow, getPrimeList, isPrime, lcm } from '../src/index';
 
 describe('MathUtils test', () => {
   test('fastPow test', () => {
@@ -22,11 +22,30 @@ describe('MathUtils test', () => {
 
     for (let i = 0, value = 1; i <= index; i++) {
       expect(fastPow(base, i, mod)).toBe(value);
-      value = value * base % mod;
+      value = (value * base) % mod;
     }
   });
 
   test('Prime list test', () => {
     expect(getPrimeList(10)).toStrictEqual([2, 3, 5, 7]);
+  });
+
+  test('Prime test', () => {
+    getPrimeList(10).forEach((num) => {
+      expect(isPrime(num)).toBeTruthy();
+    });
+    expect(isPrime(2)).toBeTruthy();
+    expect(isPrime(3)).toBeTruthy();
+    expect(isPrime(11)).toBeTruthy();
+    expect(isPrime(10 ** 9 + 7)).toBeTruthy();
+    expect(isPrime(4)).toBeFalsy();
+    expect(isPrime(9)).toBeFalsy();
+  });
+
+  test('LCM test', () => {
+    expect(lcm(2, 3)).toBe(6);
+    expect(lcm(7, 15)).toBe(105);
+    expect(lcm(10, 5)).toBe(10);
+    expect(lcm(20, 6)).toBe(60);
   });
 });

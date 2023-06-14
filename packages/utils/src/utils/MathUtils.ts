@@ -68,8 +68,7 @@ export const hypot = (...values: number[]) => {
 };
 
 /**
- * 求: 2 ^ k
- * 需要2 大于等于0
+ * 求最右侧的1
  */
 export const lowbit = (k: number) => {
   return k & -k;
