@@ -10,6 +10,7 @@
   "scripts": {
     "clean": "rm packages/*/dist -rf",
     "build": "ts-node scripts/build.ts",
+    "build:utils": "tsc && cd ./packages/utils && t-scripts build --lib --mode production && t-scripts build --lib",
     "build:css": "ts-node scripts/compilers/css/index.ts",
     "test": "jest",
     "test:coverage": "jest --coverage",
