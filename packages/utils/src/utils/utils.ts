@@ -704,8 +704,31 @@ export const reuse = <T extends GeneralFunction>(func: T) => {
   return newFunc as T;
 };
 
-export const c = () => {
-  console.log('c');
+/**
+ * 懒初始化
+ * 一个事件依赖另外一个数据
+ * 但是数据是通过异步加载，两者之间比较难建立联系
+ *
+ * @example 
+ *
+ * const [promise,resolve, reject] = lazyInit();
+ *
+ * promise.then(data => {
+ *  console.log(data);
+ * });
+ *
+ * resolve(1);
+ */
+export const lazyInit = <T>() => {
+  let resolve!: (value: T) => void;
+  let reject!: (reason?: any) => void;
+
+  const promise = new Promise((_resolve, _reject) => {
+    resolve = _resolve;
+    reject = _reject;
+  });
+
+  return [promise, resolve, reject];
 };
 
 export const d = () => {
