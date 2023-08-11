@@ -709,7 +709,7 @@ export const reuse = <T extends GeneralFunction>(func: T) => {
  * 一个事件依赖另外一个数据
  * 但是数据是通过异步加载，两者之间比较难建立联系
  *
- * @example 
+ * @example
  *
  * const [promise,resolve, reject] = lazyInit();
  *
@@ -719,11 +719,15 @@ export const reuse = <T extends GeneralFunction>(func: T) => {
  *
  * resolve(1);
  */
-export const lazyInit = <T>() => {
+export const lazyInit = <T>(): [
+  Promise<T>,
+  (value: T) => void,
+  (reason?: any) => void
+] => {
   let resolve!: (value: T) => void;
   let reject!: (reason?: any) => void;
 
-  const promise = new Promise((_resolve, _reject) => {
+  const promise = new Promise<T>((_resolve, _reject) => {
     resolve = _resolve;
     reject = _reject;
   });
