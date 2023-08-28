@@ -687,6 +687,8 @@ export const createBEM = (block: string) => {
 
 /**
  * 能够重复调用的函数
+ *
+ * 重复调用不再次执行，直接返回上一次的执行结果
  */
 export const reuse = <T extends GeneralFunction>(func: T) => {
   const result: unknown[] = [];
