@@ -388,6 +388,7 @@ export function getScroller(
 export const loadImage = (src: string) => {
   return new Promise<HTMLImageElement>((resolve, reject) => {
     const image = new Image();
+    image.crossOrigin = 'anonymous';
     image.onload = () => resolve(image);
     image.onerror = image.onabort = reject;
     image.src = src;
@@ -627,4 +628,27 @@ export const compressImage = async (
  */
 export const pressEnter = (event: KeyboardEvent) => {
   return event.key == 'Enter';
+};
+
+/**
+ * 图片地址转换成 file
+ * @param url 图片地址 https://xxx
+ * @param filename 文件名
+ */
+export const imgUrlToFile = async (url: string, filename: string) => {
+  const img = await loadImage(url);
+  img.crossOrigin = 'anonymous';
+  const canvas = document.createElement('canvas');
+  canvas.width = img.width;
+  canvas.height = img.height;
+  const context = canvas.getContext('2d');
+
+  context?.drawImage(img, 0, 0, img.width, img.height);
+  const blob = await new Promise<Blob>((resolve) => {
+    canvas?.toBlob((blob) => {
+      resolve(blob!);
+    });
+  });
+
+  return blobToFile(blob, filename, blob.type);
 };
