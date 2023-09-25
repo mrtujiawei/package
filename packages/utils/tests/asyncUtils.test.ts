@@ -1,4 +1,4 @@
-import { cancellable } from '../src/index';
+import { cancellable, eagerGet, sleep } from '../src/index';
 
 describe('Async utils test', () => {
   describe('Cancellable test', () => {
@@ -219,6 +219,32 @@ describe('Async utils test', () => {
           },
         }
       );
+    });
+  });
+
+  describe('EagerGet test', () => {
+    const getValue = (function () {
+      let value = 0;
+      return async () => {
+        await sleep(Math.random());
+        return value++;
+      };
+    })();
+
+    test('case 1:', (done) => {
+      const size = 10;
+      const getV = eagerGet(getValue);
+      let count = 0;
+      for (let i = 0; i < size; i++) {
+        getV().then((value) => {
+          count++;
+          expect(value).toBe(i);
+          expect(count).toBe(i + 1);
+          if (i == size) {
+            done();
+          }
+        });
+      }
     });
   });
 });

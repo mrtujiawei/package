@@ -737,10 +737,9 @@ export const lazyInit = <T>(): [
   return [promise, resolve, reject];
 };
 
-export const d = () => {
-  console.log('d');
-};
-
+/**
+ * 如果没有
+ */
 export const e = () => {
   console.log('e');
 };

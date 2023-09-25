@@ -204,3 +204,16 @@ export const cancelPromise = <T>(func: PromiseExecutor<T>) => {
 
   return [cancel, promise];
 };
+
+/**
+ * 直接初始化一个异步的值
+ * 下次获取的时候能直接取到对应的值
+ */
+export const eagerGet = <T>(func: () => Promise<T>) => {
+  let promise = func();
+  return () => {
+    const p = promise;
+    promise = promise.then(func, func);
+    return p;
+  };
+};
