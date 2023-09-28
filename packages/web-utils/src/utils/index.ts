@@ -652,3 +652,12 @@ export const imgUrlToFile = async (url: string, filename: string) => {
 
   return blobToFile(blob, filename, blob.type);
 };
+
+/**
+ * 刷新页面后回到顶部，不滚动到原来的位置
+ */
+export const restoration = () => {
+  if (history.scrollRestoration) {
+    history.scrollRestoration = 'manual';
+  }
+};

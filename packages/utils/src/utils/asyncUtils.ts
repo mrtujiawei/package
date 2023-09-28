@@ -17,7 +17,7 @@ import { PromiseExecutor, PromiseReject, PromiseResolve } from '../types';
  * @description 延迟一段时间(秒)
  */
 export const sleep = async (timeout: number = 0) => {
-  return new Promise((resolve) => {
+  return new Promise<void>((resolve) => {
     setTimeout(resolve, timeout * 1000);
   });
 };
