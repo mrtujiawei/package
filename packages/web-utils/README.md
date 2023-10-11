@@ -159,3 +159,9 @@ function App() {
 
 export default App;
 ```
+
+## 同时选中多个id
+
+```
+document.querySelectorAll('[id="xxx"]');
+```
