@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        user-select: none;
+      }
+
+      .bg {
+        width: 100vw;
+        height: 100vh;
+        background: #000;
+        overflow: hidden;
+      }
+
+      .content {
+        display: flex;
+        align-items: center;
+        font-size: 0;
+        height: 100vh;
+        white-space: nowrap;
+      }
+
+      .content:after {
+        content: '';
+        clear: both;
+      }
+
+      .text {
+        margin: auto;
+        font-size: 200px;
+        height: 200px;
+        line-height: 200px;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg">
+      <div class="content"></div>
+    </div>
+
+    <script>
+      const bg = document.querySelector('.bg');
+      const content = document.querySelector('.content');
+      (function () {
+        const params = new URLSearchParams(window.location.search);
+        const text = document.createElement('div');
+        text.className = 'text';
+        text.innerHTML = params.get('text');
+        content.appendChild(text);
+      })();
+      const text = document.querySelector('.text');
+      const clientWidth = document.documentElement.clientWidth;
+      const clientHeight = document.documentElement.clientHeight;
+      const width = text.clientWidth;
+
+      (function () {
+        let max = Math.max(clientWidth, clientHeight) - width;
+        while (max > 0) {
+          content.appendChild(text.cloneNode(true));
+          max -= width;
+        }
+        content.appendChild(text.cloneNode(true));
+      })();
+
+      let dist = 0;
+
+      const move = () => {
+        content.style.transform = `translateX(-${dist}px)`;
+        dist += 2;
+        if (dist > width) {
+          dist -= width;
+          content.appendChild(content.firstChild);
+        }
+        requestAnimationFrame(move);
+      };
+
+      requestAnimationFrame(move);
+      bg.addEventListener('click', function () {
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        } else {
+          bg.requestFullscreen();
+        }
+      });
+    </script>
+  </body>
+</html>
