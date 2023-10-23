@@ -115,8 +115,7 @@ export const currying = <T extends Function>(fn: T) => {
   const length = fn.length;
   let received: any[] = [];
 
-  // @ts-ignore
-  const receiver: T = (...args: any[]) => {
+  const receiver: unknown = (...args: any[]) => {
     if (0 == args.length || 0 == length) {
       return fn(...args);
     } else {
@@ -130,5 +129,5 @@ export const currying = <T extends Function>(fn: T) => {
     return receiver;
   };
 
-  return receiver;
+  return receiver as T;
 };
