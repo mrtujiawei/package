@@ -53,7 +53,7 @@
         const params = new URLSearchParams(window.location.search);
         const text = document.createElement('div');
         text.className = 'text';
-        text.innerHTML = params.get('text');
+        text.innerHTML = params.get('text') || '请输入内容';
         content.appendChild(text);
       })();
       const text = document.querySelector('.text');
