@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/package/player/static/css/main.b503f4db.css",
+    "main.js": "/package/player/static/js/main.11576db9.js",
+    "index.html": "/package/player/index.html",
+    "main.b503f4db.css.map": "/package/player/static/css/main.b503f4db.css.map",
+    "main.11576db9.js.map": "/package/player/static/js/main.11576db9.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b503f4db.css",
+    "static/js/main.11576db9.js"
+  ]
+}
