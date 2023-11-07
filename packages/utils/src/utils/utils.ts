@@ -738,10 +738,25 @@ export const lazyInit = <T>(): [
 };
 
 /**
- * 如果没有
+ * 是否是双击事件
+ *
+ * @param delta 两次事件间隔在 delta 内 返回 true
  */
-export const e = () => {
-  console.log('e');
+export const isDbclick = (delta = 300) => {
+  let lastEventTime = 0;
+
+  return () => {
+    const currentTime = new Date().getTime();
+    let flag = false;
+
+    if (currentTime - lastEventTime <= delta) {
+      flag = true;
+    }
+
+    lastEventTime = flag ? 0 : currentTime;
+
+    return flag;
+  };
 };
 
 export const f = () => {
