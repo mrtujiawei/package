@@ -661,3 +661,17 @@ export const restoration = () => {
     history.scrollRestoration = 'manual';
   }
 };
+
+/**
+ * 停止滚动
+ */
+export const stopScroll = (el?: HTMLElement) => {
+  el = getScroller(el || document.body) as HTMLElement;
+  const overflow = el.style.overflow;
+
+  const unstop = () => {
+    (el as HTMLElement).style.overflow = overflow;
+  };
+
+  return unstop;
+};
