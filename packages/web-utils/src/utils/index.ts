@@ -675,3 +675,17 @@ export const stopScroll = (el?: HTMLElement) => {
 
   return unstop;
 };
+
+/**
+ * 监听元素是否在视图内
+ */
+export const isInViewport = (el: HTMLElement, cb: (inView: boolean) => void) => {
+  const intersectionObserver = new IntersectionObserver((entries) => {
+    cb(entries[0].intersectionRatio > 0);
+  });
+  intersectionObserver.observe(el);
+
+  return () => {
+    intersectionObserver.disconnect();
+  };
+};
