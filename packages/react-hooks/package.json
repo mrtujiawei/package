@@ -1,0 +1,16 @@
+{
+  "name": "@mrtujiawei/react-hooks",
+  "version": "0.0.1",
+  "description": "react hooks",
+  "#source": "src/index.ts",
+  "#buildConfig": {
+    "libName": "TReactHooks",
+    "outputPath": "../../dist/packages/react-hooks/src/"
+  },
+  "keywords": [
+    "react hooks",
+    "util",
+    "tool"
+  ],
+  "sideEffects": false
+}
