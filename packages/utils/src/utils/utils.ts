@@ -759,17 +759,49 @@ export const isDbclick = (delta = 300) => {
   };
 };
 
-export const f = () => {
-  console.log('f');
+/**
+ * 极简加密
+ */
+export const rot13 = (content: string) => {
+  const result: string[] = [];
+
+  for (const val of content) {
+    if ((val >= 'a' && val <= 'z') || (val >= 'A' && val <= 'Z')) {
+      if ((val >= 'n' && val <= 'z') || (val >= 'N' && val <= 'Z')) {
+        result.push(String.fromCharCode(val.charCodeAt(0) - 13));
+      } else {
+        result.push(String.fromCharCode(val.charCodeAt(0) + 13));
+      }
+    } else {
+      result.push(val);
+    }
+  }
+
+  return result.join('');
 };
 
-export const g = () => {
-  console.log('g');
-};
-
-export const h = () => {
-  console.log('h');
-};
+/**
+ * Vigenère cipher
+ */
+export const vigenere = (plaintext: string, key: string) => {
+  const upperKey = key.toUpperCase();
+  let decryptedMessage = '';
+  for (let i = 0, keyIndex = 0; i < plaintext.length; keyIndex += 1, i += 1) {
+    const val = plaintext.charCodeAt(i);
+    const keyCode = upperKey.charCodeAt(keyIndex % upperKey.length);
+    if (val >= 97 && val <= 122) {
+      const index = ((val - 97 + keyCode - 65) % 26);
+      decryptedMessage += String.fromCharCode(index + 97);
+    } else if (val >= 65 && val <= 90) {
+      const index = ((val - 65 + keyCode - 65) % 26);
+      decryptedMessage += String.fromCharCode(index + 65);
+    } else {
+      keyIndex -= 1;
+      decryptedMessage += String.fromCharCode(val);
+    }
+  }
+  return decryptedMessage;
+}
 
 export const i = () => {
   console.log('i');
