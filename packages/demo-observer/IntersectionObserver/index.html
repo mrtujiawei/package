@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      #scrollArea {
+        border: 1px solid #000;
+        width: 200px;
+        height: 500px;
+        overflow: auto;
+      }
+      #listItem {
+        width: 200px;
+        height: 100px;
+        background: #008c8c;
+      }
+      .list-item {
+        margin-bottom: 10px;
+        background: #f40;
+        width: 200px;
+        height: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="scrollArea">
+      <div class="list-item"></div>
+      <div class="list-item"></div>
+      <div class="list-item"></div>
+      <div class="list-item"></div>
+      <div class="list-item"></div>
+      <div class="list-item"></div>
+      <div class="list-item"></div>
+      <div class="list-item"></div>
+      <div class="list-item"></div>
+      <div class="list-item"></div>
+      <div class="list-item"></div>
+      <div id="listItem"></div>
+    </div>
+    <script>
+      const observer = new IntersectionObserver(
+        (entries, observer) => {
+          observer;
+          entries.forEach((entry) => {
+            console.log(entry);
+          });
+        },
+        {
+          root: document.querySelector('#scrollArea'),
+          threshold: 0,
+        }
+      );
+
+      const target = document.querySelector('#listItem');
+
+      observer.observe(target);
+    </script>
+  </body>
+</html>

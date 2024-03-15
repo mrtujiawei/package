@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+  </head>
+  <body>
+    <script>
+      // 支持监听的类型
+      console.log(PerformanceObserver.supportedEntryTypes);
+      const observer = new PerformanceObserver((entries) => {
+        console.log(entries);
+      });
+      observer.observe({ entryTypes: ['measure'] });
+    </script>
+  </body>
+</html>

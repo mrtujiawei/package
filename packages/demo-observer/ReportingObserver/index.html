@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+  </head>
+  <body>
+    <script>
+      // 观察已弃用功能的使用情况
+      const observer = new ReportingObserver(
+        (reports) => {
+          console.log(reports);
+        },
+        {
+          types: ['deprecation'],
+          buffered: true,
+        }
+      );
+
+      observer.observe();
+    </script>
+  </body>
+</html>

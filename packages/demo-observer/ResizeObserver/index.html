@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      const resizeObserver = new ResizeObserver((entries) => {
+        const calcBorderRadis = (size1, size2) =>
+          `${Maht.min(100, size1 / 10 + size2 / 10)}px`;
+
+        for (const entry of entries) {
+          if (entry.borderBoxSize) {
+            entry.target.style.borderRadius = calcBorderRadis(
+              entry.borderBoxSize[0].inlineSize,
+              entry.borderBoxSize[0].blockSize
+            );
+          } else {
+            entry.target.style.borderRadius = calcBorderRadis(
+              entry.contentRect.width,
+              entry.contentRect.height
+            );
+          }
+        }
+      });
+
+      resizeObserver.observe(document.querySelector('div'));
+    </script>
+  </body>
+</html>
