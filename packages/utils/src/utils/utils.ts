@@ -803,10 +803,6 @@ export const vigenere = (plaintext: string, key: string) => {
   return decryptedMessage;
 }
 
-export const i = () => {
-  console.log('i');
-};
-
 export const j = () => {
   console.log('j');
 };
