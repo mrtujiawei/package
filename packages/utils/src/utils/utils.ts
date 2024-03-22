@@ -790,10 +790,10 @@ export const vigenere = (plaintext: string, key: string) => {
     const val = plaintext.charCodeAt(i);
     const keyCode = upperKey.charCodeAt(keyIndex % upperKey.length);
     if (val >= 97 && val <= 122) {
-      const index = ((val - 97 + keyCode - 65) % 26);
+      const index = (val - 97 + keyCode - 65) % 26;
       decryptedMessage += String.fromCharCode(index + 97);
     } else if (val >= 65 && val <= 90) {
-      const index = ((val - 65 + keyCode - 65) % 26);
+      const index = (val - 65 + keyCode - 65) % 26;
       decryptedMessage += String.fromCharCode(index + 65);
     } else {
       keyIndex -= 1;
@@ -801,7 +801,7 @@ export const vigenere = (plaintext: string, key: string) => {
     }
   }
   return decryptedMessage;
-}
+};
 
 export const j = () => {
   console.log('j');
