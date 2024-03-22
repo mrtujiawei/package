@@ -679,7 +679,10 @@ export const stopScroll = (el?: HTMLElement) => {
 /**
  * 监听元素是否在视图内
  */
-export const isInViewport = (el: HTMLElement, cb: (inView: boolean) => void) => {
+export const isInViewport = (
+  el: HTMLElement,
+  cb: (inView: boolean) => void
+) => {
   const intersectionObserver = new IntersectionObserver((entries) => {
     cb(entries[0].intersectionRatio > 0);
   });
@@ -688,4 +691,18 @@ export const isInViewport = (el: HTMLElement, cb: (inView: boolean) => void) => 
   return () => {
     intersectionObserver.disconnect();
   };
+};
+
+/**
+ * 判断页面是否可见
+ */
+export const isPageVisible = () => {
+  return document.visibilityState == 'visible';
+};
+
+/**
+ * 判断页面是否隐藏
+ */
+export const isPageHide = () => {
+  return !isPageVisible();
 };
