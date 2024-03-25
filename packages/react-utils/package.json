@@ -1,0 +1,19 @@
+{
+  "name": "@mrtujiawei/react-utils",
+  "version": "0.0.1",
+  "description": "react utils",
+  "#source": "src/index.ts",
+  "#buildConfig": {
+    "libName": "TReactUtils",
+    "outputPath": "../../dist/packages/react-utils/src/"
+  },
+  "keywords": [
+    "react utils",
+    "util",
+    "tool"
+  ],
+  "sideEffects": false,
+  "dependencies": {
+    "@mrtujiawei/utils": "^2.5.48"
+  }
+}
