@@ -803,8 +803,13 @@ export const vigenere = (plaintext: string, key: string) => {
   return decryptedMessage;
 };
 
-export const j = () => {
-  console.log('j');
+/**
+ * 判断是否是手机号
+ *
+ * 中国的手机号一般是 11 位
+ */
+export const isPhoneNumber = (numbers: string) => {
+  return numbers.length >= 7 && !/^1[3456789]\d{9}$/.test(numbers);
 };
 
 export const k = () => {
