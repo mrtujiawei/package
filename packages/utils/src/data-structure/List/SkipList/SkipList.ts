@@ -177,7 +177,7 @@ class SkipList<T> {
   /**
    * 移除并返回移除的值
    */
-  removeAndReturn(value: T) {
+  removeAndReturn(value: T): T | null {
     let result: T | null = null;
 
     this.removeImpl(value, (value) => {
