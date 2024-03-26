@@ -898,6 +898,8 @@ export const caesarCipherDecrypt = (
 /**
  * hill cipher
  */
+const alphabetCodeShift = 'A'.codePointAt(0)!;
+
 export const generateKeyMatrix = (key: string) => {
   const size = Math.sqrt(key.length);
   if (!isInteger(size)) {
@@ -905,7 +907,153 @@ export const generateKeyMatrix = (key: string) => {
       'Invalid key string length. Math.sqrt(key.length) must be integer'
     );
   }
+
+  let keyStringIndex = 0;
+
+  return generate([size, size], () => {
+    const charCodeShifted =
+      key.codePointAt(keyStringIndex)! % alphabetCodeShift;
+    keyStringIndex++;
+    return charCodeShifted;
+  });
 };
+
+/**
+ * 根据消息内容生成矩阵
+ */
+export const generateMessageVector = (message: string) => {
+  return generate([message.length, 1], (cellIndices: number[]) => {
+    const rowIndex = cellIndices[0];
+    return message.codePointAt(rowIndex)! % alphabetCodeShift;
+  });
+};
+
+export const hillCipherEncrypt = (message: string, key: string) => {
+  const onlyLettersRegExp = /^[a-zA-Z]+$/;
+  if (!onlyLettersRegExp.test(message) || !onlyLettersRegExp.test(key)) {
+    throw new Error('The message and key string can only contain letters');
+  }
+
+  const keyMatrix = generateKeyMatrix(key);
+  const messageVector = generateMessageVector(message);
+
+  if (keyMatrix.length != message.length) {
+    throw new Error(
+      'Invalid key string length. The key length must be a square of message length'
+    );
+  }
+
+  const cipherVector = dot(
+    keyMatrix as unknown as number[][],
+    messageVector as unknown as number[][]
+  );
+
+  let cipher = '';
+  for (let row = 0; row < cipherVector.length; row++) {
+    const item = cipherVector[row] as unknown as number;
+    cipher += String.fromCharCode(
+      (item % ENGLISH_ALPHABET_COUNT) + alphabetCodeShift
+    );
+  }
+
+  return cipher;
+};
+
+/**
+ * end of hill cipher
+ */
+
+export class PolynomialHash {
+  private static readonly DEFAULT_BASE = 37;
+  private static readonly DEFAULT_MODULUS = 101;
+
+  base: number;
+  modules: number;
+
+  constructor({
+    base = PolynomialHash.DEFAULT_BASE,
+    modules = PolynomialHash.DEFAULT_MODULUS,
+  }: {
+    base?: number;
+    modules?: number;
+  }) {
+    this.base = base;
+    this.modules = modules;
+  }
+
+  hash(word: string) {
+    const charCodes = Array.from(word).map((ch) => this.charToNumber(ch));
+    let hash = 0;
+
+    charCodes.forEach((code) => {
+      hash *= this.base;
+      hash += code;
+      hash %= this.modules;
+    });
+
+    return hash;
+  }
+
+  roll(prevHash: number, prevWord: string, newWord: string) {
+    let hash = prevHash;
+    const prevValue = this.charToNumber(prevWord);
+    const newValue = this.charToNumber(newWord);
+
+    let prevValueMultiplier = 1;
+    for (let i = 1; i < prevWord.length; i++) {
+      prevValueMultiplier *= this.base;
+      prevValueMultiplier %= this.modules;
+    }
+
+    hash += this.modules;
+    hash -= (prevValue * prevValueMultiplier) % this.modules;
+
+    hash *= this.base;
+    hash += newValue;
+    hash %= this.modules;
+
+    return hash;
+  }
+
+  private charToNumber(ch: string) {
+    let charCode = ch.codePointAt(0)!;
+    const surrogate = ch.codePointAt(1);
+    if (surrogate !== undefined) {
+      const surrogateShift = 2 ** 16;
+      charCode += surrogate * surrogateShift;
+    }
+    return charCode;
+  }
+}
+
+/**
+ * demo 不能直接使用
+ */
+export class SimplePolynomialHash {
+  private static readonly DEFAULT_BASE = 17;
+
+  constructor(private base = SimplePolynomialHash.DEFAULT_BASE) {}
+
+  hash(word: string) {
+    let hash = 0;
+    Object.values(word).forEach((ch, index) => {
+      hash += ch.charCodeAt(0) * this.base ** index;
+    });
+    return hash;
+  }
+
+  roll(prevHash: number, prevWord: string, newWord: string) {
+    let hash = prevHash;
+    const prevValue = prevWord.charCodeAt(0);
+    const newValue = newWord.charCodeAt(newWord.length - 1);
+
+    hash -= prevValue;
+    hash /= this.base;
+    hash += newValue * this.base ** (newWord.length - 1);
+
+    return hash;
+  }
+}
 
 /**
  * 简单实现
@@ -1192,22 +1340,6 @@ export const sub = (a: number[][], b: number[][]) => {
   });
 
   return result;
-};
-
-export const af = () => {
-  console.log('af');
-};
-
-export const ag = () => {
-  console.log('ag');
-};
-
-export const ah = () => {
-  console.log('ah');
-};
-
-export const ai = () => {
-  console.log('ai');
 };
 
 export const aj = () => {
