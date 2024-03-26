@@ -812,8 +812,23 @@ export const isPhoneNumber = (numbers: string) => {
   return numbers.length >= 7 && !/^1[3456789]\d{9}$/.test(numbers);
 };
 
-export const k = () => {
-  console.log('k');
+/**
+ * 判断是否是 2 的 n 次幂
+ */
+export const isPowerOfTwo = (value: number) => {
+  if (value < 1) {
+    return false;
+  }
+
+  let dividedNumber = value;
+  while (dividedNumber !== 1) {
+    if (dividedNumber % 2 !== 0) {
+      return false;
+    }
+    dividedNumber /= 2;
+  }
+
+  return true;
 };
 
 export const l = () => {

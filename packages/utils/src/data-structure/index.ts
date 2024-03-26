@@ -29,3 +29,4 @@ export { default as MapEnhancer } from './MapEnhancer';
 export { default as SparseTable } from './SparseTable';
 export { default as Trie } from './Trie';
 export { default as TopSort } from './TopSort';
+export { default as SegmentTreeNew } from './SegmentTreeNew';
