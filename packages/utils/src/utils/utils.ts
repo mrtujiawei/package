@@ -1134,16 +1134,64 @@ export const updateCellAtIndex = (
   cell[cellIndices[cellIndices.length - 1]] = value;
 };
 
-export const ac = () => {
-  console.log('ac');
+/**
+ * 两个矩阵对应位置相加
+ */
+export const add = (a: number[][], b: number[][]) => {
+  validateSameShape(a, b);
+  const result: any = zeros(shape(a));
+
+  walk(a, (cellIndices, value) => {
+    updateCellAtIndex(result, cellIndices, value);
+  });
+
+  walk(b, (cellIndices, value) => {
+    updateCellAtIndex(
+      result,
+      cellIndices,
+      value + getCellAtIndex(result, cellIndices)
+    );
+  });
+
+  return result;
 };
 
-export const ad = () => {
-  console.log('ad');
+export const mul = (a: number[][], b: number[][]) => {
+  validateSameShape(a, b);
+  const result: any = zeros(shape(a));
+
+  walk(a, (cellIndices, value) => {
+    updateCellAtIndex(result, cellIndices, value);
+  });
+
+  walk(b, (cellIndices, value) => {
+    updateCellAtIndex(
+      result,
+      cellIndices,
+      (value as number) * getCellAtIndex(result, cellIndices)
+    );
+  });
+
+  return result;
 };
 
-export const ae = () => {
-  console.log('ae');
+export const sub = (a: number[][], b: number[][]) => {
+  validateSameShape(a, b);
+  const result: any = zeros(shape(a));
+
+  walk(a, (cellIndices, value) => {
+    updateCellAtIndex(result, cellIndices, value);
+  });
+
+  walk(b, (cellIndices, value) => {
+    updateCellAtIndex(
+      result,
+      cellIndices,
+      (value as number) - getCellAtIndex(result, cellIndices)
+    );
+  });
+
+  return result;
 };
 
 export const af = () => {
