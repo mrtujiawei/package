@@ -831,24 +831,68 @@ export const isPowerOfTwo = (value: number) => {
   return true;
 };
 
-export const l = () => {
-  console.log('l');
+const ENGLISH_ALPHABET_COUNT = 26;
+export const getEnglishAlphabet = () => {
+  const a = 'a'.charCodeAt(0);
+  return Array.from({ length: ENGLISH_ALPHABET_COUNT }, (_, i) =>
+    String.fromCharCode(a + i)
+  );
 };
 
-export const m = () => {
-  console.log('m');
+export const getUppercaseEnglishAlphabet = () => {
+  const a = 'A'.charCodeAt(0);
+  return Array.from({ length: ENGLISH_ALPHABET_COUNT }, (_, i) =>
+    String.fromCharCode(a + i)
+  );
 };
 
-export const n = () => {
-  console.log('n');
+/**
+ * @param shift 偏移
+ */
+export const getCipherMap = (alphabet: string[], shift: number) => {
+  if (!isInteger(shift)) {
+    throw new TypeError('shift must be integer');
+  }
+  const charsMap: Record<string, string> = {};
+  shift = shift % ENGLISH_ALPHABET_COUNT;
+
+  alphabet.forEach((ch, index) => {
+    const offsetIndex =
+      (index + shift + ENGLISH_ALPHABET_COUNT) % ENGLISH_ALPHABET_COUNT;
+    charsMap[ch] = alphabet[offsetIndex];
+  });
+
+  return charsMap;
 };
 
-export const o = () => {
-  console.log('o');
+/**
+ * caesar cipher
+ */
+export const caesarCipherEncrypt = (
+  str: string,
+  shift: number,
+  alphabet = getEnglishAlphabet()
+) => {
+  const cipherMap = getCipherMap(alphabet, shift);
+
+  return str
+    .toLowerCase()
+    .split('')
+    .map((ch) => cipherMap[ch] || ch)
+    .join('');
 };
 
-export const p = () => {
-  console.log('p');
+export const caesarCipherDecrypt = (
+  str: string,
+  shift: number,
+  alphabet = getEnglishAlphabet()
+) => {
+  const cipherMap = getCipherMap(alphabet, -shift);
+  return str
+    .toLowerCase()
+    .split('')
+    .map((ch) => cipherMap[ch] || ch)
+    .join('');
 };
 
 export const q = () => {

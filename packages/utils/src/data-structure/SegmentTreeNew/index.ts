@@ -1,3 +1,11 @@
+/**
+ * 线段树
+ *
+ * @filename packages/utils/src/data-structure/SegmentTreeNew/index.ts
+ * @author  tujiawei <jiaweitu@marchthepolo.com>
+ * @date 2024-03-26 10:33:16
+ */
+
 import { isPowerOfTwo } from '../../utils';
 
 class SegmentTree {
