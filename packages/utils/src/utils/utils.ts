@@ -895,13 +895,91 @@ export const caesarCipherDecrypt = (
     .join('');
 };
 
-export const q = () => {
-  console.log('q');
+/**
+ * hill cipher
+ */
+export const generateKeyMatrix = (key: string) => {
+  const size = Math.sqrt(key.length);
+  if (!isInteger(size)) {
+    throw new TypeError(
+      'Invalid key string length. Math.sqrt(key.length) must be integer'
+    );
+  }
 };
 
-export const r = () => {
-  console.log('r');
-};
+/**
+ * 简单实现
+ */
+export class BloomFilter {
+  storage!: ReturnType<typeof this.createStore>;
+  constructor(private size = 100) {
+    this.createStore(this.size);
+  }
+
+  public insert(key: string) {
+    const hashValues = this.getHashValues(key);
+
+    hashValues.forEach((index) => {
+      this.storage.setValue(index);
+    });
+  }
+
+  public contains(key: string) {
+    const hashValues = this.getHashValues(key);
+    return hashValues.every((index) => this.storage.getValue(index));
+  }
+
+  private createStore(size: number) {
+    const store = new Array(size).fill(false);
+    const storageInterface = {
+      getValue(index: number) {
+        return store[index];
+      },
+      setValue(index: number) {
+        return (store[index] = true);
+      },
+    };
+
+    return storageInterface;
+  }
+
+  private hash1(key: string) {
+    let hash = 0;
+    for (const ch of key) {
+      const code = ch.charCodeAt(0);
+      hash = (hash << 5) + hash + code;
+      hash &= hash;
+      hash = Math.abs(hash);
+    }
+
+    return hash % this.size;
+  }
+
+  private hash2(key: string) {
+    let hash = 5381;
+    for (const ch of key) {
+      const code = ch.charCodeAt(0);
+      hash = (hash << 5) + hash + code;
+    }
+
+    return Math.abs(hash % this.size);
+  }
+
+  private hash3(key: string) {
+    let hash = 0;
+    for (const ch of key) {
+      const code = ch.charCodeAt(0);
+      hash = (hash << 5) - hash + code;
+      hash &= hash;
+    }
+
+    return Math.abs(hash % this.size);
+  }
+
+  private getHashValues(key: string) {
+    return [this.hash1(key), this.hash2(key), this.hash3(key)];
+  }
+}
 
 export const s = () => {
   console.log('s');
