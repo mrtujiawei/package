@@ -981,44 +981,157 @@ export class BloomFilter {
   }
 }
 
-export const s = () => {
-  console.log('s');
+/**
+ * 矩阵的 shape
+ */
+export const shape = (matrix: unknown[][]) => {
+  const shapes: number[] = [];
+  let dimension: any[] = matrix;
+  while (dimension && Array.isArray(dimension)) {
+    shapes.push(dimension.length);
+    dimension = (dimension.length && [...dimension][0]) || null;
+  }
+
+  return shapes;
 };
 
-export const t = () => {
-  console.log('t');
+/**
+ * 检查是否是一个矩阵
+ */
+export const validateType = (matrix: unknown[][]) => {
+  if (!matrix || !Array.isArray(matrix) || !Array.isArray(matrix[0])) {
+    throw new TypeError('Invalid matrix format');
+  }
 };
 
-export const u = () => {
-  console.log('u');
+export const validate2D = (matrix: unknown[][]) => {
+  validateType(matrix);
+  const sp = shape(matrix);
+  if (sp.length != 2) {
+    throw new Error('Matix is not of 2D shape');
+  }
 };
 
-export const v = () => {
-  console.log('v');
+export const validateSameShape = (a: unknown[][], b: unknown[][]) => {
+  validateType(a);
+  validateType(b);
+
+  const asp = shape(a);
+  const bsp = shape(b);
+
+  if (asp.length != bsp.length) {
+    throw new Error('Matrices have different dimensions');
+  }
+
+  while (asp.length) {
+    if (asp.pop() != bsp.pop()) {
+      throw new Error('Matrices have different shapes');
+    }
+  }
 };
 
-export const w = () => {
-  console.log('w');
+/**
+ * 矩阵生成
+ */
+export const generate = (msp: number[], fill: (index: number[]) => number) => {
+  const generateRecurively = (
+    recShape: number[],
+    recIndices: number[]
+  ): unknown[] => {
+    if (recShape.length == 1) {
+      return Array(recShape[0])
+        .fill(null)
+        .map((_, index) => fill([...recIndices, index]));
+    }
+    return Array.from({ length: recShape[0] }, (_, i) => {
+      return generateRecurively(recShape.slice(1), [...recIndices, i]);
+    });
+  };
+
+  return generateRecurively(msp, []);
 };
 
-export const x = () => {
-  console.log('x');
+export const zeros = (msp: number[]) => {
+  return generate(msp, () => 0);
 };
 
-export const y = () => {
-  console.log('y');
+/**
+ * 矩阵叉乘
+ */
+export const dot = (a: number[][], b: number[][]) => {
+  validate2D(a);
+  validate2D(b);
+
+  const asp = shape(a);
+  const bsp = shape(b);
+
+  if (asp[1] !== bsp[0]) {
+    throw new Error('Matrices have incompatible shape for multiplication');
+  }
+
+  const outputShape: number[] = [asp[0], bsp[1]];
+  const c = zeros(outputShape) as number[][];
+
+  for (let bCol = 0; bCol < b[0].length; bCol++) {
+    for (let aRow = 0; aRow < a.length; aRow++) {
+      let cellSum = 0;
+      for (let aCol = 0; aCol < a[aRow].length; aCol++) {
+        cellSum = a[aRow][aCol] * b[aCol][bCol];
+      }
+      c[aRow][bCol] = cellSum;
+    }
+  }
+
+  return c;
 };
 
-export const z = () => {
-  console.log('z');
+/**
+ * 矩阵遍历
+ */
+export const walk = (
+  matrix: unknown[][],
+  visit: (indexs: number[], value: unknown) => void
+) => {
+  const recWalk = (recM: unknown[][], cellIndices: number[]) => {
+    const recMShape = shape(recM);
+    if (recMShape.length == 1) {
+      for (let i = 0; i < recM.length; i++) {
+        visit([...cellIndices, i], recM[i]);
+      }
+    }
+    for (let i = 0; i < recM.length; i++) {
+      recWalk(recM[i] as unknown[][], [...cellIndices, i]);
+    }
+  };
+
+  return recWalk(matrix, []);
 };
 
-export const aa = () => {
-  console.log('aa');
+/**
+ * 获取指定位置的值
+ */
+export const getCellAtIndex = (matrix: unknown[][], cellIndices: number[]) => {
+  let cell: any = matrix[cellIndices[0]];
+  for (let dimIdx = 1; dimIdx < cellIndices.length - 1; dimIdx++) {
+    cell = cell[cellIndices[dimIdx]];
+  }
+  return cell[cellIndices[cellIndices.length - 1]];
 };
 
-export const ab = () => {
-  console.log('ab');
+/**
+ * 更新指定位置的值
+ */
+export const updateCellAtIndex = (
+  matrix: unknown[][],
+  cellIndices: number[],
+  value: unknown
+) => {
+  let cell: any = matrix[cellIndices[0]];
+  for (let dimIdx = 1; dimIdx < cellIndices.length - 1; dimIdx++) {
+    cell = cell[cellIndices[dimIdx]];
+  }
+
+  cell[cellIndices[cellIndices.length - 1]] = value;
 };
 
 export const ac = () => {
