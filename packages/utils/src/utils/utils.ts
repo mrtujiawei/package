@@ -1342,17 +1342,194 @@ export const sub = (a: number[][], b: number[][]) => {
   return result;
 };
 
-export const aj = () => {
-  console.log('aj');
-};
+export class RailFenceCipher {
+  private static readonly DIRECTIONS = {
+    UP: -1,
+    DOWN: 1,
+  };
 
-export const ak = () => {
-  console.log('ak');
-};
+  private buildFence(rowsNum: number) {
+    return Array.from({ length: rowsNum }, () => []);
+  }
 
-export const al = () => {
-  console.log('al');
-};
+  private getNextDirection({
+    railCount,
+    currentRail,
+    direction,
+  }: {
+    railCount: number;
+    currentRail: number;
+    direction: number;
+  }) {
+    switch (currentRail) {
+      case 0:
+        return RailFenceCipher.DIRECTIONS.DOWN;
+      case railCount - 1:
+        return RailFenceCipher.DIRECTIONS.UP;
+      default:
+        return direction;
+    }
+  }
+
+  private addCharToRail(targetRailIndex: number, letter: string) {
+    const onEachRail = (rail: string[], currentRail: number) =>
+      currentRail == targetRailIndex ? [...rail, letter] : rail;
+    return onEachRail;
+  }
+
+  private fillEncodeFence({
+    fence,
+    currentRail,
+    direction,
+    chars,
+  }: {
+    fence: string[][];
+    currentRail: number;
+    direction: number;
+    chars: string[];
+  }): string[][] {
+    if (chars.length == 0) {
+      return fence;
+    }
+
+    const railCount = fence.length;
+
+    const [letter, ...nextChars] = chars;
+    const nextDirection = this.getNextDirection({
+      railCount,
+      currentRail,
+      direction,
+    });
+
+    return this.fillEncodeFence({
+      fence: fence.map(this.addCharToRail(currentRail, letter)),
+      currentRail: currentRail + nextDirection,
+      direction: nextDirection,
+      chars: nextChars,
+    });
+  }
+
+  private fillDecodeFence({
+    strLen,
+    chars,
+    fence,
+    targetRail,
+    direction,
+    coords,
+  }: {
+    strLen: number;
+    chars: string[];
+    fence: string[][];
+    targetRail: number;
+    direction: number;
+    coords: number[];
+  }): string[][] {
+    const railCount = fence.length;
+
+    if (chars.length == 0) {
+      return fence;
+    }
+
+    const [currentRail, currentColumn] = coords;
+    const shouldGoNextRail = currentColumn == strLen - 1;
+    const nextDirection = shouldGoNextRail
+      ? RailFenceCipher.DIRECTIONS.DOWN
+      : this.getNextDirection({
+          railCount,
+          currentRail,
+          direction,
+        });
+    const nextRail = shouldGoNextRail ? targetRail + 1 : targetRail;
+    const nextCoords = [
+      shouldGoNextRail ? 0 : currentRail + nextDirection,
+      shouldGoNextRail ? 0 : currentRail + 1,
+    ];
+
+    const shouldAddChar = currentRail == targetRail;
+    const [currentChar, ...remainderChars] = chars;
+    const nextString = shouldAddChar ? remainderChars : chars;
+    const nextFence = shouldAddChar
+      ? fence.map(this.addCharToRail(currentRail, currentChar))
+      : fence;
+
+    return this.fillDecodeFence({
+      strLen,
+      chars: nextString,
+      fence: nextFence,
+      targetRail: nextRail,
+      direction: nextDirection,
+      coords: nextCoords,
+    });
+  }
+
+  public decodeFence({
+    strLen,
+    fence,
+    currentRail,
+    direction,
+    code,
+  }: {
+    railCount?: number;
+    strLen: number;
+    fence: string[][];
+    currentRail: number;
+    direction: number;
+    code: string[];
+  }): string {
+    if (code.length == strLen) {
+      return code.join('');
+    }
+
+    const railCount = fence.length;
+    const [currentChar, ...nextRail] = fence[currentRail];
+    const nextDirection = this.getNextDirection({
+      railCount,
+      currentRail,
+      direction,
+    });
+
+    return this.decodeFence({
+      railCount,
+      strLen,
+      currentRail: currentRail + nextDirection,
+      direction: nextDirection,
+      code: [...code, currentChar],
+      fence: fence.map((rail, idx) => (idx == currentRail ? nextRail : rail)),
+    });
+  }
+
+  public encodeRailFenceCipher(message: string, railCount: number) {
+    const fence = this.buildFence(railCount);
+    const filledFence = this.fillEncodeFence({
+      fence,
+      currentRail: 0,
+      direction: RailFenceCipher.DIRECTIONS.DOWN,
+      chars: message.split(''),
+    });
+    return filledFence.flat().join('');
+  }
+
+  public decodeRailFenceCipher(message: string, railCount: number) {
+    const strLen = message.length;
+    const emptyFence = this.buildFence(railCount);
+    const filledFence = this.fillDecodeFence({
+      strLen,
+      chars: message.split(''),
+      fence: emptyFence,
+      targetRail: 0,
+      direction: RailFenceCipher.DIRECTIONS.DOWN,
+      coords: [0, 0],
+    });
+
+    return this.decodeFence({
+      strLen,
+      fence: filledFence,
+      currentRail: 0,
+      direction: RailFenceCipher.DIRECTIONS.DOWN,
+      code: [],
+    });
+  }
+}
 
 export const am = () => {
   console.log('am');
