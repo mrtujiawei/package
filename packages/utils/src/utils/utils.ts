@@ -1531,58 +1531,212 @@ export class RailFenceCipher {
   }
 }
 
-export const am = () => {
-  console.log('am');
+type Callbacks = {
+  allowTraversal?: (vertices: {
+    currentVertex: Vertex;
+    nextVertex: Vertex;
+    previousVertex: Vertex;
+  }) => boolean;
+  enterVeter?: (vertices: {
+    currentVertex?: Vertex;
+    nextVertex?: Vertex;
+    previousVertex?: Vertex;
+  }) => void;
+  leaveVertex?: (vertices: {
+    currentVertex?: Vertex;
+    nextVertex?: Vertex;
+    previousVertex?: Vertex;
+  }) => void;
 };
 
-export const an = () => {
-  console.log('an');
+export const initCallbacks = (callbacks: Callbacks = {}): Callbacks => {
+  const initialedCallback = callbacks;
+
+  const stubCallback = () => {};
+
+  const allowTraversalCallback = (() => {
+    const seen: Record<string, boolean> = {};
+    return ({
+      nextVertex,
+    }: {
+      currentVertex: Vertex;
+      nextVertex: Vertex;
+      previousVertex: Vertex;
+    }) => {
+      if (!seen[nextVertex.getKey()]) {
+        seen[nextVertex.getKey()] = true;
+        return true;
+      }
+      return false;
+    };
+  })();
+
+  initialedCallback.allowTraversal =
+    callbacks.allowTraversal || allowTraversalCallback;
+  initialedCallback.enterVeter = callbacks.enterVeter || stubCallback;
+  initialedCallback.leaveVertex = callbacks.leaveVertex || stubCallback;
+
+  return initialedCallback;
 };
 
-export const ao = () => {
-  console.log('ao');
+class Vertex {
+  getKey() {
+    return '';
+  }
+}
+
+interface Graph {}
+
+// TODO 等完全梳理完再写
+export const dfsRecursive = (
+  graph: Graph,
+  currentVertex: Vertex,
+  previousVertex: Vertex,
+  callbacks: Required<Callbacks>
+) => {
+  graph;
+  callbacks.enterVeter({ currentVertex, previousVertex });
+  // graph.
 };
 
-export const ap = () => {
-  console.log('ap');
+/**
+ * 牛顿法计算给定精度的数字的平方根
+ * @param tolerance - 小数点后的有效位数
+ */
+export const squareRoot = (value: number, tolerance = 0) => {
+  if (value < 0) {
+    throw new Error('Only positive integers');
+  }
+
+  if (value == 0) {
+    return 0;
+  }
+
+  let root = 1;
+
+  const requiredDelta = 1 / 10 ** tolerance;
+
+  while (Math.abs(value - root ** 2) > requiredDelta) {
+    root -= (root ** 2 - value) / (2 * root);
+  }
+
+  return Math.round(root * 10 ** tolerance) / 10 ** tolerance;
 };
 
-export const aq = () => {
-  console.log('aq');
+export const degreeToRadian = (degree: number) => {
+  return (degree / 180) * Math.PI;
 };
 
-export const ar = () => {
-  console.log('ar');
+export const radianToDegree = (radian: number) => {
+  return (radian * 180) / Math.PI;
 };
 
-export const as1 = () => {
-  console.log('as1');
+/**
+ * 二进制宽度
+ */
+export const bitWidth = (value: number) => {
+  let count = 0;
+  while (1 << count <= value) {
+    count++;
+  }
+  return count;
 };
 
-export const at1 = () => {
-  console.log('at');
+/**
+ * a -> b 需要改变的位数
+ */
+export const bitsDiff = (a: number, b: number) => {
+  if (!(isInteger(a) && isInteger(b))) {
+    throw new Error('Invalid input, a & b must be integer');
+  }
+
+  let count = 0;
+  while (a || b) {
+    if ((a & 1) != (b & 1)) {
+      count++;
+    }
+    a = Math.floor(a / 2);
+    b = Math.floor(b / 2);
+  }
+
+  return count;
 };
 
-export const au = () => {
-  console.log('au');
+/**
+ * 二进制表示中有多少个1
+ */
+export const bit1Count = (value: number) => {
+  if (!isInteger(value)) {
+    throw new Error('Invalid input, number must be integer');
+  }
+  let count = 0;
+  while (value) {
+    if (value & 1) {
+      count++;
+    }
+    value = Math.floor(value / 2);
+  }
+
+  return count;
 };
 
-export const av = () => {
-  console.log('av');
+export const clearBit = (value: number, bitPosotion: number) => {
+  return (value &= ~(1 << bitPosotion));
 };
 
-export const aw = () => {
-  console.log('aw');
+export const divideByTow = (value: number) => {
+  if (!isInteger(value)) {
+    throw new Error('number must be integer');
+  }
+
+  return Math.floor(value / 2);
 };
 
-export const ax = () => {
-  console.log('ax');
+export const getBit = (value: number, bitPosition: number) => {
+  if (!isInteger(value) || !isInteger(bitPosition)) {
+    throw new Error('input must be integer');
+  }
+  if (bitPosition < 0) {
+    throw new Error('bitPosition must >= 0');
+  }
+
+  while (bitPosition) {
+    bitPosition--;
+    value = Math.floor(value / 2);
+  }
+
+  return value & 1;
 };
 
-export const ay = () => {
-  console.log('ay');
+export const setBit = (value: number, bitPosition: number) => {
+  return value | (1 << bitPosition);
 };
 
-export const az = () => {
-  console.log('az');
+export const updateBit = (
+  value: number,
+  bitPosition: number,
+  bitValue: number
+) => {
+  if (bitValue == 0) {
+    return value & (1 << bitPosition);
+  }
+  return value | (1 << bitPosition);
+};
+
+/**
+ * 汉明距离
+ */
+export const hammingDistance = (a: string, b: string) => {
+  if (a.length != b.length) {
+    throw new Error('Strings must be of the same length');
+  }
+
+  let distance = 0;
+  Object.keys(a).forEach((ch, i) => {
+    if (ch != b[i]) {
+      distance++;
+    }
+  });
+
+  return distance;
 };
