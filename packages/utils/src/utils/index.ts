@@ -6,6 +6,7 @@
  */
 export * from './topLevelUtils';
 export * from './utils';
+export * from './newUtils';
 export * from './asyncUtils';
 export * from './arrayUtils';
 export * from './MathUtils';
