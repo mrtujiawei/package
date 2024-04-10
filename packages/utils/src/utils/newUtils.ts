@@ -8,6 +8,28 @@
  * @date 2024-03-28 11:28:32
  */
 
-export const A = () => {
+import { isInteger } from './utils';
 
+export const isPowerOfFour = (value: number) => {
+  return (
+    isInteger(value) &&
+    value > 0 &&
+    (value & (value - 1)) === 0 &&
+    value % 3 === 1
+  );
+};
+
+/**
+ * >= value 的 2 的阶乘
+ */
+export const nextPowerOfTwo = (value: number) => {
+  if (value > 0 && (value & (value - 1)) === 0) {
+    return value;
+  }
+  let result = 1;
+  while (value > 0) {
+    result = result << 1;
+    value = value >> 1;
+  }
+  return result;
 };
