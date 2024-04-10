@@ -130,6 +130,13 @@ class Heap<T> {
   }
 
   /**
+   * 获取堆顶元素并移除
+   */
+  pool() {
+    return this.remove();
+  }
+
+  /**
    * 插入节点
    */
   insert(value: T): void {
