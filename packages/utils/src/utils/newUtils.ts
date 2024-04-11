@@ -33,3 +33,9 @@ export const nextPowerOfTwo = (value: number) => {
   }
   return result;
 };
+
+export const cartesianProduct = <T>(a: T[], b: T[]) => {
+  return Array.from(a, (val1) => {
+    return Array.from(b, (val2) => [val1, val2]);
+  });
+};
