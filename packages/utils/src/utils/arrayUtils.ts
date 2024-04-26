@@ -45,8 +45,9 @@ export function reverseRange(arr: unknown[], start: number, end: number): void {
 
 /**
  * 交换数组中的两个元素
+ * @returns - 修改过后的数组，和传入的是同一个数组
  */
-export function swap(arr: any[], index1: number, index2: number): void {
+export function swap<T>(arr: T[], index1: number, index2: number) {
   if (!isNaturalNumber(index1)) {
     throw new RangeError(`index1: ${index1} is not a valid index`);
   }
@@ -67,6 +68,7 @@ export function swap(arr: any[], index1: number, index2: number): void {
   let value = arr[index1];
   arr[index1] = arr[index2];
   arr[index2] = value;
+  return arr;
 }
 
 /**
