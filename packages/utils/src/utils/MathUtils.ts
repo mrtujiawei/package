@@ -150,7 +150,7 @@ export function fastPow(base: number, index: number, mod: number): number {
   if (index % 2 == 0) {
     return fastPow(base * base, index / 2, mod);
   } else {
-    return base * fastPow(base * base, (index - 1) / 2, mod) % mod;
+    return (base * fastPow(base * base, (index - 1) / 2, mod)) % mod;
   }
 }
 
@@ -190,4 +190,81 @@ export function isPrime(n: number) {
   }
 
   return true;
+}
+
+/**
+ * 生成所有组合可能性
+ * generateCombinations(10, 3) ->
+ * [[1, 2, 3], [1, 2, 4], ...]
+ */
+export const generateCombinations = (n: number, k: number) => {
+  let currentCombination: number[] = [];
+  let allCombinations: number[][] = [];
+  let currentValue = 1;
+
+  const findCombinations = () => {
+    if (currentCombination.length === k) {
+      allCombinations.push(currentCombination.slice());
+      return;
+    }
+    if (currentValue > n) {
+      // Check for exceeding the range
+      return;
+    }
+    currentCombination.push(currentValue++);
+    findCombinations();
+    currentCombination.pop();
+    findCombinations();
+    currentValue--;
+  };
+
+  findCombinations();
+
+  return allCombinations;
+};
+
+/**
+ * 生成有效的括号对
+ * @param n - 括号对数
+ */
+export const generateParentheses = (n: number) => {
+  const res: string[] = [];
+
+  const solve = (value: string, left: number, right: number) => {
+    if (left === n && right === n) {
+      res.push(value);
+      return;
+    }
+
+    if (left <= n) {
+      solve(value + '(', left + 1, right);
+    }
+
+    if (right < left) {
+      solve(value + ')', left, right + 1);
+    }
+  };
+
+  solve('', 0, 0);
+
+  return res;
+};
+
+/**
+ * 二进制转十进制
+ */
+export const binaryToDecimal = (binaryString: string) => {
+  if (!binaryString) {
+    return 0;
+  }
+  if (!/^[01]+$/.test(binaryString)) {
+    throw new Error('Invalid binaryString, only support (0|1)');
+  }
+  let decimalNumber = 0;
+  let base = 1;
+  for (const val of binaryString.split('').reverse()) {
+    decimalNumber += Number(val) * base;
+    base *= 2;
+  }
+  return decimalNumber;
 };

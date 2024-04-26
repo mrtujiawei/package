@@ -1,4 +1,4 @@
-import { fastPow, getPrimeList, isPrime, lcm } from '../src/index';
+import { binaryToDecimal, fastPow, getPrimeList, isPrime, lcm } from '../src/index';
 
 describe('MathUtils test', () => {
   test('fastPow test', () => {
@@ -48,4 +48,9 @@ describe('MathUtils test', () => {
     expect(lcm(10, 5)).toBe(10);
     expect(lcm(20, 6)).toBe(60);
   });
+
+  test('binaryToDecimal test', () => {
+    expect(binaryToDecimal('1000')).toBe(8);
+    expect(binaryToDecimal('10000001')).toBe(129);
+  })
 });
