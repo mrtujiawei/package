@@ -268,3 +268,20 @@ export const binaryToDecimal = (binaryString: string) => {
   }
   return decimalNumber;
 };
+
+/**
+ * 统一
+ */
+export const normalizeNumSign = (num: number) => {
+  if (num === 0) {
+    return 0;
+  }
+  if (num > 0) {
+    return 1;
+  }
+  if (num < 0) {
+    return -1;
+  }
+
+  return NaN;
+};
