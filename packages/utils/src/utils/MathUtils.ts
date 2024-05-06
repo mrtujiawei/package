@@ -285,3 +285,30 @@ export const normalizeNumSign = (num: number) => {
 
   return NaN;
 };
+
+/**
+ * 获取一个数所有的因数
+ */
+export const getFactors = (num: number) => {
+  if (num <= 0) {
+    throw new Error(`Invalid input, num ${num} is <= 0`);
+  }
+  if (!isInteger(num)) {
+    throw new Error(`Invalid input, num ${num} is not a integer`);
+  }
+
+  const factors: number[] = [1];
+  const end = Math.sqrt(num);
+  for (let i = 2; i <= end; i++) {
+    if (num % i == 0) {
+      factors.push(i);
+      factors.push(num / i);
+    }
+  }
+
+  if (end * end == num) {
+    factors.pop();
+  }
+
+  return factors;
+};
