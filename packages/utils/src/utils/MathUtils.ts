@@ -312,3 +312,23 @@ export const getFactors = (num: number) => {
 
   return factors;
 };
+
+/**
+ * 获取所有质因数
+ */
+export const getPrimeFactors = (num: number) => {
+  const primeFactors: number[] = [];
+
+  for (let i = 2; i * i <= num; i++) {
+    while (num % i == 0) {
+      primeFactors.push(i);
+      num /= i;
+    }
+  }
+
+  if (num > 1) {
+    primeFactors.push(num);
+  }
+
+  return primeFactors;
+};
