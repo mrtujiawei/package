@@ -332,3 +332,36 @@ export const getPrimeFactors = (num: number) => {
 
   return primeFactors;
 };
+
+/**
+ * 求二元一次方程的根
+ *
+ * @example ax^2 + bx + c = 0;
+ *
+ * @param a - 二次方的系数
+ * @param b - 一次放的系数
+ * @param c - 常数项
+ */
+export const quadraticRoots = (a: number, b: number, c: number) => {
+  const discriminant = b * b - 4 * a * c;
+  const result: number[] = [];
+  if (discriminant == 0) {
+    result.push(-b / (2 * a));
+  } else {
+    result.push((-b + discriminant) / (2 * a), (-b - discriminant) / (2 * a));
+  }
+};
+
+/**
+ * 数字翻转
+ */
+export const reverse = (num: number) => {
+  let result: number = 0;
+
+  while (num > 0) {
+    result = result * 10 + (num % 10);
+    num = Math.floor(num / 10);
+  }
+
+  return result;
+};
