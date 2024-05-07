@@ -365,3 +365,25 @@ export const reverse = (num: number) => {
 
   return result;
 };
+
+/**
+ * 获取数据中位数
+ */
+export const getMedianNumber = (arr: number[]) => {
+  const numbers = arr.slice().sort((a, b) => a - b);
+  const numLength = numbers.length;
+
+  return numLength % 2 === 0
+    ? (numbers[numLength / 2 - 1] + numbers[numLength / 2]) / 2
+    : numbers[Math.floor(numLength / 2)];
+};
+
+/**
+ * 直接计算斐波那契的第 n 项
+ */
+export const fibonacci = (() => {
+  const sqrt5 = Math.sqrt(5);
+  const phi = (1 + sqrt5) / 2;
+  const psi = (1 - sqrt5) / 2;
+  return (n: number) => Math.round((phi ** n - psi ** n) / sqrt5);
+})();
