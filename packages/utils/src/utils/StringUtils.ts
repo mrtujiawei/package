@@ -375,3 +375,12 @@ export const unicode = (str: string) => {
 export const ununicode = (code: number[]) => {
   return code.map((value) => String.fromCharCode(value));
 };
+
+/**
+ * 检查全字母句
+ * 包含 a-z 所有字符
+ * 不区分大小写
+ */
+export const checkPangram = (str: string) => {
+  return str.match(/([a-z])(?!.*\1)/gi)?.length == 26
+}
