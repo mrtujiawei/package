@@ -9,15 +9,15 @@
 /**
  * 添加额外信息
  *
- * @param prefix - prefix.length < (1 << 16)
+ * @param metadata - prefix.length < (1 << 16)
  */
-export const packArrayBuffer = (arrayBuffer: ArrayBuffer, prefix: string) => {
+export const packArrayBuffer = (arrayBuffer: ArrayBuffer, metadata: string) => {
   // 用 Uint16Array 的原因
   // charCodeAt 的范围在 [0, 65535]
-  const uint16Array = new Uint16Array(prefix.length + 1);
-  uint16Array[0] = prefix.length;
+  const uint16Array = new Uint16Array(metadata.length + 1);
+  uint16Array[0] = metadata.length;
 
-  Object.values(prefix).forEach((ch, i) => {
+  Object.values(metadata).forEach((ch, i) => {
     uint16Array[i + 1] = ch.charCodeAt(0);
   });
 
@@ -44,7 +44,7 @@ export const unpackArrayBuffer = (arrayBuffer: ArrayBuffer) => {
   }
 
   return {
-    prefix: message.join(''),
+    metadata: message.join(''),
     arrayBuffer: uint16Array.slice(message.length + 1).buffer,
   };
 };

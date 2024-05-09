@@ -2,7 +2,7 @@ import { packArrayBuffer, unpackArrayBuffer } from '../src';
 
 describe('TypedArray test', () => {
   test('wrap & unwrap test', async () => {
-    const prefix = 'abc';
+    const metadata = 'abc';
     const length = 100;
     const originArrayBuffer = new ArrayBuffer(length);
     const uint16Array = new Uint16Array(originArrayBuffer);
@@ -12,10 +12,10 @@ describe('TypedArray test', () => {
         Math.ceil(length * Math.random())
       )
     );
-    const newBuffer = packArrayBuffer(uint16Array, prefix);
+    const newBuffer = packArrayBuffer(uint16Array, metadata);
     const result = unpackArrayBuffer(newBuffer);
 
-    expect(result.prefix).toBe(prefix);
+    expect(result.metadata).toBe(metadata);
 
     const newArrayBuffer = new Uint16Array(result.arrayBuffer);
     for (let i = 0; i < uint16Array.length; i++) {
