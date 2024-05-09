@@ -32,6 +32,6 @@
   },
   "homepage": "https://github.com/mrtujiawei/package#readme",
   "dependencies": {
-    "@mrtujiawei/utils": "2.5.44"
+    "@mrtujiawei/utils": "2.5.51"
   }
 }

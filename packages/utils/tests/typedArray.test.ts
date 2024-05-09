@@ -5,21 +5,21 @@ describe('TypedArray test', () => {
     const metadata = 'abc';
     const length = 100;
     const originArrayBuffer = new ArrayBuffer(length);
-    const uint16Array = new Uint16Array(originArrayBuffer);
+    const uint8Array = new Uint8Array(originArrayBuffer);
 
-    uint16Array.set(
-      Array.from({ length: uint16Array.length }, () =>
+    uint8Array.set(
+      Array.from({ length: uint8Array.length }, () =>
         Math.ceil(length * Math.random())
       )
     );
-    const newBuffer = packArrayBuffer(uint16Array, metadata);
+    const newBuffer = packArrayBuffer(uint8Array, metadata);
     const result = unpackArrayBuffer(newBuffer);
 
     expect(result.metadata).toBe(metadata);
 
-    const newArrayBuffer = new Uint16Array(result.arrayBuffer);
-    for (let i = 0; i < uint16Array.length; i++) {
-      expect(uint16Array[i]).toBe(newArrayBuffer[i]);
+    const newArrayBuffer = new Uint8Array(result.arrayBuffer);
+    for (let i = 0; i < uint8Array.length; i++) {
+      expect(uint8Array[i]).toBe(newArrayBuffer[i]);
     }
   });
 });

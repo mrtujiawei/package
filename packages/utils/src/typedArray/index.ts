@@ -7,26 +7,36 @@
  */
 
 /**
+ * metadata.length 占用的位数
+ *
+ * 由于 Uint8Array 中每个元素最大不超过 255
+ * 导致 metadata.length 超过 255 时异常
+ */
+const COUNT_SIZE = 2;
+
+const encoder = new TextEncoder();
+const decoder = new TextDecoder();
+
+/**
  * 添加额外信息
  *
+ * @param arrayBuffer -
  * @param metadata - prefix.length < (1 << 16)
  */
 export const packArrayBuffer = (arrayBuffer: ArrayBuffer, metadata: string) => {
-  // 用 Uint16Array 的原因
-  // charCodeAt 的范围在 [0, 65535]
-  const uint16Array = new Uint16Array(metadata.length + 1);
-  uint16Array[0] = metadata.length;
+  const encodedMetadata = encoder.encode(metadata);
+  const uint8Array = new Uint8Array(arrayBuffer);
+  const result = new Uint8Array(
+    uint8Array.length + encodedMetadata.length + COUNT_SIZE
+  );
 
-  Object.values(metadata).forEach((ch, i) => {
-    uint16Array[i + 1] = ch.charCodeAt(0);
-  });
+  for (let i = COUNT_SIZE - 1, length = encodedMetadata.length; i >= 0; i--) {
+    result[i] = Math.floor(length % (1 << 8));
+    length = Math.floor(length / (1 << 8));
+  }
 
-  const dataArray = new Uint16Array(arrayBuffer);
-
-  const result = new Uint16Array(uint16Array.length + dataArray.length);
-
-  result.set(uint16Array, 0);
-  result.set(dataArray, uint16Array.length);
+  result.set(encodedMetadata, COUNT_SIZE);
+  result.set(uint8Array, encodedMetadata.length + COUNT_SIZE);
 
   return result.buffer;
 };
@@ -35,16 +45,15 @@ export const packArrayBuffer = (arrayBuffer: ArrayBuffer, metadata: string) => {
  * 解析额外信息
  */
 export const unpackArrayBuffer = (arrayBuffer: ArrayBuffer) => {
-  const uint16Array = new Uint16Array(arrayBuffer);
+  const uint8Array = new Uint8Array(arrayBuffer);
+  let length = 0;
 
-  let message = new Array<string>(uint16Array[0]);
-
-  for (let i = 0; i < message.length; i++) {
-    message[i] = String.fromCharCode(uint16Array[i + 1]);
+  for (let i = 0; i < COUNT_SIZE; i++) {
+    length = length * (1 << 8) + uint8Array[i];
   }
 
   return {
-    metadata: message.join(''),
-    arrayBuffer: uint16Array.slice(message.length + 1).buffer,
+    metadata: decoder.decode(uint8Array.slice(COUNT_SIZE, COUNT_SIZE + length)),
+    arrayBuffer: uint8Array.slice(COUNT_SIZE + length).buffer,
   };
 };
