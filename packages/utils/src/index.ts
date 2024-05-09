@@ -12,3 +12,4 @@ export * from './utils';
 
 // 排序算法
 export * from './sorts';
+export * from './typedArray'
