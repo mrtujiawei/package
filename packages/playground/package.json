@@ -7,7 +7,7 @@
     "start": "t-scripts start"
   },
   "dependencies": {
-    "@mrtujiawei/react-components": "0.0.9",
+    "@mrtujiawei/react-components": "0.0.11",
     "@mrtujiawei/scripts": "0.0.18",
     "react": "18.2.0",
     "react-dom": "18.2.0",
