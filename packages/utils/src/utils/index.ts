@@ -28,3 +28,4 @@ export { default as Types } from './Types';
 export { default as Counter } from './Counter';
 export { default as Pooling } from './Pooling';
 export { default as Comparator } from './Comparator';
+export { default as SnowFlake } from './SnowFlake';

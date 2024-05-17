@@ -387,3 +387,73 @@ export const fibonacci = (() => {
   const psi = (1 - sqrt5) / 2;
   return (n: number) => Math.round((phi ** n - psi ** n) / sqrt5);
 })();
+
+/**
+ * 统计位数为 length 的二机制中有多少个 1
+ *
+ * 找规律
+ *         1
+ *       1 0
+ *       1 1
+ *     1 0 0
+ *     1 0 1
+ *     1 1 0
+ *     1 1 1
+ *   1 0 0 0
+ *   1 0 0 1
+ *   1 0 1 0
+ *   1 0 1 1
+ *   1 1 0 0
+ *   1 1 0 1
+ *   1 1 1 0
+ *   1 1 1 1
+ * 1 0 0 0 0
+ * 1 0 0 0 1
+ * 1 0 0 1 0
+ * 1 0 0 1 1
+ * 1 0 1 0 0
+ * 1 0 1 0 1
+ * 1 0 1 1 0
+ * 1 0 1 1 1
+ * 1 1 0 0 0
+ * 1 1 0 0 1
+ * 1 1 0 1 0
+ * 1 1 0 1 1
+ * 1 1 1 0 0
+ * 1 1 1 0 1
+ * 1 1 1 1 0
+ * 1 1 1 1 1
+ */
+export const bitCountByLength = (length: number) => {
+  return 2 ** (length - 2) * (length + 1);
+};
+
+/**
+ * 同上
+ * 求和
+ */
+export const bitSumByLength = (length: number) => {
+  const left = 1 << (length - 1);
+  const right = (1 << length) - 1;
+  return ((left + right) / 2) * left;
+};
+
+/**
+ * 计算幂
+ * 同上
+ */
+export const bitPowByLength = (length: number): number => {
+  if (length == 1) {
+    return 0;
+  }
+
+  const size = 1 << (length - 1);
+
+  let sum = ((length - 1) * size) / 2;
+
+  for (let i = 1; i < length; i++) {
+    sum += (i * size) / 2;
+  }
+
+  return sum;
+};

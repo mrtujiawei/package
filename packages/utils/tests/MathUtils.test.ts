@@ -1,4 +1,12 @@
-import { binaryToDecimal, fastPow, getPrimeList, isPrime, lcm } from '../src/index';
+import {
+  binaryToDecimal,
+  bitCountByLength,
+  bitSumByLength,
+  fastPow,
+  getPrimeList,
+  isPrime,
+  lcm,
+} from '../src/index';
 
 describe('MathUtils test', () => {
   test('fastPow test', () => {
@@ -52,5 +60,15 @@ describe('MathUtils test', () => {
   test('binaryToDecimal test', () => {
     expect(binaryToDecimal('1000')).toBe(8);
     expect(binaryToDecimal('10000001')).toBe(129);
-  })
+  });
+
+  test('bit length test', () => {
+    expect(bitCountByLength(1)).toBe(1);
+    expect(bitCountByLength(2)).toBe(3);
+    expect(bitCountByLength(3)).toBe(8);
+
+    expect(bitSumByLength(1)).toBe(1);
+    expect(bitSumByLength(2)).toBe(5);
+    expect(bitSumByLength(3)).toBe(22);
+  });
 });
