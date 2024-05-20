@@ -100,3 +100,29 @@ export function binaryGrayCodeToBinaryCode(grayCode: number) {
 
   return result;
 }
+
+/**
+ * 前导 0 的个数
+ */
+export const numberOfLeadingZero = (num: number) => {
+  if (num < 0) {
+    return 0;
+  }
+  const bits = num.toString(2);
+  for (let i = 0; i < bits.length; i++) {
+    if (bits[i] == '1') {
+      return 32 - (bits.length - i);
+    }
+  }
+  return 32;
+};
+
+/**
+ * [0, num - 1] 的二进制中 1 的个数
+ */
+export const bitCountFromOne = (num: number) => {
+  if (num == 0) {
+    return 0;
+  }
+  return Math.pow(2, num - 1) * num;
+};
