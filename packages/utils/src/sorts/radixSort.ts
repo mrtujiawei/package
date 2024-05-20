@@ -1,40 +1,37 @@
 /**
- * 基数排序,没写完
+ * 基数排序
+ *
  * @filename: radixSort.js
  * @author: Mr Prince
  * @date: 2021-06-03 19:43:42
  */
 function radixSort(arr: number[]): number[] {
-  let max: number;
+  const RADIX = 10;
 
-  function getMax(): number {
-    max = arr[0];
-    for (let i = 1; i < arr.length; i++) {
-      if (max < arr[i]) {
-        max = arr[i];
+  let maxLength = false;
+  let placement = 1;
+
+  while (!maxLength) {
+    maxLength = true;
+    const buckets = Array.from<unknown, number[]>({ length: RADIX }, () => []);
+    arr.forEach((item) => {
+      const rdx = item / placement;
+      buckets[Math.floor(rdx % RADIX)].push(item);
+      if (maxLength && rdx > 0) {
+        maxLength = false;
       }
-    }
-    return max;
-  }
-
-  function countSort(divider: number) {
-    let counting = new Array(10).fill(0);
-
-    arr.forEach((value) => {
-      let cur = value / divider;
-      console.log(cur);
     });
 
-    console.log(counting);
+    let p = 0;
+    for (let i = 0; i < RADIX; i++) {
+      const bucket = buckets[i];
+      bucket.forEach((value) => {
+        arr[p++] = value;
+      });
+    }
+    placement *= RADIX;
   }
 
-  if (arr.length < 2) {
-    return arr;
-  }
-
-  max = getMax();
-
-  countSort(1);
   return arr;
 }
 
