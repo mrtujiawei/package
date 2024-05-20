@@ -8,9 +8,10 @@
  * @date 2023-04-20 09:41:53
  */
 
-import {isNaturalNumber} from "./MathUtils";
-import Random from "./Random";
-import Types from "./Types";
+import { Comparable } from '../interfaces';
+import { isNaturalNumber } from './MathUtils';
+import Random from './Random';
+import Types from './Types';
 
 /**
  * split arr to chunks
@@ -191,3 +192,21 @@ export function shuffle<T>(values: T[]) {
     swap(values, i - 1, index);
   }
 }
+
+/**
+ * 最大值下标
+ */
+export const findMaxIndex = (
+  values: number[],
+  startIndex: number = 0,
+  endIndex: number = values.length
+) => {
+  let maxIndex = startIndex++;
+  while (startIndex < endIndex) {
+    if (values[maxIndex] < values[startIndex]) {
+      maxIndex = startIndex;
+    }
+  }
+
+  return maxIndex;
+};
