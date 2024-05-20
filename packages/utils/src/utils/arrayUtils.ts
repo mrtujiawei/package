@@ -206,7 +206,45 @@ export const findMaxIndex = (
     if (values[maxIndex] < values[startIndex]) {
       maxIndex = startIndex;
     }
+    startIndex++;
   }
 
   return maxIndex;
 };
+
+/**
+ * 最小值下标
+ */
+export const findMinIndex = (
+  values: number[],
+  startIndex: number = 0,
+  endIndex: number = values.length
+) => {
+  let minIndex = startIndex++;
+  while (startIndex < endIndex) {
+    if (values[minIndex] > values[startIndex]) {
+      minIndex = startIndex;
+    }
+    startIndex++;
+  }
+  return minIndex;
+};
+
+/**
+ * 最大最小值下标
+ */
+export const getMinMaxIndex = (arr: number[]) => {
+  let min = 0;
+  let max = 0;
+  arr.forEach((value, index) => {
+    if (arr[min] > value) {
+      min = index;
+    }
+    if (arr[max] < value) {
+      max = index;
+    }
+  });
+
+  return [min, max];
+};
+

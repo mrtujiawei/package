@@ -382,5 +382,84 @@ export const ununicode = (code: number[]) => {
  * 不区分大小写
  */
 export const checkPangram = (str: string) => {
-  return str.match(/([a-z])(?!.*\1)/gi)?.length == 26
-}
+  return str.match(/([a-z])(?!.*\1)/gi)?.length == 26;
+};
+
+const mapBigrams = (str: string) => {
+  const bigrams = new Map<string, number>();
+  for (let i = 0; i < str.length - 1; i++) {
+    const bigram = str.substring(i, i + 2);
+    const count = bigrams.get(bigram);
+    bigrams.set(bigram, (count || 0) + 1);
+  }
+  return bigrams;
+};
+
+const countCommonBigrams = (bigrams: Map<string, number>, str: string) => {
+  let count = 0;
+  for (let i = 0; i < str.length - 1; i++) {
+    const bigram = str.substring(i, i + 2);
+    if (bigrams.has(bigram)) count++;
+  }
+  return count;
+};
+
+/**
+ * 相似性
+ */
+export const diceCoefficient = (a: string, b: string) => {
+  if (a == b) {
+    return 1;
+  }
+
+  if (a.length < 2 || b.length < 2) {
+    return 0;
+  }
+
+  const bigramsA = mapBigrams(a);
+
+  const lengthA = a.length - 1;
+  const lengthB = b.length - 1;
+
+  const dice = (2 * countCommonBigrams(bigramsA, b)) / (lengthA + lengthB);
+
+  return Math.round(dice * 100) / 100;
+};
+
+/**
+ * 编辑距离 (最小)
+ *
+ * 通过 0 1 2 三种操作，将 a 转化成 b
+ * 0. 删除
+ * 1. 插入
+ * 2. 修改
+ */
+export const levenshteinDistance = (word1: string, word2: string) => {
+  let dp = Array.from({ length: word1.length + 1 }, () =>
+    Array.from({ length: word2.length + 1 }, () => 0)
+  );
+
+  for (let i = 1; i <= word1.length; i++) {
+    dp[i][0] = i;
+  }
+
+  for (let j = 1; j <= word2.length; j++) {
+    dp[0][j] = j;
+  }
+
+  for (let i = 1; i <= word1.length; i++) {
+    for (let j = 1; j <= word2.length; j++) {
+      if (word1[i - 1] === word2[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1];
+      } else {
+        dp[i][j] = Math.min(
+          dp[i - 1][j] + 1,
+          dp[i][j - 1] + 1,
+          dp[i - 1][j - 1] + 1
+        );
+      }
+    }
+  }
+
+  return dp[word1.length][word2.length];
+};

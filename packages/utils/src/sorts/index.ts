@@ -6,3 +6,6 @@ export { default as radixSort } from './radixSort';
 export { default as shellSort } from './shellSort';
 export { default as beadSort } from './beadSort';
 export { default as cycleSort } from './cycleSort';
+export { default as pancakeSort } from './pancakeSort';
+export { default as pigeonHoleSort } from './pancakeSort';
+export { default as selectionSort } from './pancakeSort';
