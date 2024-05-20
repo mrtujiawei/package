@@ -136,14 +136,14 @@ export function fastPow(base: number, index: number, mod: number): number {
   if (index < 0) {
     throw new RangeError(`暂不支持index(${index}) < 0`);
   }
-  base = base % mod;
-  if (0 == base) {
-    return 0;
+  if (mod == 0) {
+    throw new RangeError('mod must not be 0');
   }
   if (0 == index) {
-    return 1;
+    return 1 % mod;
   }
-  if (1 == index) {
+  base = base % mod;
+  if (0 == base || 1 == index) {
     return base;
   }
 
@@ -153,6 +153,39 @@ export function fastPow(base: number, index: number, mod: number): number {
     return (base * fastPow(base * base, (index - 1) / 2, mod)) % mod;
   }
 }
+
+/**
+ * 快速幂
+ *
+ * 快速求 base ** index
+ *
+ * 不支持小数
+ *
+ * @param base 底数
+ * @param index 指数
+ * @param mod 除数 求余用
+ */
+export const fastPowBigInt = (
+  base: bigint,
+  index: bigint,
+  mod: bigint
+): bigint => {
+  if (0n == index) {
+    return 1n % mod;
+  }
+  base = base % mod;
+  if (0n == base || index == 1n) {
+    return base;
+  }
+
+  if (index % 2n == 0n) {
+    return fastPowBigInt(base * base, index / 2n, mod);
+  } else {
+    return (
+      (base * BigInt(fastPowBigInt(base * base, (index - 1n) / 2n, mod))) % mod
+    );
+  }
+};
 
 /**
  * 所有小于等于n 的质数

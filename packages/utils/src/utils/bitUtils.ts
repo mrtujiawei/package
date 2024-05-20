@@ -103,18 +103,68 @@ export function binaryGrayCodeToBinaryCode(grayCode: number) {
 
 /**
  * 前导 0 的个数
+ * 只支持 16 位 带符号整数
  */
-export const numberOfLeadingZero = (num: number) => {
-  if (num < 0) {
-    return 0;
-  }
+export const numberOfLeadingZeros = (num: number) => {
+  num = Math.abs(num);
+  const MAX_LENGTH = 16;
   const bits = num.toString(2);
   for (let i = 0; i < bits.length; i++) {
     if (bits[i] == '1') {
-      return 32 - (bits.length - i);
+      return MAX_LENGTH - (bits.length - i);
     }
   }
-  return 32;
+  return MAX_LENGTH;
+};
+
+/**
+ * 前导 0  的个数
+ * 只支持 32 位 带符号整数
+ */
+export const numberOfLeadingZeros64 = (num: number) => {
+  num = Math.abs(num);
+  const MAX_LENGTH = 64;
+  const bits = BigInt(num).toString(2);
+  for (let i = 0; i < bits.length; i++) {
+    if (bits[i] == '1') {
+      return MAX_LENGTH - (bits.length - i);
+    }
+  }
+  return MAX_LENGTH;
+};
+
+/**
+ * 尾随 0 的个数
+ * 只支持 32 位 带符号整数
+ */
+export const numberOfTrailingZeros = (num: number) => {
+  num = Math.abs(num);
+  const MAX_LENGTH = 32;
+  const bits = BigInt(num).toString(2).split('').reverse();
+  for (let i = 0; i < bits.length; i++) {
+    if (bits[i] == '1') {
+      return i;
+    }
+  }
+
+  return MAX_LENGTH;
+};
+
+/**
+ * 尾随 0 的个数
+ * 只支持 64 位 带符号整数
+ */
+export const numberOfTrailingZeros64 = (num: number) => {
+  num = Math.abs(num);
+  const MAX_LENGTH = 64;
+  const bits = BigInt(num).toString(2).split('').reverse();
+  for (let i = 0; i < bits.length; i++) {
+    if (bits[i] == '1') {
+      return i;
+    }
+  }
+
+  return MAX_LENGTH;
 };
 
 /**
