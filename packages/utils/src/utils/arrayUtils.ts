@@ -8,7 +8,6 @@
  * @date 2023-04-20 09:41:53
  */
 
-import { Comparable } from '../interfaces';
 import { isNaturalNumber } from './MathUtils';
 import Random from './Random';
 import Types from './Types';
