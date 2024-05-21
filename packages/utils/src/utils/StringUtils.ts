@@ -463,3 +463,52 @@ export const levenshteinDistance = (word1: string, word2: string) => {
 
   return dp[word1.length][word2.length];
 };
+
+/**
+ * 字符串匹配
+ *
+ * 感觉和 kmp 相似
+ *
+ * @returns - 起始下标, -1 -> 没找到
+ */
+
+export const boyerMoore = (str: string, pattern: string) => {
+  const badMatchTable = buildBadMatchTable(pattern);
+  let offset = 0;
+  const patternLastIndex = pattern.length - 1;
+  const maxOffset = str.length - pattern.length;
+  while (offset <= maxOffset) {
+    let scanIndex = 0;
+    // 普通的字符串匹配
+    while (pattern[scanIndex] === str[scanIndex + offset]) {
+      if (scanIndex === patternLastIndex) {
+        return offset;
+      }
+      scanIndex++;
+    }
+    const badMatchString = str[offset + patternLastIndex];
+    if (badMatchTable[badMatchString]) {
+      // 匹配到了末尾的字符，确定至少移动这个距离
+      // 减少匹配次数
+      offset += badMatchTable[badMatchString];
+    } else {
+      offset++;
+    }
+  }
+  return -1;
+};
+
+/**
+ * 只是记录最后一个元素出现的位置
+ */
+const buildBadMatchTable = (str: string) => {
+  const tableObj: Record<string, number> = {};
+  const strLength = str.length;
+  for (let i = 0; i < strLength - 1; i++) {
+    tableObj[str[i]] = strLength - 1 - i;
+  }
+  if (tableObj[str[strLength - 1]] === undefined) {
+    tableObj[str[strLength - 1]] = strLength;
+  }
+  return tableObj;
+};
