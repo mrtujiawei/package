@@ -6,9 +6,6 @@
  */
 import Queue from '../../Queue/Queue';
 
-// TODO
-// 只实现了最简单的一些功能，可以加入一下算法？迪克斯特拉, floyd
-
 /**
  * @public
  */
