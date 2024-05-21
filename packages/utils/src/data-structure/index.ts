@@ -23,6 +23,8 @@ export { default as floyd } from './Graph/floyd';
 export { default as kruskal } from './Graph/kruskal';
 export { default as dijkstra } from './Graph/dijkstra';
 export { default as hierholzer } from './Graph/hierholzer';
+export * from './Graph/articulationPoints';
+export * from './Graph/bellmanFord';
 export { default as UnionFind } from './UnionFind';
 export { default as SetEnhancer } from './SetEnhancer';
 export { default as MapEnhancer } from './MapEnhancer';
