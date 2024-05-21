@@ -39,3 +39,52 @@ export const cartesianProduct = <T>(a: T[], b: T[]) => {
     return Array.from(b, (val2) => [val1, val2]);
   });
 };
+
+const luhnValidation = (creditCard: string) => {
+  let validationSum = 0;
+  creditCard.split('').forEach((digit, index) => {
+    let currentDigit = parseInt(digit);
+    if (index % 2 === 0) {
+      // Multiply every 2nd digit from the left by 2
+      currentDigit *= 2;
+      if (currentDigit > 9) {
+        // if product is greater than 10 add the individual digits of the product to get a single digit
+        currentDigit %= 10;
+        currentDigit += 1;
+      }
+    }
+    validationSum += currentDigit;
+  });
+
+  return validationSum % 10 === 0;
+};
+
+/**
+ * 验证信用卡号是否有效
+ */
+export const validateCreditCard = (creditCard: string) => {
+  const validStartSubString = ['4', '5', '6', '37', '34', '35']; // Valid credit card numbers start with these numbers
+
+  if (typeof creditCard !== 'string') {
+    throw new TypeError('The given value is not a string');
+  }
+
+  const errorMessage = `${creditCard} is an invalid credit card number because `;
+  if (isNaN(Number(creditCard))) {
+    throw new TypeError(errorMessage + 'it has nonnumerical characters.');
+  }
+  const creditCardStringLength = creditCard.length;
+  if (!(creditCardStringLength >= 13 && creditCardStringLength <= 16)) {
+    throw new Error(errorMessage + 'of its length.');
+  }
+  if (
+    !validStartSubString.some((subString) => creditCard.startsWith(subString))
+  ) {
+    throw new Error(errorMessage + 'of its first two digits.');
+  }
+  if (!luhnValidation(creditCard)) {
+    throw new Error(errorMessage + 'it fails the Luhn check.');
+  }
+
+  return true;
+};
