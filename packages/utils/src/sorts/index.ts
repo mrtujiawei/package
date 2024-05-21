@@ -9,3 +9,4 @@ export { default as cycleSort } from './cycleSort';
 export { default as pancakeSort } from './pancakeSort';
 export { default as pigeonHoleSort } from './pancakeSort';
 export { default as selectionSort } from './pancakeSort';
+export { default as flashSort } from './flashSort';
