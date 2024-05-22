@@ -118,3 +118,71 @@ export const weightedRandom = (items: number[], weights: number[]) => {
     }
   }
 };
+
+export const jumpSearch = (sortedArray: number[], seekElement: number) => {
+  const arraySize = sortedArray.length;
+
+  if (!arraySize) {
+    return -1;
+  }
+
+  const jumpSize = Math.floor(Math.sqrt(arraySize));
+
+  let blockStart = 0;
+  let blockEnd = jumpSize;
+  while (seekElement > sortedArray[Math.min(blockEnd, arraySize) - 1]) {
+    blockStart = blockEnd;
+    blockEnd += jumpSize;
+    if (blockStart > arraySize) {
+      return -1;
+    }
+  }
+
+  for (let i = blockStart; i < Math.min(blockEnd, arraySize); i++) {
+    if (sortedArray[i] == seekElement) {
+      return i;
+    }
+  }
+
+  return -1;
+};
+
+/**
+ * 算是二分搜索的改进，根据 delta 决定 middle 的位置
+ */
+export const interpolationSearch = (
+  sortedArray: number[],
+  seekElement: number
+) => {
+  let leftIndex = 0;
+  let rightIndex = sortedArray.length - 1;
+
+  while (leftIndex <= rightIndex) {
+    const rangeDelta = sortedArray[rightIndex] - sortedArray[leftIndex];
+    const indexDelta = rightIndex - leftIndex;
+    const valueDelta = seekElement - sortedArray[leftIndex];
+
+    if (valueDelta < 0) {
+      return -1;
+    }
+
+    if (!rangeDelta) {
+      return sortedArray[leftIndex] === seekElement ? leftIndex : -1;
+    }
+
+    const middleIndex =
+      leftIndex + Math.floor((valueDelta * indexDelta) / rangeDelta);
+
+    if (sortedArray[middleIndex] == seekElement) {
+      return middleIndex;
+    }
+
+    if (sortedArray[middleIndex] < seekElement) {
+      leftIndex = middleIndex + 1;
+    } else {
+      rightIndex = middleIndex - 1;
+    }
+  }
+
+  return -1;
+};
