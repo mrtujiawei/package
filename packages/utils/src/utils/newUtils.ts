@@ -186,3 +186,8 @@ export const interpolationSearch = (
 
   return -1;
 };
+
+/**
+ * 空函数 不执行任何操作
+ */
+export const noop = (..._args: any[]) => {};
