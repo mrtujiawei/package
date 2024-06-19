@@ -39,6 +39,17 @@ class MapEnhancer {
 
     return counter;
   }
+
+  /**
+   * 没有值的时候用默认值
+   */
+  static getOrDefault<K, V>(map: Map<K, V>, key: K, defaultValue: V) {
+    if (map.has(key)) {
+      return map.get(key)!;
+    }
+
+    return defaultValue;
+  }
 }
 
 export default MapEnhancer;
