@@ -12,6 +12,7 @@ dist/
 scripts/compilers/css/src
 scripts/compilers/css/dist
 packages/*/dist
+packages/utils/tests/test.test.ts
 
 # 所有package 内部的node_modules
 packages/*/node_modules
