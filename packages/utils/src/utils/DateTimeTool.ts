@@ -399,25 +399,105 @@ class DateTimeTool {
   }
 
   /**
-   * 设置到当前天的开始
+   * 设置到当前秒的开始
    */
-  static toDayBegin(date: Date): Date {
-    date.setHours(0);
-    date.setMinutes(0);
-    date.setSeconds(0);
+  static toSecondBegin(date: Date): Date {
     date.setMilliseconds(0);
     return date;
   }
 
   /**
-   * 设置到当前的结束
+   * 设置到当前分钟的开始
+   */
+  static toMinuteBegin(date: Date): Date {
+    date.setSeconds(0);
+    return DateTimeTool.toSecondBegin(date);
+  }
+
+  /**
+   * 设置到当前小时的开始
+   */
+  static toHourBegin(date: Date): Date {
+    date.setMinutes(0);
+    return DateTimeTool.toMinuteBegin(date);
+  }
+
+  /**
+   * 设置到当前天的开始
+   */
+  static toDayBegin(date: Date): Date {
+    date.setHours(0);
+    return DateTimeTool.toHourBegin(date);
+  }
+
+  /**
+   * 当月开始时间
+   */
+  static toMonthBegin(date: Date): Date {
+    date.setDate(1);
+    return DateTimeTool.toDayBegin(date);
+  }
+
+  /**
+   * 今年开始时间
+   */
+  static toYearBegin(date: Date): Date {
+    date.setMonth(0);
+    return DateTimeTool.toMonthBegin(date);
+  }
+
+  /**
+   * 本世纪开始时间
+   */
+  static toCenturyBegin(date: Date): Date {
+    const year = date.getFullYear();
+    date.setFullYear(year - (year % 100));
+    return DateTimeTool.toYearBegin(date);
+  }
+
+  /**
+   * 当前秒结束
+   */
+  static toSecondEnd(date: Date): Date {
+    date.setMilliseconds(DateTimeTool.millisecondsOfOneSecond - 1);
+    return date;
+  }
+
+  /**
+   * 当前分钟结束
+   */
+  static toMinuteEnd(date: Date): Date {
+    date.setSeconds(DateTimeTool.secondsOfOneMinute - 1);
+    return DateTimeTool.toSecondEnd(date);
+  }
+
+  /**
+   * 当前小时结束
+   */
+  static toHourEnd(date: Date): Date {
+    date.setHours(DateTimeTool.minutesOfOneHour - 1);
+    return DateTimeTool.toMinuteEnd(date);
+  }
+
+  /**
+   * 设置到当前天的结束
    */
   static toDayEnd(date: Date): Date {
-    date.setHours(23);
-    date.setMinutes(59);
-    date.setSeconds(59);
-    date.setMilliseconds(999);
-    return date;
+    date.setHours(DateTimeTool.hoursOfOneDay - 1);
+    return DateTimeTool.toHourEnd(date);
+  }
+
+  /**
+   * 这知道当前月的结束
+   */
+  static toMonthEnd(date: Date): Date {
+    date.setMonth(date.getMonth() + 1);
+    date.setDate(-1);
+    return DateTimeTool.toDayEnd(date);
+  }
+
+  static toYearEnd(date: Date): Date {
+    return DateTimeTool.toMonthEnd(date);
   }
 
   /**
