@@ -231,6 +231,8 @@ export const findMinIndex = (
 
 /**
  * 最大最小值下标
+ *
+ * @return [minIndex, maxIndex]
  */
 export const getMinMaxIndex = (arr: number[]) => {
   let min = 0;
