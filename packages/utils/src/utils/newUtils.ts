@@ -191,3 +191,40 @@ export const interpolationSearch = (
  * 空函数 不执行任何操作
  */
 export const noop = (..._args: any[]) => {};
+
+/**
+ * 字符串比较
+ * @returns a < b -1 ? a > b ? 1 : 0
+ */
+export const stringComparator = (a: string, b: string) => {
+  if (a < b) {
+    return -1;
+  }
+  if (a > b) {
+    return 1;
+  }
+  return 0;
+};
+
+/**
+ * 复制并执行 splice 操作
+ * 返回新的数组
+ */
+export const toSpliced = <T>(
+  values: T[],
+  start: number,
+  deleteCount: number,
+  ...items: T[]
+) => {
+  const result = values.slice();
+  result.splice(start, deleteCount, ...items);
+  return result;
+};
+
+/**
+ * 复制并更新数组
+ * 返回新的数组
+ */
+export const updateArray = <T>(arr: T[], index: number, value: T) => {
+  return toSpliced(arr, index, 1, value);
+};

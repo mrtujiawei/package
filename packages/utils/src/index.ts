@@ -12,4 +12,12 @@ export * from './utils';
 
 // 排序算法
 export * from './sorts';
-export * from './typedArray'
+export * from './typedArray';
+
+// 自定义错误
+export * from './customerErrors';
+
+// M3u8 文件处理
+export { default as M3u8FileUtils } from './m3u8';
+
+export { default as URLUtils } from './url'

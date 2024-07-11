@@ -6,7 +6,7 @@
  */
 
 class User {
-  public static readonly name = 'tujiawei';
+  // public static readonly name = 'tujiawei';
 
   public static async main(args: string[]) {
     console.log(args);

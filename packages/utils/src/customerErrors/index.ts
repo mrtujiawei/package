@@ -14,3 +14,5 @@
  * @author: Mr Prince
  * @date: 2022-11-17 16:05:09
  */
+
+export { default as InvalidAgrumentsError } from './InvalidAgrumentsError';
