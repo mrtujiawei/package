@@ -706,3 +706,51 @@ export const isPageVisible = () => {
 export const isPageHide = () => {
   return !isPageVisible();
 };
+
+/**
+ * 将元素滚动到容器的顶部
+ */
+export const scrollToTop = (
+  el: HTMLElement,
+  scrollContainer: HTMLElement,
+  behavior: ScrollBehavior = 'smooth'
+) => {
+  scrollContainer.scrollTo({
+    top: el.offsetTop,
+    behavior,
+  });
+};
+
+/**
+ * 将元素滚动到容器的底部
+ */
+export const scrollToBottom = (
+  el: HTMLElement,
+  scrollContainer: HTMLElement,
+  behavior: ScrollBehavior = 'smooth'
+) => {
+  scrollContainer.scrollTo({
+    top: el.offsetTop - scrollContainer.clientHeight + el.clientHeight,
+    behavior,
+  });
+};
+
+/**
+ * 将元素滚动到容器的中央
+ */
+export const scrollToCenter = (
+  el: HTMLElement,
+  scrollContainer: HTMLElement,
+  behavior: ScrollBehavior = 'smooth'
+) => {
+  if (el.clientHeight >= scrollContainer.clientHeight) {
+    scrollToTop(el, scrollContainer, behavior);
+    return;
+  }
+
+  const offsetTop = (scrollContainer.clientHeight - el.clientHeight) / 2;
+  scrollContainer.scrollTo({
+    top: el.offsetTop - offsetTop,
+    behavior,
+  });
+};
