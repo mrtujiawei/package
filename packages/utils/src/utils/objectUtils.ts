@@ -7,6 +7,7 @@
  * @author Mr Prince
  * @date 2023-04-20 09:42:45
  */
+import NullPointerException from '../customerErrors/NullPointerException';
 import { toString } from './topLevelUtils';
 import Types from './Types';
 
@@ -47,4 +48,14 @@ export function isPlainObject(obj: any): boolean {
     return false;
   }
   return true;
+}
+
+/**
+ * 要求对象必须不是 null
+ */
+export const requireNonNull = <T>(obj: T): T => {
+  if (obj === null) {
+    throw new NullPointerException()
+  }
+  return obj;
 }

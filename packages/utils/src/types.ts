@@ -5,6 +5,8 @@
  * @date: 2022-06-23 14:01:11
  */
 
+import { requireNonNull } from './utils/objectUtils';
+
 /**
  * 基础数据类型
  * @link {https://262.ecma-international.org/13.0/#sec-overview}
@@ -33,3 +35,7 @@ export type PromiseExecutor<T> = (
   resolve: PromiseResolve<T>,
   reject: PromiseReject
 ) => void;
+
+export interface Runnable {
+  run(): void;
+}
