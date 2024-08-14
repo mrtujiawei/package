@@ -228,3 +228,24 @@ export const toSpliced = <T>(
 export const updateArray = <T>(arr: T[], index: number, value: T) => {
   return toSpliced(arr, index, 1, value);
 };
+
+/**
+ * 获取对象排序后的 key
+ */
+export const getObjectSortedKeys = (obj: Record<string, any>) => {
+  return Object.keys(obj).sort();
+};
+
+/**
+ * 获取对象的 value 并根据 key 排序
+ */
+export const getObjectSortedValues = (obj: Record<string, any>) => {
+  return getObjectSortedKeys(obj).map((key) => obj[key]);
+};
+
+/**
+ * 获取对象的 entry 并根据 key 排序
+ */
+export const getObjectSortedEntries = (obj: Record<string, any>) => {
+  return getObjectSortedKeys(obj).map((key) => [key, obj[key]]);
+};
