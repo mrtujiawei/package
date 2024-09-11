@@ -1,4 +1,4 @@
-import maxSubArraySum from '../../src/algorithm/maxSubArraySum';
+import maxSubArraySum from '../../algorithm/maxSubArraySum';
 
 test('Max sub array sum', () => {
   let arr = [-2, -1, -3, 4, -1, 2, 1, -5, 4];

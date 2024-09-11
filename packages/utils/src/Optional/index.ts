@@ -30,7 +30,7 @@ class Optional<T> {
     }
   }
 
-  public static empty<T>() {
+  public static empty<T>(): Optional<T> {
     return Optional.EMPTY as Optional<T>;
   }
 
@@ -71,7 +71,7 @@ class Optional<T> {
     }
   }
 
-  public filter(predicate: Predicate<T>) {
+  public filter(predicate: Predicate<T>): Optional<T> {
     requireNonNull(predicate);
     if (!this.isPresent()) {
       return this;

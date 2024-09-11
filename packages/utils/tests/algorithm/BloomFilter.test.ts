@@ -1,4 +1,4 @@
-import BloomFilter from '../../src/algorithm/BloomFilter';
+import BloomFilter from '../../algorithm/BloomFilter';
 
 test('Bloom filter test', () => {
   let bf = new BloomFilter<number>(100000000, 0.01);

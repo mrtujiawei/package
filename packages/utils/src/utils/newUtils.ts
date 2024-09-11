@@ -249,3 +249,82 @@ export const getObjectSortedValues = (obj: Record<string, any>) => {
 export const getObjectSortedEntries = (obj: Record<string, any>) => {
   return getObjectSortedKeys(obj).map((key) => [key, obj[key]]);
 };
+
+/**
+ * 图片加马赛克
+ *
+ * @param options - 配置项
+ * @param options.width - 图片宽度
+ * @param options.height - 图片高度
+ * @param options.range - 马赛克范围 range * range 大小的块
+ *
+ * @example
+ * sharp('<img path>')
+ *   .raw()
+ *   .toBuffer({ resolveWithObject: true })
+ *   .then((img) => {
+ *     const uint8Array = new Uint8Array(img.data);
+ *     return sharp(
+ *       mosaic(uint8Array, {
+ *         width: img.info.width,
+ *         height: img.info.height,
+ *         size: 2,
+ *       }),
+ *       {
+ *         raw: {
+ *           width: img.info.width,
+ *           height: img.info.height,
+ *           channels: img.info.channels,
+ *         },
+ *       }
+ *     ).toFile('<output path>');
+ *   });
+ */
+export const mosaic = (
+  buffer: Uint8Array,
+  options: {
+    width: number;
+    height: number;
+    size: number;
+  }
+) => {
+  const { width, height, size } = options;
+  const newBuffer = buffer.slice();
+  const colorSize = 4;
+  for (let i = 0; i < height; i += size) {
+    for (let j = 0; j < width; j += size) {
+      let r = 0;
+      let g = 0;
+      let b = 0;
+      let a = 0;
+      let count = 0;
+      for (let y = i; y < i + size && y < height; y++) {
+        for (let x = j; x < j + size && x < width; x++) {
+          const index = (width * y + x) * colorSize;
+          r += newBuffer[index];
+          g += newBuffer[index + 1];
+          b += newBuffer[index + 2];
+          a += newBuffer[index + 3];
+          count++;
+        }
+      }
+
+      let ar = r / count;
+      let ag = g / count;
+      let ab = b / count;
+      let aa = a / count;
+
+      for (let y = i; y < i + size && y < height; y++) {
+        for (let x = j; x < j + size && x < width; x++) {
+          const index = (width * y + x) * colorSize;
+          newBuffer[index] = ar;
+          newBuffer[index + 1] = ag;
+          newBuffer[index + 2] = ab;
+          newBuffer[index + 3] = aa;
+        }
+      }
+    }
+  }
+
+  return newBuffer;
+};

@@ -1,4 +1,4 @@
-import backpack from '../../src/algorithm/backpack';
+import backpack from '../../algorithm/backpack';
 
 test('Backpack test', () => {
   let values = [6, 3, 5, 4, 6];
