@@ -104,6 +104,20 @@ class MapEnhancer {
     }
     return false;
   }
+
+  /**
+   * 如果 map1 包含 map2 的所有 key
+   * 且 map1 中 key 对应的值都大于 map2 则返回 true 否则 false
+   */
+  static inclues(map1: Map<unknown, number>, map2: Map<unknown, number>) {
+    for (const key of map2.keys()) {
+      if (!map1.has(key) || map1.get(key)! < map2.get(key)!) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 }
 
 export default MapEnhancer;
