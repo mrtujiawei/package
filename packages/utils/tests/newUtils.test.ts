@@ -1,4 +1,4 @@
-import { cartesianProduct } from '../src';
+import { cartesianProduct, runLimit, sleep } from '../src';
 
 describe('newUtils test', () => {
   test('cartesianProduct', () => {
@@ -20,5 +20,21 @@ describe('newUtils test', () => {
         ['z', '3'],
       ],
     ]);
+  });
+});
+
+describe('runLimit test', () => {
+  test('limit less then tasks', async () => {
+    const tasks = Array.from({ length: 20 }, (_, i) => {
+      return async () => {
+        await sleep(Math.random());
+        return i;
+      };
+    });
+
+    const result = await runLimit(tasks, 3);
+    result.forEach((value, index) => {
+      expect(value).toBe(index);
+    });
   });
 });

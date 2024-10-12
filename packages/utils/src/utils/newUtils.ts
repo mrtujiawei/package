@@ -9,6 +9,7 @@
  */
 
 import { isInteger } from './utils';
+import Lock from './Lock';
 
 export const isPowerOfFour = (value: number) => {
   return (
@@ -328,3 +329,29 @@ export const mosaic = (
 
   return newBuffer;
 };
+
+/**
+ * 异步任务运行，限制最大同时运行数量
+ */
+export const runLimit = async <T>(
+  tasks: (() => Promise<T>)[],
+  limit: number
+) => {
+  const lock = new Lock(limit);
+  const result: T[] = [];
+
+  tasks.forEach(async (task, index) => {
+    await lock.lock();
+    const res = await task();
+    result[index] = res;
+    lock.unlock();
+  });
+
+  // 等待所有任务完成
+  for (let i = 0; i < limit; i++) {
+    await lock.lock();
+  }
+
+  return result;
+};
+
