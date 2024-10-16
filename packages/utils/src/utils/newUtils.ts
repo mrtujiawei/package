@@ -10,6 +10,7 @@
 
 import { isInteger } from './utils';
 import Lock from './Lock';
+import { GeneralFunction } from '../interfaces';
 
 export const isPowerOfFour = (value: number) => {
   return (
@@ -353,5 +354,23 @@ export const runLimit = async <T>(
   }
 
   return result;
+};
+
+export const clamp = (value: number, min: number, max: number) => {
+  if (min > max) {
+    throw new Error('min must less or equal to max');
+  }
+
+  return Math.min(max, Math.max(min, value));
+};
+
+/**
+ * 函数批量调用
+ */
+export const batchInvoke = <T extends GeneralFunction>(
+  functions: T[],
+  ...params: any[]
+) => {
+  return functions.map((fn) => fn(...params));
 };
 
