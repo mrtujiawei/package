@@ -374,3 +374,42 @@ export const batchInvoke = <T extends GeneralFunction>(
   return functions.map((fn) => fn(...params));
 };
 
+export const f = () => {
+  console.log('f run');
+};
+
+export const g = () => {
+  console.log('g run');
+};
+
+export const h = () => {
+  console.log('h run');
+};
+
+export const i = () => {
+  console.log('i run');
+};
+
+export const j = () => {
+  console.log('j run');
+};
+
+export const k = () => {
+  console.log('j run');
+};
+
+export const l = () => {
+  console.log('l run');
+};
+
+export const m = () => {
+  console.log('m run');
+};
+
+export const n = () => {
+  console.log('n run');
+};
+
+export const o = () => {
+  console.log('o run');
+};
