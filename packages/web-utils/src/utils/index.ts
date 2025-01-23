@@ -395,6 +395,16 @@ export const loadImage = (src: string) => {
   });
 };
 
+export const loadVideo = (src: string) => {
+  return new Promise<HTMLVideoElement>((resolve, reject) => {
+    const video = document.createElement('video');
+    video.crossOrigin = 'anonymous';
+    video.onloadeddata = () => resolve(video);
+    video.onerror = video.onabort = reject;
+    video.src = src;
+  });
+};
+
 /**
  * 图片翻转恢复
  * 如果没有翻转，则保持不变
