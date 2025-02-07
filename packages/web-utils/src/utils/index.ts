@@ -764,3 +764,11 @@ export const scrollToCenter = (
     behavior,
   });
 };
+
+export const previewImageFileInNewWindow = async (file: File) => {
+  const img = new Image();
+  img.src = await readAsDataURL(file);
+  const newWin = window.open('', '_blank');
+  newWin?.document.write(img.outerHTML);
+  newWin?.document.close();
+};
