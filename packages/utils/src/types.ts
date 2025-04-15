@@ -39,3 +39,11 @@ export type PromiseExecutor<T> = (
 export interface Runnable {
   run(): void;
 }
+
+/**
+ * 对象类型展开
+ * 主要是用在函数参数上
+ */
+export type ExpandObject<T> = T extends infer Obj
+  ? { [Key in keyof Obj]: ExpandObject<Obj[Key]> }
+  : T;

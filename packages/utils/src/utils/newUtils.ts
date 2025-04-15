@@ -353,12 +353,19 @@ export const runLimit = async <T>(
     await lock.lock();
   }
 
+  // 释放资源
+  // 不确定是否会内存泄漏
+  // 但是释放使用的资源是不会有错的
+  for (let i = 0; i < limit; i++) {
+    lock.unlock();
+  }
+
   return result;
 };
 
 export const clamp = (value: number, min: number, max: number) => {
   if (min > max) {
-    throw new Error('min must less or equal to max');
+    throw new RangeError('min must less or equal to max');
   }
 
   return Math.min(max, Math.max(min, value));
