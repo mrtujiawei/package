@@ -7,6 +7,7 @@ import TableDemo from '../demos/Table';
 import SwitchContainerDemo from '../demos/SwitchContainer';
 import SwitchBackContainerDemo from '../demos/SwitchBackContainer';
 import Home from '../pages/Home';
+import BoardcastChannel from '../demos/BoardcastChannel';
 
 type Route = RouteObject & {
   name?: string;
@@ -52,6 +53,11 @@ export const routes: Route[] = [
     path: '/switch-back-container',
     name: '返回过渡',
     element: <SwitchBackContainerDemo />,
+  },
+  {
+    path: '/boardcast-channel',
+    name: '广播',
+    element: <BoardcastChannel />,
   },
 ];
 
