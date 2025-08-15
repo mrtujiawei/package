@@ -50,7 +50,7 @@ class Pagination {
   to(pageNum?: number) {
     pageNum = pageNum || this.tableData.pageNum;
     this.tableData.pageNum = pageNum;
-    let {pageSize} = this.tableData;
+    let { pageSize } = this.tableData;
     let start = (pageNum - 1) * pageSize;
     let end = start + pageSize;
     let list = this.tableData.list.slice(start, end);
@@ -66,7 +66,7 @@ class Pagination {
   }
 
   private publish(tableData: TableData) {
-    this.callbacks.forEach(callback => callback(tableData));
+    this.callbacks.forEach((callback) => callback(tableData));
   }
 
   subscribe(callback: Callback) {

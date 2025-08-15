@@ -8,6 +8,7 @@
 import Types from './Types';
 import { isInteger } from './utils';
 import { toString } from './topLevelUtils';
+import { isNumber } from './regexpUtils';
 
 /**
  * 遍历对象所有属性
@@ -511,4 +512,28 @@ const buildBadMatchTable = (str: string) => {
     tableObj[str[strLength - 1]] = strLength;
   }
   return tableObj;
+};
+
+/**
+ * 从字符串中获取所有的数字
+ */
+export const getNumberFromString = (str: string) => {
+  return str.split('').filter((item) => {
+    return isNumber(item);
+  });
+};
+
+/**
+ * 判断是否包含空格
+ */
+export const hasSpace = (str: string) => {
+  let has = false;
+  for (const ch of str) {
+    if (ch == ' ') {
+      has = true;
+      break;
+    }
+  }
+
+  return has;
 };

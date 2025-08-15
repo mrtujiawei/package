@@ -358,6 +358,15 @@ class DateTimeTool {
   }
 
   /**
+   * 是否是闰年的 2-29
+   */
+  static isLeapDay(date: Date = new Date()): boolean {
+    return (
+      this.isLeapYear(date) && date.getMonth() + 1 == 2 && date.getDate() == 29
+    );
+  }
+
+  /**
    * 两个日期相差的时间戳
    */
   static diffTimestamp(start: Date | number, end: Date | number): number {

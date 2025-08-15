@@ -28,3 +28,7 @@ export const isIPAddress = (ip: string) => {
 export const isID = (id: string) => {
   return /^(\d{17}[\d|x]|\d{15})$/.test(id);
 };
+
+export const isNumber = (str: string) => {
+  return /\d/.test(str);
+};

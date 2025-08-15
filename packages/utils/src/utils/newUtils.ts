@@ -381,11 +381,66 @@ export const batchInvoke = <T extends GeneralFunction>(
   return functions.map((fn) => fn(...params));
 };
 
-export const f = () => {
+/**
+ * 虚拟滚动
+ */
+export const virtualScroll = ({
+  delta,
+  height,
+  rowHeight,
+  rowCount,
+  scrollTop,
+}: {
+  // 容器高度
+  height: number;
 
-};
+  // 当前的滚动高度
+  scrollTop: number;
 
-export const g = () => {
+  // 上下各保留的个数
+  delta: number;
+
+  // 每行高度
+  rowHeight: number;
+
+  // 行数
+  rowCount: number;
+}) => {
+  if (rowHeight <= 0) {
+    throw new RangeError('rowHeight must greater than 0');
+  }
+
+  // 计算总高度
+  const scrollHeight = rowCount * rowHeight;
+
+  // 完全在滚动视口外的行
+  let topHideCount = Math.floor(scrollTop / rowHeight);
+
+  // 保留 delta 个视口外的行
+  topHideCount = Math.max(0, topHideCount - delta);
+
+  // 视口內的行数，可能会超过 rowCount
+  let showCount = Math.ceil((height + (scrollTop % rowHeight)) / rowHeight);
+  showCount += 2 * delta;
+
+  const paddingTop = topHideCount * rowHeight;
+
+  // scrollHeight = height + scrollTop
+  let paddingBottom =
+    scrollHeight - (topHideCount + showCount) * rowHeight - height;
+
+  paddingBottom = Math.max(0, paddingBottom);
+
+  return {
+    range: {
+      start: topHideCount,
+      end: Math.min(topHideCount + showCount, rowCount),
+    },
+    style: {
+      paddingTop,
+      paddingBottom,
+    },
+  };
 };
 
 export const h = () => {
