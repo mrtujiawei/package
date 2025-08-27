@@ -443,8 +443,47 @@ export const virtualScroll = ({
   };
 };
 
-export const h = () => {
-  console.log('h');
+/**
+ * UTF-8 编码区间
+ *
+ * 字节数                码点范围                 表现
+ *  1                U+0000 ~ U+007F            0xxxxxxx
+ *  2                U+0080 ~ u+07FF            110xxxxx 10xxxxxx
+ *  3                U+0800 ~ U+FFFF            1110xxxx 10xxxxxx 10xxxxxx
+ *  4               U+10000 ~ u+10FFFF          11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+ *
+ *  charCodeAt 返回给定索引处的 UTF-16 码元
+ *  codePointAt 返回给定索引处的 unicode 码位
+ *
+ *  @returns return.split(' ').map(range => parseInt(range, 2).toString(16))
+ */
+export const unicodeToUTF8 = (code: number) => {
+  if (code <= 0x7f) {
+    return code.toString(2).padStart(8, '0');
+  }
+
+  if (code <= 0x7ff) {
+    const bits = code.toString(2).padStart(11, '0');
+
+    return `110${bits.slice(0, 5)} 10${bits.slice(5)}`;
+  }
+
+  if (code <= 0xffff) {
+    const bits = code.toString(2).padStart(16, '0');
+
+    return `1110${bits.slice(0, 4)} 10${bits.slice(4, 10)} 10${bits.slice(10)}`;
+  }
+
+  if (code <= 0x10ffff) {
+    const bits = code.toString(2).padStart(21, '0');
+
+    return `11110${bits.slice(0, 3)} 10${bits.slice(3, 9)} 10${bits.slice(
+      9,
+      15
+    )} 10${bits.slice(15)}`;
+  }
+
+  throw new Error('UTF-8 Not suport');
 };
 
 /**

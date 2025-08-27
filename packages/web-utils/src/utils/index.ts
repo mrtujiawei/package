@@ -772,3 +772,27 @@ export const previewImageFileInNewWindow = async (file: File) => {
   newWin?.document.write(img.outerHTML);
   newWin?.document.close();
 };
+
+/**
+ * 单个水印背景图
+ */
+export const createWatermark = ({ text }: { text: string }) => {
+  const canvas = document.createElement('canvas');
+
+  const fontSize = 60;
+
+  const context = canvas.getContext('2d')!;
+
+  canvas.width = 520;
+  canvas.height = 300;
+
+  context.font = `800 ${fontSize}px serif`;
+  context.fillStyle = 'rgba(210, 212, 213, 1)';
+  context.textBaseline = 'bottom';
+
+  context.rotate((-30 * Math.PI) / 180);
+
+  context.fillText(text, -15, 280);
+
+  return canvas.toDataURL();
+};

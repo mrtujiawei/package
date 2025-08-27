@@ -65,6 +65,10 @@ class Pagination {
     this.tableData.pageSize = pageSize;
   }
 
+  getPageCount() {
+    return Math.ceil(this.tableData.total / this.tableData.pageSize);
+  }
+
   private publish(tableData: TableData) {
     this.callbacks.forEach((callback) => callback(tableData));
   }
