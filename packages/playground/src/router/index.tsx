@@ -8,6 +8,7 @@ import SwitchContainerDemo from '../demos/SwitchContainer';
 import SwitchBackContainerDemo from '../demos/SwitchBackContainer';
 import Home from '../pages/Home';
 import BoardcastChannel from '../demos/BoardcastChannel';
+import VirtualScroll from '../demos/VirtualScroll';
 
 type Route = RouteObject & {
   name?: string;
@@ -58,6 +59,11 @@ export const routes: Route[] = [
     path: '/boardcast-channel',
     name: '广播',
     element: <BoardcastChannel />,
+  },
+  {
+    path: '/virtual-scroll',
+    name: '虚拟滚动',
+    element: <VirtualScroll />,
   },
 ];
 

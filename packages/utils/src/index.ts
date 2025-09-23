@@ -23,3 +23,5 @@ export { default as M3u8FileUtils } from './m3u8';
 export { default as URLUtils } from './url';
 
 export { default as Optional } from './Optional';
+
+export { default as VirtualScroll } from './VirtualScroll';
