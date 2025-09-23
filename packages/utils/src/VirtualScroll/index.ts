@@ -1,4 +1,7 @@
 /**
+ * 1. 预先设定高度 计算出容器的总高度
+ * 2. 滚动时更新每一项高度 只显示一定范围内的子项
+ * 3. 顶部和底部通过 padding 撑开
  *
  * @filename packages/utils/src/VirtualScroll/index.ts
  * @author  tujiawei <jiaweitu@marchthepolo.com>
@@ -54,7 +57,8 @@ class VirtualScroll<Data> {
 
     // 顶部隐藏的内容
     let paddingTop = 0;
-    for (; h > 0; pos++) {
+
+    for (; h >= this.getItemHeight(this.items[pos]); pos++) {
       const height = this.getItemHeight(this.items[pos]);
       paddingTop += height;
       h -= height;
@@ -65,7 +69,10 @@ class VirtualScroll<Data> {
     let startIndex = pos;
 
     // 中间显示的内容
-    for (; h > 0; pos++) {}
+    for (; h > 0; pos++) {
+      const height = this.getItemHeight(this.items[pos]);
+      h -= height;
+    }
 
     let endIndex = pos;
 
