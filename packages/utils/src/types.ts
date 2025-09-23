@@ -47,3 +47,5 @@ export interface Runnable {
 export type ExpandObject<T> = T extends infer Obj
   ? { [Key in keyof Obj]: ExpandObject<Obj[Key]> }
   : T;
+
+export type Key = number | string;
