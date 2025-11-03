@@ -490,7 +490,7 @@ export const unicodeToUTF8 = (code: number) => {
  *
  */
 export const i = () => {
-  console.log('i run');
+  
 };
 
 /**
