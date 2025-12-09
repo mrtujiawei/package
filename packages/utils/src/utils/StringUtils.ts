@@ -8,7 +8,7 @@
 import Types from './Types';
 import { isInteger } from './utils';
 import { toString } from './topLevelUtils';
-import { isNumber } from './regexpUtils';
+import { isAlphabet, isNumber } from './regexpUtils';
 
 /**
  * 遍历对象所有属性
@@ -520,6 +520,16 @@ const buildBadMatchTable = (str: string) => {
 export const getNumberFromString = (str: string) => {
   return str.split('').filter((item) => {
     return isNumber(item);
+  });
+};
+
+/**
+ * 获取字符串中的所有英文字母
+ * 忽略大小写
+ */
+export const getAlphabetFromString = (str: string) => {
+  return str.split('').filter((item) => {
+    return isAlphabet(item);
   });
 };
 

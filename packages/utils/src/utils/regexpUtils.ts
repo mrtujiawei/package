@@ -32,3 +32,24 @@ export const isID = (id: string) => {
 export const isNumber = (str: string) => {
   return /\d/.test(str);
 };
+
+/**
+ * 判断是否是单个字母
+ */
+export const isAlphabet = (ch: string) => {
+  return /^[a-z]$/i.test(ch);
+};
+
+/**
+ * 判断是否是单个大写字母
+ */
+export const isUppercaseAlphabet = (ch: string) => {
+  return /^[A-Z]$/.test(ch);
+};
+
+/**
+ * 判断是否是单个小写字母
+ */
+export const isLowercaseAlphabet = (ch: string) => {
+  return /^[a-z]$/.test(ch);
+};

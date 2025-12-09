@@ -11,6 +11,7 @@
 import { isInteger } from './utils';
 import Lock from './Lock';
 import { GeneralFunction } from '../interfaces';
+import { defaultTo } from './pureFunction';
 
 export const isPowerOfFour = (value: number) => {
   return (
@@ -487,33 +488,47 @@ export const unicodeToUTF8 = (code: number) => {
 };
 
 /**
+ * 获取 object[path] 值
+ * 如果为 null | undefined | NaN 则返回 defaultValue
  *
  */
-export const i = () => {
-  
+export const objectGet = <
+  O extends Record<string, any>,
+  K extends keyof O,
+  V extends O[K]
+>(
+  object: O,
+  path: K,
+  defaultValue?: V
+): V | undefined => {
+  if (object == null) {
+    return defaultValue;
+  }
+
+  return defaultTo(object[path], defaultValue);
 };
 
 /**
+ * 设置 object[path] 值
+ * 如果 object 不是 对象 或为 null 则设置失败
  *
+ * @returns 设置是否成功
  */
-export const j = () => {
-  console.log('j run');
-};
+export const objectSet = <
+  O extends Record<string, any>,
+  K extends keyof O,
+  V extends O[K]
+>(
+  object: O,
+  path: K,
+  value: V
+) => {
+  if (typeof object != 'object' || object == null) {
+    return false;
+  }
 
-export const k = () => {
-  console.log('j run');
-};
-
-export const l = () => {
-  console.log('l run');
-};
-
-export const m = () => {
-  console.log('m run');
-};
-
-export const n = () => {
-  console.log('n run');
+  object[path] = value;
+  return true;
 };
 
 export const o = () => {

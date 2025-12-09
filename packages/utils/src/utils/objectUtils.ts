@@ -55,7 +55,7 @@ export function isPlainObject(obj: any): boolean {
  */
 export const requireNonNull = <T>(obj: T): T => {
   if (obj === null) {
-    throw new NullPointerException()
+    throw new NullPointerException();
   }
   return obj;
-}
+};
