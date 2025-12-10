@@ -16,3 +16,5 @@
  */
 
 export { default as InvalidAgrumentsError } from './InvalidAgrumentsError';
+export { default as NoSuchElementException } from './NoSuchElementException';
+export { default as NullPointerException } from './NullPointerException';

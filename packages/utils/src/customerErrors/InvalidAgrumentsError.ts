@@ -12,4 +12,4 @@ class InvalidAgrumentsError extends Error {
   }
 }
 
-export default InvalidAgrumentsError
+export default InvalidAgrumentsError;
