@@ -616,6 +616,23 @@ class DateTimeTool {
 
     return start < end && DateTimeTool.diffDays(start, end) == 1;
   }
+
+  /**
+   * 获取周岁年龄
+   */
+  static getAge(dayOfBirth: Date, current = new Date()) {
+    const age = current.getFullYear() - dayOfBirth.getFullYear();
+
+    const currentOfBirth = new Date(current);
+    currentOfBirth.setFullYear(dayOfBirth.getFullYear());
+
+    let offset = 0;
+    if (currentOfBirth.getTime() <= dayOfBirth.getTime()) {
+      offset = -1;
+    }
+
+    return age + offset;
+  }
 }
 
 export default DateTimeTool;

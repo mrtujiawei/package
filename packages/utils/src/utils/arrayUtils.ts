@@ -8,6 +8,7 @@
  * @date 2023-04-20 09:41:53
  */
 
+import { Key } from '../types';
 import { isNaturalNumber } from './MathUtils';
 import Random from './Random';
 import Types from './Types';
@@ -249,3 +250,34 @@ export const getMinMaxIndex = (arr: number[]) => {
   return [min, max];
 };
 
+/**
+ * 数组合并
+ * 相同key时后出现的会覆盖前面出现的
+ */
+export const combineArrays = <T>(
+  keyMapper: (value: T) => Key,
+  ...arrays: T[][]
+) => {
+  if (arrays.length == 0) {
+    return [];
+  }
+
+  const keyIndex = new Map<Key, number>();
+  const values: T[] = [];
+
+  arrays.forEach((array) => {
+    array.forEach((val) => {
+      const key = keyMapper(val);
+      if (keyIndex.has(key)) {
+        const index = keyIndex.get(key)!;
+        values[index] = val;
+      } else {
+        const index = values.length;
+        values.push(val);
+        keyIndex.set(key, index);
+      }
+    });
+  });
+
+  return values;
+};
