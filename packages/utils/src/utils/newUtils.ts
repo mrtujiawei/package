@@ -530,7 +530,3 @@ export const objectSet = <
   object[path] = value;
   return true;
 };
-
-export const o = () => {
-  console.log('o run');
-};

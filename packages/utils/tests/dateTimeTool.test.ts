@@ -4,28 +4,56 @@
  * @author: Mr Prince
  * @date: 2021-11-05 09:47:20
  */
-import { DateTimeTool, } from '../src/index';
+import { DateTimeTool } from '../src/index';
 
 describe('DateTimeTool', () => {
   test('Is leap year test', () => {
     const leapYears = [
-      '1952', '1956', '1960', '1964', '1968',
-      '1972', '1976', '1980', '1984', '1988',
-      '1992', '1996', '2000', '2004', '2008',
-      '2012', '2016', '2020', '2024', '2028',
-      '2032', '2036', '2040', '2044', '2048',
+      '1952',
+      '1956',
+      '1960',
+      '1964',
+      '1968',
+      '1972',
+      '1976',
+      '1980',
+      '1984',
+      '1988',
+      '1992',
+      '1996',
+      '2000',
+      '2004',
+      '2008',
+      '2012',
+      '2016',
+      '2020',
+      '2024',
+      '2028',
+      '2032',
+      '2036',
+      '2040',
+      '2044',
+      '2048',
     ];
 
-    leapYears.forEach(year => {
+    leapYears.forEach((year) => {
       expect(DateTimeTool.isLeapYear(new Date(year))).toBe(true);
-    })
+    });
 
     const notLeapYears = [
-      '1582', '1583', '1585', '1900', '1800',
-      '1700', '1400', '1500', '2100', '2200',
+      '1582',
+      '1583',
+      '1585',
+      '1900',
+      '1800',
+      '1700',
+      '1400',
+      '1500',
+      '2100',
+      '2200',
     ];
 
-    notLeapYears.forEach(year => {
+    notLeapYears.forEach((year) => {
       expect(DateTimeTool.isLeapYear(new Date(year))).toBe(false);
     });
   });
@@ -85,31 +113,47 @@ describe('DateTimeTool', () => {
 
   test('parse test', () => {
     // 不带毫秒的解析
-    expect(DateTimeTool.parse(`2022-08-09T03:03:06.000+0000`)).toBe(1660014186000);
+    expect(DateTimeTool.parse(`2022-08-09T03:03:06.000+0000`)).toBe(
+      1660014186000
+    );
 
     // 带毫秒的解析
-    expect(DateTimeTool.parse(`2022-08-09T03:03:06.123+0000`)).toBe(1660014186123);
+    expect(DateTimeTool.parse(`2022-08-09T03:03:06.123+0000`)).toBe(
+      1660014186123
+    );
 
     // 带小时偏移+
-    expect(DateTimeTool.parse(`2022-08-09T03:03:06.123+0100`)).toBe(1660010586123);
+    expect(DateTimeTool.parse(`2022-08-09T03:03:06.123+0100`)).toBe(
+      1660010586123
+    );
 
     // 带小时偏移-
-    expect(DateTimeTool.parse(`2022-08-09T03:03:06.123-0100`)).toBe(1660017786123);
+    expect(DateTimeTool.parse(`2022-08-09T03:03:06.123-0100`)).toBe(
+      1660017786123
+    );
 
     // 带分钟偏移+
-    expect(DateTimeTool.parse(`2022-08-09T03:03:06.123+0102`)).toBe(1660010466123);
+    expect(DateTimeTool.parse(`2022-08-09T03:03:06.123+0102`)).toBe(
+      1660010466123
+    );
 
     // 带分钟偏移-
-    expect(DateTimeTool.parse(`2022-08-09T03:03:06.123-0102`)).toBe(1660017906123);
+    expect(DateTimeTool.parse(`2022-08-09T03:03:06.123-0102`)).toBe(
+      1660017906123
+    );
 
-    expect(DateTimeTool.parse(`2022-08-09T03:01:54.000+0000`)).toBe(1660014114000);
+    expect(DateTimeTool.parse(`2022-08-09T03:01:54.000+0000`)).toBe(
+      1660014114000
+    );
 
     // 另一种格式
     expect(DateTimeTool.parse(`2022-08-09T02:51:36.291Z`)).toBe(1660013496291);
 
     expect(DateTimeTool.parse(`2012-04-03T05:21:36.798Z`)).toBe(1333430496798);
 
-    expect(DateTimeTool.parse(`2021-08-13T14:20:18.992847200-04:00`)).toBe(1628878818992);
+    expect(DateTimeTool.parse(`2021-08-13T14:20:18.992847200-04:00`)).toBe(
+      1628878818992
+    );
 
     expect(DateTimeTool.parse(`2022-12-30 23:59:48`)).toBe(1672415988000);
 
@@ -119,4 +163,37 @@ describe('DateTimeTool', () => {
     expect(DateTimeTool.parse(`1992/02/12 12:23:22+0000`)).toBe(697897402000);
     expect(DateTimeTool.parse(`1992/02/12 12:23:22+0100`)).toBe(697893802000);
   });
-})
+
+  test('DateTimeTool.isYesterday', () => {
+    expect(
+      DateTimeTool.isYesterday(
+        new Date(2025, 11, 11, 1, 1, 1, 0),
+        new Date(2025, 11, 10, 1, 1, 1, 0)
+      )
+    ).toBe(false);
+    expect(
+      DateTimeTool.isYesterday(
+        new Date(2025, 11, 10, 1, 1, 1, 0),
+        new Date(2025, 11, 10, 1, 1, 1, 0)
+      )
+    ).toBe(false);
+    expect(
+      DateTimeTool.isYesterday(
+        new Date(2025, 11, 9, 1, 1, 1, 0),
+        new Date(2025, 11, 10, 1, 1, 1, 0)
+      )
+    ).toBe(true);
+    expect(
+      DateTimeTool.isYesterday(
+        new Date(2025, 11, 8, 1, 1, 1, 0),
+        new Date(2025, 11, 10, 1, 1, 1, 0)
+      )
+    ).toBe(false);
+    expect(
+      DateTimeTool.isYesterday(
+        new Date(2025, 11, 7, 1, 1, 1, 0),
+        new Date(2025, 11, 10, 1, 1, 1, 0)
+      )
+    ).toBe(false);
+  });
+});

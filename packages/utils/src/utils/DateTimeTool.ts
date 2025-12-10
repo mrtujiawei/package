@@ -606,6 +606,16 @@ class DateTimeTool {
     const hour = seconds / DateTimeTool.hoursOfOneDay;
     return [hour, minute, second].map((value) => addZero(value)).join(':');
   }
+
+  /**
+   * 判断日期是否是昨天
+   */
+  static isYesterday(date: Date, current: Date = new Date()) {
+    const start = DateTimeTool.toDayBegin(new Date(date)).getTime();
+    const end = DateTimeTool.toDayBegin(new Date(current)).getTime();
+
+    return start < end && DateTimeTool.diffDays(start, end) == 1;
+  }
 }
 
 export default DateTimeTool;
