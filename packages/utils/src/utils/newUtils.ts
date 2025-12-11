@@ -12,6 +12,7 @@ import { isInteger } from './utils';
 import Lock from './Lock';
 import { GeneralFunction } from '../interfaces';
 import { defaultTo } from './pureFunction';
+import { GetFromObject } from '../types';
 
 export const isPowerOfFour = (value: number) => {
   return (
@@ -514,11 +515,7 @@ export const objectGet = <
  *
  * @returns 设置是否成功
  */
-export const objectSet = <
-  O extends Record<string, any>,
-  K extends keyof O,
-  V extends O[K]
->(
+export const objectSet = <O extends object, K extends keyof O, V extends O[K]>(
   object: O,
   path: K,
   value: V
@@ -529,4 +526,12 @@ export const objectSet = <
 
   object[path] = value;
   return true;
+};
+
+export const getFromObject: GetFromObject = (object: object, paths: any[]) => {
+  let obj: any = object;
+  for (const path of paths) {
+    obj = objectGet(obj, path);
+  }
+  return obj;
 };

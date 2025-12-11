@@ -627,7 +627,10 @@ class DateTimeTool {
     currentOfBirth.setFullYear(dayOfBirth.getFullYear());
 
     let offset = 0;
-    if (currentOfBirth.getTime() <= dayOfBirth.getTime()) {
+    if (
+      DateTimeTool.toDayBegin(currentOfBirth).getTime() <=
+      DateTimeTool.toDayBegin(dayOfBirth).getTime()
+    ) {
       offset = -1;
     }
 
