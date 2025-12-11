@@ -77,15 +77,18 @@ export const validateCreditCard = (creditCard: string) => {
   if (isNaN(Number(creditCard))) {
     throw new TypeError(errorMessage + 'it has nonnumerical characters.');
   }
+
   const creditCardStringLength = creditCard.length;
   if (!(creditCardStringLength >= 13 && creditCardStringLength <= 16)) {
     throw new Error(errorMessage + 'of its length.');
   }
+
   if (
     !validStartSubString.some((subString) => creditCard.startsWith(subString))
   ) {
     throw new Error(errorMessage + 'of its first two digits.');
   }
+
   if (!luhnValidation(creditCard)) {
     throw new Error(errorMessage + 'it fails the Luhn check.');
   }
