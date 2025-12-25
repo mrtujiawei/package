@@ -60,17 +60,16 @@ export type Concat<T extends Ary, U extends Ary> = [...T, ...U];
 /**
  * 不会对函数参数里的条件类型做分布式处理
  */
-export type Equal<X, Y> = (<T>() => T extends X ? 1 : 2) extends <
-  T
->() => T extends Y ? 1 : 2
-  ? true
-  : false;
+export type Equal<X, Y> =
+  (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2
+    ? true
+    : false;
 
 export type NotEqual<X, Y> = true extends Equal<X, Y> ? false : true;
 
 export type Includes<T extends readonly unknown[], U> = T extends [
   infer First,
-  ...infer Rest
+  ...infer Rest,
 ]
   ? Equal<First, U> extends true
     ? true
@@ -105,7 +104,7 @@ export type TupleToUnion<T> = T extends Array<infer V> ? V : unknown;
 export type Chainable<T = unknown> = {
   option: <K extends string, V>(
     key: K extends keyof T ? never : K,
-    value: V
+    value: V,
   ) => Chainable<Omit<T, K> & Record<K, V>>;
   get: () => T;
 };
@@ -115,7 +114,7 @@ export type Last<T extends any[]> = [never, ...T][T['length']];
 export type Pop<T extends any[]> = T extends [...infer A, any] ? A : never;
 
 export type PromiseAll = <T extends any[]>(
-  values: readonly [...T]
+  values: readonly [...T],
 ) => Promise<{ [K in keyof T]: Awaited<T[K]> }>;
 
 export type LookUp<U, T> = U extends { type: T } ? U : never;
@@ -138,26 +137,26 @@ export type MyCapitalize<S extends string> = S extends `${infer F}${infer R}`
 export type Replace<
   S extends string,
   From extends string,
-  To extends string
+  To extends string,
 > = From extends ''
   ? S
   : S extends `${infer V}${From}${infer R}`
-  ? `${V}${To}${R}`
-  : S;
+    ? `${V}${To}${R}`
+    : S;
 
 export type ReplaceAll<
   S extends string,
   From extends string,
-  To extends string
+  To extends string,
 > = From extends ''
   ? S
   : S extends `${infer L}${From}${infer R}`
-  ? `${L}${To}${ReplaceAll<R, From, To>}`
-  : S;
+    ? `${L}${To}${ReplaceAll<R, From, To>}`
+    : S;
 
 export type AppendArgument<
   Fn extends (...args: any[]) => unknown,
-  A
+  A,
 > = Fn extends (...args: infer Args) => infer R
   ? (...args: [...Args, A]) => R
   : never;
@@ -168,7 +167,7 @@ export type AppendArgument<
  */
 export type LengthOfString<
   S extends string,
-  T extends string[] = []
+  T extends string[] = [],
 > = S extends `${infer F}${infer R}`
   ? LengthOfString<R, [...T, F]>
   : T['length'];
@@ -194,8 +193,8 @@ export type Merge<F extends object, S extends object> = {
   [K in keyof F | keyof S]: K extends keyof S
     ? S[K]
     : K extends keyof F
-    ? F[K]
-    : never;
+      ? F[K]
+      : never;
 };
 
 export type IsAny<T> = 0 extends 1 & T ? true : false;
@@ -203,8 +202,8 @@ export type IsAny<T> = 0 extends 1 & T ? true : false;
 export type Get<T, K> = K extends keyof T
   ? T[K]
   : K extends `${infer KF}.${infer KR}`
-  ? Get<Get<T, KF>, KR>
-  : never;
+    ? Get<Get<T, KF>, KR>
+    : never;
 
 export type Filter<T extends any[], P> = T extends [infer F, ...infer R]
   ? F extends P
@@ -219,7 +218,7 @@ export type Filter<T extends any[], P> = T extends [infer F, ...infer R]
 export type MergeAll<
   XS extends object[],
   U = XS[number],
-  Keys extends PropertyKey = U extends U ? keyof U : never
+  Keys extends PropertyKey = U extends U ? keyof U : never,
 > = {
   [K in Keys]: U extends U ? U[K & keyof U] : never;
 };
@@ -231,10 +230,10 @@ export type PublicType<T extends object> = {
 export type DeepOmit<O, K> = K extends keyof O
   ? Omit<O, K>
   : K extends `${infer A}.${infer B}`
-  ? {
-      [Key in keyof O]: A extends Key ? DeepOmit<O[Key], B> : O[Key];
-    }
-  : O;
+    ? {
+        [Key in keyof O]: A extends Key ? DeepOmit<O[Key], B> : O[Key];
+      }
+    : O;
 
 export type IsNever<T> = [T] extends [never] ? true : false;
 
@@ -252,7 +251,7 @@ export type IsUnion<T> = IsUnionImpl<T>;
 
 export type Combs<T extends string[]> = T extends [
   infer A extends string,
-  ...infer B extends string[]
+  ...infer B extends string[],
 ]
   ? `${A} ${B[number]}` | Combs<B>
   : never;
@@ -260,12 +259,12 @@ export type Combs<T extends string[]> = T extends [
 export type ToPrimitive<T> = T extends Function
   ? Function
   : T extends object
-  ? {
-      [Key in keyof T]: ToPrimitive<T[Key]>;
-    }
-  : T extends { valueOf: () => infer P }
-  ? P
-  : T;
+    ? {
+        [Key in keyof T]: ToPrimitive<T[Key]>;
+      }
+    : T extends { valueOf: () => infer P }
+      ? P
+      : T;
 
 export type DeepMutable<T extends Record<keyof any, any>> = T extends (
   ...args: any[]
@@ -281,7 +280,7 @@ export type DropChar<S, C extends string> = S extends `${infer L}${C}${infer R}`
 
 export type EndsWith<
   T extends string,
-  U extends string
+  U extends string,
 > = T extends `${string}${U}` ? true : false;
 
 export type Integer<T extends number> = `${T}` extends `${bigint}` ? T : never;
@@ -293,16 +292,16 @@ export type Flip<T extends Record<string, string | number | boolean>> = {
 export type IndexOf<
   T extends unknown[],
   U,
-  I extends number[] = []
+  I extends number[] = [],
 > = I['length'] extends T['length']
   ? -1
   : Equal<T[I['length']], U> extends true
-  ? I['length']
-  : IndexOf<T, U, [...I, number]>;
+    ? I['length']
+    : IndexOf<T, U, [...I, number]>;
 
 export type Join<
   T extends string[],
-  U extends string | number = ','
+  U extends string | number = ',',
 > = T extends [infer A, ...infer R extends string[]]
   ? `${A & string}${R['length'] extends 0 ? '' : U}${Join<R, U>}`
   : '';
@@ -313,7 +312,7 @@ export type Join<
 export type Range<
   V extends number,
   A extends unknown[] = [],
-  E extends number = 0
+  E extends number = 0,
 > = A['length'] extends V ? E | V : Range<V, [...A, unknown], E | A['length']>;
 
 export type NumberRange<L extends number, H extends number> =
@@ -322,7 +321,7 @@ export type NumberRange<L extends number, H extends number> =
 
 export type Split<
   T extends string,
-  C extends string
+  C extends string,
 > = T extends `${infer A}${C}${infer B}` ? A | Split<B, C> : T;
 
 type PickParams<T extends string> = T extends `:${infer P}` ? P : never;
@@ -342,8 +341,8 @@ export type GetMiddleElement<T extends unknown[]> = T['length'] extends
   | 2
   ? T
   : T extends [infer _A, ...infer R, infer _B]
-  ? GetMiddleElement<R>
-  : never;
+    ? GetMiddleElement<R>
+    : never;
 
 /**
  * K extends K 触发联合类型的分发
@@ -380,7 +379,7 @@ export type Mutable<T extends object> = {
 export type Triangular<
   N extends number,
   T extends unknown[] = [],
-  V extends unknown[] = []
+  V extends unknown[] = [],
 > = T['length'] extends N
   ? [...V, ...T]['length']
   : Triangular<N, [...T, unknown], [...T, ...V]>;
@@ -388,49 +387,48 @@ export type Triangular<
 export type Trunc<V extends string | number> = `${V}` extends `-.${string}`
   ? '-0'
   : `${V}` extends `.${string}`
-  ? '0'
-  : `${V}` extends `${infer Z}.${string}`
-  ? Z
-  : `${V}`;
+    ? '0'
+    : `${V}` extends `${infer Z}.${string}`
+      ? Z
+      : `${V}`;
 
 export type IsTuple<T> = [T] extends [never]
   ? false
   : T extends readonly any[]
-  ? number extends T['length']
-    ? false
-    : true
-  : false;
+    ? number extends T['length']
+      ? false
+      : true
+    : false;
 
 export type BEM<
   B extends string,
   E extends string[],
-  M extends string[]
+  M extends string[],
 > = `${B}${E extends [] ? '' : `__${E[number]}`}${M extends []
   ? ''
   : `--${M[number]}`}`;
 
 export type StartsWith<
   T extends string,
-  U extends string
+  U extends string,
 > = T extends `${U}${string}` ? true : false;
 
 export type ConstructTuple<
   L extends number,
-  C extends unknown[] = []
+  C extends unknown[] = [],
 > = C['length'] extends L ? C : ConstructTuple<L, [...C, unknown]>;
 
 export type CompareArrayLength<
   T extends any[],
-  U extends any[]
+  U extends any[],
 > = T['length'] extends U['length'] ? 0 : keyof T extends keyof U ? -1 : 1;
 
 export type Trace<T extends any[][]> = {
   [P in keyof T]: T[P][P & keyof T[P]];
 }[number];
 
-export type IsAlphabet<T extends string> = Uppercase<T> extends Lowercase<T>
-  ? false
-  : true;
+export type IsAlphabet<T extends string> =
+  Uppercase<T> extends Lowercase<T> ? false : true;
 
 interface UppercaseMapping {
   a: 'A';
@@ -499,10 +497,10 @@ export type Falsy = false | '' | 0 | null | undefined;
 export type isFalsy<T> = {} extends T
   ? true
   : T extends Falsy
-  ? true
-  : [] extends T
-  ? true
-  : false;
+    ? true
+    : [] extends T
+      ? true
+      : false;
 
 export type AnyOf<T extends readonly any[]> = T extends [infer F, ...infer R]
   ? isFalsy<F> extends true
@@ -521,31 +519,35 @@ export type RemoveIndexSignature<T, P = PropertyKey> = {
 export type JSONSchema2TS<T> = T extends { enum: infer E extends any[] }
   ? E[number]
   : T extends { type: 'string' }
-  ? string
-  : T extends { type: 'number' }
-  ? number
-  : T extends { type: 'boolean' }
-  ? boolean
-  : T extends { type: 'array' }
-  ? T extends { items: any }
-    ? JSONSchema2TS<T['items']>[]
-    : unknown[]
-  : T extends { type: 'object' }
-  ? T extends { properties: {} }
-    ? T extends { required: (infer R extends keyof T['properties'])[] }
-      ? RequiredByKeys<
-          {
-            [Key in keyof T['properties']]?: JSONSchema2TS<
-              T['properties'][Key]
-            >;
-          },
-          R
-        >
-      : {
-          [Key in keyof T['properties']]?: JSONSchema2TS<T['properties'][Key]>;
-        }
-    : Record<string, unknown>
-  : unknown;
+    ? string
+    : T extends { type: 'number' }
+      ? number
+      : T extends { type: 'boolean' }
+        ? boolean
+        : T extends { type: 'array' }
+          ? T extends { items: any }
+            ? JSONSchema2TS<T['items']>[]
+            : unknown[]
+          : T extends { type: 'object' }
+            ? T extends { properties: {} }
+              ? T extends {
+                  required: (infer R extends keyof T['properties'])[];
+                }
+                ? RequiredByKeys<
+                    {
+                      [Key in keyof T['properties']]?: JSONSchema2TS<
+                        T['properties'][Key]
+                      >;
+                    },
+                    R
+                  >
+                : {
+                    [Key in keyof T['properties']]?: JSONSchema2TS<
+                      T['properties'][Key]
+                    >;
+                  }
+              : Record<string, unknown>
+            : unknown;
 
 type IsRepeat<T, V extends unknown[]> = V extends [infer F, ...infer R]
   ? true extends Equal<F, T>
@@ -555,7 +557,7 @@ type IsRepeat<T, V extends unknown[]> = V extends [infer F, ...infer R]
 
 export type CheckRepeatedTuple<T extends unknown[]> = T extends [
   infer F,
-  ...infer R
+  ...infer R,
 ]
   ? true extends IsRepeat<F, R>
     ? true
@@ -570,24 +572,24 @@ export type ExtractToObject<T, U extends keyof T> = Omit<
 export type IsOdd<T extends number> = `${T}` extends `${string}e${string}`
   ? false
   : `${T}` extends `${string}.${string}`
-  ? false
-  : number extends T
-  ? false
-  : `${T}` extends `${string}${1 | 3 | 5 | 7 | 9}`
-  ? true
-  : false;
+    ? false
+    : number extends T
+      ? false
+      : `${T}` extends `${string}${1 | 3 | 5 | 7 | 9}`
+        ? true
+        : false;
 
 type ParseChar<C, R extends string[]> = C extends '+' | '-'
   ? [`${R[0]}${C}`, R[1], R[2]]
   : C extends `${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
-  ? [R[0], `${R[1]}${C}`, R[2]]
-  : C extends '%'
-  ? [R[0], R[1], `${R[2]}${C}`]
-  : R;
+    ? [R[0], `${R[1]}${C}`, R[2]]
+    : C extends '%'
+      ? [R[0], R[1], `${R[2]}${C}`]
+      : R;
 
 type _PercentageParser<
   A extends string,
-  R extends string[] = []
+  R extends string[] = [],
 > = A extends `${infer F}${infer T}`
   ? _PercentageParser<T, ParseChar<F, R>>
   : R;
@@ -620,7 +622,7 @@ export type Fill<
   Start extends number = 0,
   End extends number = T['length'],
   I extends number[] = [0],
-  R extends unknown[] = []
+  R extends unknown[] = [],
 > = T extends [infer F, ...infer RT]
   ? (
       Start extends I[number] ? (End extends I[number] ? false : true) : false
@@ -631,7 +633,7 @@ export type Fill<
 
 export type ReplaceFirst<T extends readonly unknown[], S, R> = T extends [
   infer A,
-  ...infer RT
+  ...infer RT,
 ]
   ? A extends S
     ? [R, ...RT]
@@ -659,28 +661,27 @@ export type ReplaceFirst<T extends readonly unknown[], S, R> = T extends [
  */
 export type Transpose<
   M extends number[][],
-  R = M['length'] extends 0 ? [] : M[0]
+  R = M['length'] extends 0 ? [] : M[0],
 > = {
   [X in keyof R]: {
     [Y in keyof M]: X extends keyof M[Y] ? M[Y][X] : never;
   };
 };
 
-export type IsFixedStringLiteralType<S extends string> = {} extends Record<S, 1>
-  ? false
-  : Equal<[S], S extends unknown ? [S] : never>;
+export type IsFixedStringLiteralType<S extends string> =
+  {} extends Record<S, 1> ? false : Equal<[S], S extends unknown ? [S] : never>;
 
 export type FlattenDepth<
   T extends unknown[],
   N extends number = 1,
-  C extends unknown[] = []
+  C extends unknown[] = [],
 > = C['length'] extends N
   ? T
   : T extends [infer F, ...infer RT]
-  ? F extends any[]
-    ? [...FlattenDepth<F, N, [...C, unknown]>, ...FlattenDepth<RT, N, C>]
-    : [F, ...FlattenDepth<RT, N, C>]
-  : T;
+    ? F extends any[]
+      ? [...FlattenDepth<F, N, [...C, unknown]>, ...FlattenDepth<RT, N, C>]
+      : [F, ...FlattenDepth<RT, N, C>]
+    : T;
 
 type isRepeatChar<T, C> = T extends `${infer F}${infer R}`
   ? C extends F
@@ -691,24 +692,24 @@ type isRepeatChar<T, C> = T extends `${infer F}${infer R}`
 export type CheckRepeatedChars<T extends string> = T extends ''
   ? false
   : T extends `${infer F}${infer R}`
-  ? isRepeatChar<R, F> extends true
-    ? true
-    : CheckRepeatedChars<R>
-  : false;
+    ? isRepeatChar<R, F> extends true
+      ? true
+      : CheckRepeatedChars<R>
+    : false;
 
 export type FirstUniqueCharIndex<
   T extends string,
   I extends unknown[] = [],
-  C extends string = ''
+  C extends string = '',
 > = T extends ''
   ? -1
   : T extends `${infer F}${infer R}`
-  ? F extends C
-    ? FirstUniqueCharIndex<R, [...I, unknown], C>
-    : R extends `${string}${F}${string}`
-    ? FirstUniqueCharIndex<R, [...I, unknown], C | F>
-    : I['length']
-  : 0;
+    ? F extends C
+      ? FirstUniqueCharIndex<R, [...I, unknown], C>
+      : R extends `${string}${F}${string}`
+        ? FirstUniqueCharIndex<R, [...I, unknown], C | F>
+        : I['length']
+    : 0;
 
 type IsExist<T, V> = T extends [infer F, ...infer R]
   ? Equal<F, V> extends true
@@ -719,9 +720,172 @@ type IsExist<T, V> = T extends [infer F, ...infer R]
 export type FindEles<
   T extends any[],
   A extends any[] = [],
-  L extends any[] = []
+  L extends any[] = [],
 > = T extends [infer F, ...infer R]
   ? IsExist<[...L, ...R], F> extends true
     ? FindEles<R, A, [...L, F]>
     : FindEles<R, [...A, F], [...L, F]>
+  : A;
+
+export type DropString<
+  S,
+  R extends string,
+  RR extends string = Split<R, ''>,
+  A extends string = '',
+> = R extends ''
+  ? S
+  : S extends `${infer F}${infer T}`
+    ? F extends RR
+      ? DropString<T, R, RR, A>
+      : DropString<T, R, RR, `${A}${F}`>
+    : A;
+
+export type SplitToArray<
+  S extends string,
+  SEP extends string = `${S}${string}`,
+> = string extends S
+  ? string[]
+  : S extends ''
+    ? SEP extends ''
+      ? []
+      : ['']
+    : S extends `${infer L}${SEP}${infer R}`
+      ? [L, ...SplitToArray<R, SEP>]
+      : [S];
+
+export type IsRequiredKey<T, K extends keyof T> = T extends { [Key in K]: any }
+  ? true
+  : false;
+
+export type Assign<T extends Record<string, unknown>, U> = U extends [
+  infer A,
+  ...infer R,
+]
+  ? Assign<
+      A extends object
+        ? {
+            [K in keyof T | keyof A]: K extends keyof A
+              ? A[K]
+              : K extends keyof T
+                ? T[K]
+                : never;
+          }
+        : T,
+      R
+    >
+  : T;
+
+export type ToNumber<
+  S extends string,
+  C extends unknown[] = [],
+> = S extends `${number}`
+  ? `${C['length']}` extends S
+    ? C['length']
+    : ToNumber<S, [...C, unknown]>
+  : never;
+
+export type FizzBuzz<
+  N extends number,
+  I extends unknown[] = [],
+  FIZZ extends unknown[] = [],
+  BUZZ extends unknown[] = [],
+  A extends unknown[] = [],
+> = I['length'] extends N
+  ? A
+  : FIZZ['length'] extends 2
+    ? BUZZ['length'] extends 4
+      ? FizzBuzz<N, [...I, unknown], [], [], [...A, 'FizzBuzz']>
+      : FizzBuzz<N, [...I, unknown], [], [...BUZZ, unknown], [...A, 'Fizz']>
+    : BUZZ['length'] extends 4
+      ? FizzBuzz<N, [...I, unknown], [...FIZZ, unknown], [], [...A, 'Buzz']>
+      : FizzBuzz<
+          N,
+          [...I, unknown],
+          [...FIZZ, unknown],
+          [...BUZZ, unknown],
+          [...A, `${[...I, unknown]['length']}`]
+        >;
+
+export type BinaryToDecimal<
+  S extends string,
+  V extends unknown[] = [],
+> = S extends `${infer F}${infer T}`
+  ? F extends '1'
+    ? BinaryToDecimal<T, [...V, ...V, unknown]>
+    : BinaryToDecimal<T, [...V, ...V]>
+  : V['length'];
+
+export type SnakeCase<
+  T extends string,
+  R extends string = '',
+> = T extends `${infer F}${infer T}`
+  ? F extends Capitalize<F>
+    ? SnakeCase<T, `${R}_${Lowercase<F>}`>
+    : SnakeCase<T, `${R}${F}`>
+  : R;
+
+export type Unbox<
+  T,
+  D extends number = 0,
+  C extends unknown[] = [1],
+> = T extends (() => infer R) | (infer R)[] | Promise<infer R>
+  ? D extends C['length']
+    ? R
+    : Unbox<R, D, [...C, unknown]>
+  : T;
+
+type Bit = 1 | 0;
+
+type Carry<A, B, C> = A extends 1
+  ? B extends 1
+    ? 1
+    : C extends 1
+      ? 1
+      : 0
+  : B extends 1
+    ? C extends 1
+      ? 1
+      : 0
+    : 0;
+
+type Current<A, B, C> = A extends 1
+  ? B extends 1
+    ? C extends 1
+      ? 1
+      : 0
+    : C extends 1
+      ? 0
+      : 1
+  : B extends 1
+    ? C extends 1
+      ? 0
+      : 1
+    : C;
+
+export type BinaryAdd<
+  A extends Bit[],
+  B extends Bit[],
+  C extends Bit = 0,
+> = A extends [...infer AL extends Bit[], infer AT]
+  ? B extends [...infer BL extends Bit[], infer BT]
+    ? [...BinaryAdd<AL, BL, Carry<AT, BT, C>>, Current<AT, BT, C>]
+    : C extends 1
+      ? [1]
+      : []
+  : C extends 1
+    ? [1]
+    : [];
+
+type Alphabet = Exclude<Split<'abcdefghijklmnopqrstuvwxyz', ''>, ''>;
+
+export type CapitalizeWords<
+  S extends string,
+  U extends boolean = true,
+  A extends string = '',
+> = S extends `${infer F}${infer T}`
+  ? Lowercase<F> extends Alphabet
+    ? U extends true
+      ? CapitalizeWords<T, false, `${A}${Uppercase<F>}`>
+      : CapitalizeWords<T, U, `${A}${F}`>
+    : CapitalizeWords<T, true, `${A}${F}`>
   : A;
